@@ -18,8 +18,7 @@ public class Rola {
     @Column(name = "nazwa")
     private String nazwa;
 
-    //KLUCZE OBCE sdd
-
+    //KLUCZE OBCE
     @OneToMany(mappedBy = "rola")
     Set<Pracownik> pracownikSet;
 }

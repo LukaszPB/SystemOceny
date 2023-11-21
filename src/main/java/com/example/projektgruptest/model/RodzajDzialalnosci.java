@@ -29,5 +29,4 @@ public class RodzajDzialalnosci {
 
     @OneToMany(mappedBy = "rodzajDzialalnosci")
     Set<Pracownik> pracownikSet;
-
 }

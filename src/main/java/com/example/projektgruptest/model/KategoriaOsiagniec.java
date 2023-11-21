@@ -19,8 +19,6 @@ public class KategoriaOsiagniec {
 
     //KLUCZE OBCE
     @ManyToOne
-    @MapsId("idRodzajDzialalnosci")
-    @JoinColumn(name = "idRodzajDzialalnosci")
     RodzajDzialalnosci rodzajDzialalnosci;
 
     @OneToMany(mappedBy = "kategoriaOsiagniec")

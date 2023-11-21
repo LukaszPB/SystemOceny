@@ -18,24 +18,12 @@ public class Ocena {
     private Long idOceny;
     @Column(name = "nazwa")
     private String nazwa;
-    @Column(name = "idPracownika")
-    private Long  idPracownika;
     @Column(name = "iloscPunktow")
     private Integer iloscPunktow;
     @Column(name = "data")
     private Date data;
-    @Column(name = "idWniosku")
-    private Long idWniosku;
-    @Column(name = "Wniosek_idWniosku")
-    private Long  wniosekIdWniosku;
 
     //KLUCZE OBCE
-
     @ManyToOne
-    @MapsId("idWniosku")
-    @JoinColumn(name = "idWniosku")
     Wniosek wniosek;
-
-    @OneToMany(mappedBy = "ocena")
-    Set<Pracownik> pracownikSet;
 }

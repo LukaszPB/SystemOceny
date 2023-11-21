@@ -25,5 +25,4 @@ public class OkresRozliczeniowy {
     @OneToMany(mappedBy = "okresRozliczeniowy")
     Set<Wniosek> wniosekSet;
 
-
 }

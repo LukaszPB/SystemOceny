@@ -25,11 +25,9 @@ public class KryteriaOceny {
     private Integer progPozytywnejOcenyDO;
     @Column(name = "progOcenyZWyroznieniemDO")
     private Integer progOcenyZWyroznieniemDO;
-        //badziewsadasdasd
+
     //KLUCZE OBCE
     @ManyToOne
-    @MapsId("idRodzajDzialalnosci")
-    @JoinColumn(name = "idRodzajDzialalnosci")
     RodzajDzialalnosci rodzajDzialalnosci;
 
 }
