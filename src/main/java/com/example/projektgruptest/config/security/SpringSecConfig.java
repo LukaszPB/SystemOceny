@@ -1,4 +1,4 @@
-package com.example.projektgruptest.config;
+package com.example.projektgruptest.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
