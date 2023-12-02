@@ -15,9 +15,9 @@ public class Uzytkownik {
     private String login;
     private String haslo;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Rola rola;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Pracownik pracownik;
 }
