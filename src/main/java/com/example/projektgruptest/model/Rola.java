@@ -20,5 +20,5 @@ public class Rola {
 
     //KLUCZE OBCE
     @OneToMany(mappedBy = "rola")
-    Set<Pracownik> pracownikSet;
+    Set<Uzytkownik> uzytkownikSet;
 }
