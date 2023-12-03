@@ -1,5 +1,6 @@
-package com.example.projektgruptest.model;
+package com.example.projektgruptest.model.auth;
 
+import com.example.projektgruptest.model.Pracownik;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

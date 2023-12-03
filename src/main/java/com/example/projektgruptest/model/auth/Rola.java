@@ -1,4 +1,4 @@
-package com.example.projektgruptest.model;
+package com.example.projektgruptest.model.auth;
 
 import jakarta.persistence.*;
 import lombok.Getter;
