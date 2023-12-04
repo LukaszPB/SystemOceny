@@ -25,20 +25,14 @@ public class Pracownik {
 
     //KLUCZE OBCE
     @ManyToOne
-    RodzajDzialalnosci rodzajDzialalnosci;
+    private RodzajDzialalnosci rodzajDzialalnosci;
+
+    @OneToMany
+    private Set<Wniosek> wniosek;
 
     @ManyToOne
-    Wniosek wniosek;
+    private PracownikStanowisko pracownikStanowisko;
 
     @ManyToOne
-    Ocena ocena;
-
-    @ManyToOne
-    Rola rola;
-
-    @ManyToOne
-    PracownikStanowisko pracownikStanowisko;
-
-    @ManyToOne
-    StopienNaukowy stopienNaukowy;
+    private StopienNaukowy stopienNaukowy;
 }

@@ -1,4 +1,4 @@
-package com.example.projektgruptest.model;
+package com.example.projektgruptest.model.auth;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,5 +20,5 @@ public class Rola {
 
     //KLUCZE OBCE
     @OneToMany(mappedBy = "rola")
-    Set<Pracownik> pracownikSet;
+    Set<Uzytkownik> uzytkownikSet;
 }
