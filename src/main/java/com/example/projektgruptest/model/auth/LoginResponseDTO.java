@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class LoginResponseDTO {
+    private String JSessionId;
     private String rola;
     private Pracownik pracownik;
 }

@@ -6,10 +6,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LoginService {
-    public LoginResponseDTO createLoginResponse(UserWithPracownik user) {
+    public LoginResponseDTO createLoginResponse(UserWithPracownik user, String sessionId) {
         var dto = LoginResponseDTO.builder()
                 .rola(user.getAuthorities().stream().findFirst().orElseThrow().toString())
                 .pracownik(user.getPracownik())
+                .JSessionId(sessionId)
                 .build();
 
         return dto;
