@@ -1,13 +1,15 @@
 package com.example.projektgruptest.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
 @Entity
 @Table(name="KategorieOsiagniec")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class KategoriaOsiagniec {
