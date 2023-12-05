@@ -1,8 +1,7 @@
 package com.example.projektgruptest.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
@@ -10,6 +9,9 @@ import java.util.Set;
 @Table(name="Wnioski")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Wniosek {
     @PrimaryKeyJoinColumn
     @Id
@@ -17,7 +19,7 @@ public class Wniosek {
     private Long idWniosku;
 
     //KLUCZE OBCE
-    @OneToMany(mappedBy = "wniosek")
+    @OneToMany(mappedBy = "wniosek", cascade = CascadeType.REMOVE)
     Set<Osiagniecie> osiagniecieSet;
 
     @ManyToOne
@@ -26,6 +28,13 @@ public class Wniosek {
     @ManyToOne
     OkresRozliczeniowy okresRozliczeniowy;
 
-    @OneToMany(mappedBy = "wniosek")
+    @OneToMany(mappedBy = "wniosek", cascade = CascadeType.REMOVE)
     Set<Ocena> ocenaSet;
+
+    @Override
+    public String toString() {
+        return "Wniosek id " + idWniosku + ":\n" +
+                "   " + pracownik + "\n" +
+                "   " + okresRozliczeniowy + "\n";
+    }
 }

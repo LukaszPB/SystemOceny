@@ -23,7 +23,6 @@ public class LoginController {
     @PostMapping("/login")
     public LoginResponseDTO login(@RequestBody LoginDTO loginDTO,
                                  HttpServletRequest request) {
-
         try {
             request.login(loginDTO.getLogin(), loginDTO.getPassword());
         } catch (ServletException e) {

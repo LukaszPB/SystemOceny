@@ -2,8 +2,7 @@ package com.example.projektgruptest.model;
 
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
@@ -11,6 +10,9 @@ import java.util.Set;
 @Table(name="Pracownicy")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Pracownik {
     @PrimaryKeyJoinColumn
     @Id
@@ -27,7 +29,7 @@ public class Pracownik {
     @ManyToOne
     private RodzajDzialalnosci rodzajDzialalnosci;
 
-    @OneToMany
+    @OneToMany(mappedBy = "pracownik", cascade = CascadeType.REMOVE)
     private Set<Wniosek> wniosek;
 
     @ManyToOne
@@ -35,4 +37,15 @@ public class Pracownik {
 
     @ManyToOne
     private StopienNaukowy stopienNaukowy;
+
+    @Override
+    public String toString() {
+        return "Pracownik id " + idPracownika + ":\n" +
+                "   " + stopienNaukowy.getNazwa() + "\n" +
+                "   " + rodzajDzialalnosci.getNazwa() + "\n" +
+                "   " + stopienNaukowy.getNazwa() + "\n" +
+                "   " + imie + "\n" +
+                "   " + nazwisko + "\n" +
+                "   " + emailSluzbowy + "\n";
+    }
 }

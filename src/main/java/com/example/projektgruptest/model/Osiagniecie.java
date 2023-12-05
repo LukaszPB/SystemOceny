@@ -1,8 +1,7 @@
 package com.example.projektgruptest.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
@@ -10,6 +9,9 @@ import java.util.Date;
 @Table(name="Osiagniecia")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Osiagniecie {
     @PrimaryKeyJoinColumn
     @Id
@@ -30,4 +32,13 @@ public class Osiagniecie {
 
     @ManyToOne
     Wniosek wniosek;
+
+    @Override
+    public String toString() {
+        return "Osiagnięcie id " + idOsiagniecia + ":\n" +
+                "   " + nazwa + "\n" +
+                "   " + iloscPunktow + "\n" +
+                "   " + data + "\n" +
+                "   " + czyZatwierdzone + "\n";
+    }
 }

@@ -21,4 +21,9 @@ public class PracownikStanowisko {
     //KLUCZ OBCY
     @OneToMany(mappedBy = "pracownikStanowisko")
     Set<Pracownik> pracownikSet;
+    @Override
+    public String toString() {
+        return "Stanowisko id " + idStanowiska + ":\n" +
+                "   " + nazwa + "\n";
+    }
 }
