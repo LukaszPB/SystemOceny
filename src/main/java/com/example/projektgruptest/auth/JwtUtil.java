@@ -7,7 +7,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -26,7 +25,6 @@ public class JwtUtil {
 
     public String createToken(UserWithPracownik user) {
         Claims claims = Jwts.claims().setSubject(user.getUsername());
-        claims.put("role", user.getAuthorities().stream().findFirst().orElseThrow().getAuthority());
         Date tokenCreateTime = new Date();
         Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(accessTokenValidity));
         return Jwts.builder()
@@ -66,18 +64,10 @@ public class JwtUtil {
     }
 
     public boolean validateClaims(Claims claims) throws AuthenticationException {
-        try {
-            return claims.getExpiration().after(new Date());
-        } catch (Exception e) {
-            throw e;
-        }
+        return claims.getExpiration().after(new Date());
     }
 
     public String getLogin(Claims claims) {
         return claims.getSubject();
-    }
-
-    private List<String> getRole(Claims claims) {
-        return (List<String>) claims.get("role");
     }
 }
