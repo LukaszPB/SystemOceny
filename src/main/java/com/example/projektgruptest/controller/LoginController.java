@@ -4,6 +4,7 @@ import com.example.projektgruptest.config.security.UserWithPracownik;
 import com.example.projektgruptest.model.auth.LoginDTO;
 import com.example.projektgruptest.model.auth.LoginErrorResponseDTO;
 import com.example.projektgruptest.service.LoginService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,7 @@ public class LoginController {
         }
     }
 
+    @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/test")
     public String test() {
         return "dziala!";
