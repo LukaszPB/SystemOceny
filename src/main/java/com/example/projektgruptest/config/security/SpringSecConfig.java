@@ -15,6 +15,7 @@ public class SpringSecConfig {
         http.authorizeHttpRequests(customizer -> {
                     customizer
                             .requestMatchers("/login").permitAll()
+                            .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                             .anyRequest().authenticated();
                 })
                 .csrf(customizer -> {
