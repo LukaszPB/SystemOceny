@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface PodKategoriaRepo extends JpaRepository<PodKategoria,Long> {
-    public List<PodKategoria> findByKategoriaOsiagniecIdKategoriaOsiagniec(long id);
+    List<PodKategoria> findByKategoriaOsiagniecIdKategoriaOsiagniec(long id);
+    PodKategoria findByNazwa(String nazwa);
 }

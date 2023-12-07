@@ -18,6 +18,9 @@ public class PodKategorieService {
     public PodKategoria getPodkategoria(long id) {
         return podKategoriaRepo.getReferenceById(id);
     }
+    public PodKategoria getPodkategoria(String nazwa) {
+        return podKategoriaRepo.findByNazwa(nazwa);
+    }
     public List<PodKategoria> getPodKategorieKategori(long id) {
         return podKategoriaRepo.findByKategoriaOsiagniecIdKategoriaOsiagniec(id);
     }
