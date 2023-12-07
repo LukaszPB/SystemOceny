@@ -15,4 +15,7 @@ public class PracownikStanowiskoService {
     public List<PracownikStanowisko> getPracownicyStanowiska(){return pracownikStanowiskoRepo.findAll();}
     public void addPracownikStanowisko(PracownikStanowisko stanowisko){pracownikStanowiskoRepo.save(stanowisko);}
     public void deletePracownikStanowisko(PracownikStanowisko stanowisko){pracownikStanowiskoRepo.delete(stanowisko);}
+    public PracownikStanowisko getPracownikStanowisko (String nazwa) {
+        return pracownikStanowiskoRepo.findByNazwa(nazwa);
+    }
 }
