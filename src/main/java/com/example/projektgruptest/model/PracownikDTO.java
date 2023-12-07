@@ -1,15 +1,18 @@
 package com.example.projektgruptest.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PracownikDTO {
     private Long idPracownika;
     private String imie;
     private String nazwisko;
     private String emailSluzbowy;
+    private String stopienNaukowyNazwa;
+    private String stanowiskoNazwa;
+    private String rodzajDzialalnosciNazwa;
 }

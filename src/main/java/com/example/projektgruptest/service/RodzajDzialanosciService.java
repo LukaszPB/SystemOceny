@@ -17,4 +17,7 @@ public class RodzajDzialanosciService {
     public RodzajDzialalnosci getRodzajDzialanosci(long id){
        return rodzajDzialalnosciRepo.getReferenceById(id);
     }
+    public RodzajDzialalnosci getRodzajDzialanosci(String nazwa){
+        return rodzajDzialalnosciRepo.findByNazwa(nazwa);
+    }
 }

@@ -17,4 +17,7 @@ public class StopienNaukowyService {
     public StopienNaukowy getStopienNaukowy(long id){
       return stopienNaukowyRepo.getReferenceById(id);
     }
+    public StopienNaukowy getStopienNaukowy(String nazwa){
+        return stopienNaukowyRepo.findByNazwa(nazwa);
+    }
 }

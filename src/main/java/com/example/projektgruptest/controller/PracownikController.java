@@ -1,48 +1,27 @@
 package com.example.projektgruptest.controller;
 
 import com.example.projektgruptest.model.Pracownik;
+import com.example.projektgruptest.model.PracownikDTO;
 import com.example.projektgruptest.service.PracownikService;
 import com.example.projektgruptest.service.PracownikStanowiskoService;
 import com.example.projektgruptest.service.RodzajDzialanosciService;
 import com.example.projektgruptest.service.StopienNaukowyService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class PracownikController {
-
     private final PracownikService pracownikService;
     private final PracownikStanowiskoService pracownikStanowiskoService; //dla testow
     private final RodzajDzialanosciService rodzajDzialanosciService;
     private final StopienNaukowyService stopienNaukowyService;
-    @GetMapping("/")
-    public String getStopnieNaukowe() {
-//        pracownikService.addPracownik(Pracownik.builder()
-//                .pracownikStanowisko(pracownikService.getPracownikStanowisko().get(0))
-//                .rodzajDzialalnosci(pracownikService.getRodzajeDzialalnosci().get(0))
-//                .stopienNaukowy(pracownikService.getStopnieNaukowe().get(0))
-//                .imie("ADAM")
-//                .nazwisko("NOWAK")
-//                .emailSluzbowy("adamNowak@pb.edu.pl")
-//                .build());
-        //pracownikService.deletePracownik(pracownikService.getPracownik(1));
-
-        String s="Stopnie naukowe:\n";
-
-        s+="\nPracownicy:\n";
-//        for(Pracownik element : pracownikService.getPracownik()) {
-//            s += element.getIdPracownika() + " " + element.getPracownikStanowisko().getNazwa()
-//                    + " "  + element.getRodzajDzialalnosci().getNazwa() + " "  +
-//                    element.getStopienNaukowy().getNazwa() + " "  +
-//                    element.getImie() + " "  + element.getNazwisko() + " "  +
-//                    element.getEmailSluzbowy() + " "  + "\n";
-//        }
-        return s;
-    }
-    @GetMapping("/Pracownik")
+    @GetMapping("/Pracownik/test")
     public String test(){
         String s="Pracownicy: \n";
         try{
@@ -96,5 +75,51 @@ public class PracownikController {
         }
         return s;
     }
+    @SecurityRequirement(name = "JWT Authentication")
+    @GetMapping("/pracownik_getAll")
+    public List<PracownikDTO> getPracownicy() {
+        List<PracownikDTO> list = new ArrayList<>();
+        for(Pracownik p : pracownikService.getPracownicy()) {
+            list.add(PracownikDTO.builder()
+                    .idPracownika(p.getIdPracownika())
+                    .imie(p.getImie())
+                    .nazwisko(p.getNazwisko())
+                    .emailSluzbowy(p.getEmailSluzbowy())
+                    .rodzajDzialalnosciNazwa(p.getRodzajDzialalnosci().getNazwa())
+                    .stanowiskoNazwa(p.getPracownikStanowisko().getNazwa())
+                    .stopienNaukowyNazwa(p.getStopienNaukowy().getNazwa())
+                    .build());
+        }
+        return list;
+    }
+    @SecurityRequirement(name = "JWT Authentication")
+    @PostMapping("/pracownik_add")
+    public void dodajPracownika(@RequestBody PracownikDTO pracownikDTO) {
+        pracownikService.addPracownik(Pracownik.builder()
+                .imie(pracownikDTO.getImie())
+                .nazwisko(pracownikDTO.getNazwisko())
+                .emailSluzbowy(pracownikDTO.getEmailSluzbowy())
+                .stopienNaukowy(stopienNaukowyService.getStopienNaukowy(pracownikDTO.getStopienNaukowyNazwa()))
+                .pracownikStanowisko(pracownikStanowiskoService.getPracownikStanowisko(pracownikDTO.getStanowiskoNazwa()))
+                .rodzajDzialalnosci(rodzajDzialanosciService.getRodzajDzialanosci(pracownikDTO.getRodzajDzialalnosciNazwa()))
+                .build());
+    }
+    @SecurityRequirement(name = "JWT Authentication")
+    @PutMapping("/pracownik_edit/{id}")
+    public void edytujPracownika(@PathVariable Long id, @RequestBody PracownikDTO pracownikDTO) {
+        Pracownik pracownik = pracownikService.getPracownik(id);
+        pracownik.setImie(pracownikDTO.getImie());
+        pracownik.setNazwisko(pracownikDTO.getNazwisko());
+        pracownik.setEmailSluzbowy(pracownikDTO.getEmailSluzbowy());
+        pracownik.setStopienNaukowy(stopienNaukowyService.getStopienNaukowy(pracownikDTO.getStopienNaukowyNazwa()));
+        pracownik.setPracownikStanowisko(pracownikStanowiskoService.getPracownikStanowisko(pracownikDTO.getStanowiskoNazwa()));
+        pracownik.setRodzajDzialalnosci(rodzajDzialanosciService.getRodzajDzialanosci(pracownikDTO.getRodzajDzialalnosciNazwa()));
+        pracownikService.addPracownik(pracownik);
+    }
 
+    @SecurityRequirement(name = "JWT Authentication")
+    @DeleteMapping("/pracownik_delete/{id}")
+    public void deletePracownik(@PathVariable Long id) {
+        pracownikService.deletePracownik(pracownikService.getPracownik(id));
+    }
 }
