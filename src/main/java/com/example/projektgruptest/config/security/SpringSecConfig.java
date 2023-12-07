@@ -26,7 +26,7 @@ public class SpringSecConfig {
                     customizer
                             .requestMatchers("/login").permitAll()
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                            .anyRequest().permitAll();
+                            .anyRequest().authenticated();
                 })
                 .sessionManagement(customizer -> {
                     customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
