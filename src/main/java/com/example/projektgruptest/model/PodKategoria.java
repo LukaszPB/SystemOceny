@@ -26,6 +26,15 @@ public class PodKategoria {
     @ManyToOne
     KategoriaOsiagniec kategoriaOsiagniec;
 
-    @OneToMany(mappedBy = "podKategoria")
+    @OneToMany(mappedBy = "podKategoria", cascade = CascadeType.REMOVE)
     Set<Osiagniecie> osiagniecieSet;
+
+    @Override
+    public String toString() {
+        return "Podkategoria id " + idPodKategorii + ":\n" +
+                "   " + nazwa + "\n" +
+                "   " + minPunktow + "-" + maxPunktow + "\n" +
+                "   " + kategoriaOsiagniec.getIdKategoriaOsiagniec() + " " +
+                kategoriaOsiagniec.getNazwaKategorii() + "\n";
+    }
 }

@@ -1,16 +1,17 @@
 package com.example.projektgruptest.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 @Table(name="Oceny")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Ocena {
     @PrimaryKeyJoinColumn
     @Id
@@ -26,4 +27,11 @@ public class Ocena {
     //KLUCZE OBCE
     @ManyToOne
     Wniosek wniosek;
+
+    public String toString() {
+        return "Ocena id " + idOceny + ":\n" +
+                "   " + nazwa + "\n" +
+                "   " + iloscPunktow + "\n" +
+                "   " + data + "\n";
+    }
 }

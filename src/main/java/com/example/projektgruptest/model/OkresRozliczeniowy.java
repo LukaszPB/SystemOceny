@@ -22,7 +22,13 @@ public class OkresRozliczeniowy {
     private Date koniec;
 
     //KLUCZE OBCE
-    @OneToMany(mappedBy = "okresRozliczeniowy")
+    @OneToMany(mappedBy = "okresRozliczeniowy", cascade = CascadeType.REMOVE)
     Set<Wniosek> wniosekSet;
 
+    @Override
+    public String toString() {
+        return "OkresRozliczeniowy id " + idOkresu + ":\n" +
+                "   " + poczatek + "\n" +
+                "   " + koniec + "\n";
+    }
 }
