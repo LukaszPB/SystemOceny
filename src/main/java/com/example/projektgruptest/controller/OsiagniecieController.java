@@ -1,15 +1,19 @@
 package com.example.projektgruptest.controller;
 
+import com.example.projektgruptest.config.security.UserWithPracownik;
 import com.example.projektgruptest.model.Osiagniecie;
 import com.example.projektgruptest.service.OsiagniecieService;
 import com.example.projektgruptest.service.PodKategorieService;
 import com.example.projektgruptest.service.WniosekService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -62,5 +66,11 @@ public class OsiagniecieController {
         }
 
         return s;
+    }
+
+    @SecurityRequirement(name = "JWT Authentication")
+    @GetMapping("/osiagniecia")
+    public List<Osiagniecie> getOsiagniecia(@AuthenticationPrincipal UserWithPracownik user) {
+        return osiagniecieService.getOsiagnieciaPracownika(user.getPracownik().getIdPracownika());
     }
 }

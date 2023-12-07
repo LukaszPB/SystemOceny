@@ -1,6 +1,6 @@
 package com.example.projektgruptest.controller;
 
-import com.example.projektgruptest.model.*;
+import com.example.projektgruptest.model.Pracownik;
 import com.example.projektgruptest.service.PracownikService;
 import com.example.projektgruptest.service.PracownikStanowiskoService;
 import com.example.projektgruptest.service.RodzajDzialanosciService;
@@ -9,8 +9,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -98,4 +96,5 @@ public class PracownikController {
         }
         return s;
     }
+
 }

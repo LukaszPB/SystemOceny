@@ -1,6 +1,6 @@
 package com.example.projektgruptest.model.auth;
 
-import com.example.projektgruptest.model.Pracownik;
+import com.example.projektgruptest.model.PracownikDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,5 +11,5 @@ import lombok.Setter;
 public class LoginResponseDTO {
     private String rola;
     private String token;
-    private Pracownik pracownik;
+    private PracownikDTO pracownik;
 }

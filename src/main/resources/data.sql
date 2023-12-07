@@ -3,14 +3,6 @@ INSERT INTO "role" (id_roli, nazwa) VALUES (nextval('role_seq'), 'ADMIN');
 INSERT INTO "role" (id_roli, nazwa) VALUES (nextval('role_seq'), 'KOMISJA');
 INSERT INTO "role" (id_roli, nazwa) VALUES (nextval('role_seq'), 'PRACOWNIK');
 
--- UZYTKOWNIK
-INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
-SELECT 2137, 'ADMIN', 'ADMIN', id_roli, null FROM "role" WHERE nazwa = 'ADMIN';
-INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
-SELECT 420, 'KOMISJA', 'KOMISJA', id_roli, null FROM "role" WHERE nazwa = 'KOMISJA';
-INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
-SELECT 69, 'PRACOWNIK', 'PRACOWNIK', id_roli, null FROM "role" WHERE nazwa = 'PRACOWNIK';
-
 -- STOPIEŃ NAUKOWY
 INSERT INTO "stopnie_naukowe" (id_stopnia_naukowego, nazwa)
 VALUES (nextval('stopnie_naukowe_seq'), 'MAGISTER');
@@ -224,3 +216,11 @@ VALUES (400,'2023-10-25 21:32:00',nextval('oceny_seq'),201,'pozytywna');
 
 INSERT INTO "oceny" (ilosc_punktow,data,id_oceny,wniosek_id_wniosku,nazwa)
 VALUES (400,'2023-10-25 21:32:00',nextval('oceny_seq'),251,'pozytywna z wyróżnieniem');
+
+-- UZYTKOWNIK
+INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
+SELECT 2137, 'ADMIN', 'ADMIN', id_roli, null FROM "role" WHERE nazwa = 'ADMIN';
+INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
+SELECT 420, 'KOMISJA', 'KOMISJA', id_roli, null FROM "role" WHERE nazwa = 'KOMISJA';
+INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
+SELECT 69, 'PRACOWNIK', 'PRACOWNIK', id_roli, 1 FROM "role" WHERE nazwa = 'PRACOWNIK';
