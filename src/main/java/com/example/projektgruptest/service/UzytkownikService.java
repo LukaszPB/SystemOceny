@@ -19,7 +19,12 @@ public class UzytkownikService {
     public Uzytkownik getUzytkownik(long id) {return uzytkownikRepo.getReferenceById(id);}
     public List<Uzytkownik> getUzytkownicy(){return uzytkownikRepo.findAll();}
     public void addUzytkownik(Uzytkownik uzytkownik){uzytkownikRepo.save(uzytkownik);}
-    public void deleteUzytkownik(Uzytkownik uzytkownik){uzytkownikRepo.delete(uzytkownik);}
+    public void deleteUzytkownik(Uzytkownik uzytkownik){
+        Pracownik pracownik = uzytkownik.getPracownik();
+        uzytkownik.setPracownik(null);
+        pracownikService.deletePracownik(pracownik);
+        uzytkownikRepo.delete(uzytkownik);
+    }
     public UzytkownikDTO addUzytkownikDTO(Uzytkownik uzytkownik)
     {
        UzytkownikDTO uzytkownikDTO = UzytkownikDTO.builder()
