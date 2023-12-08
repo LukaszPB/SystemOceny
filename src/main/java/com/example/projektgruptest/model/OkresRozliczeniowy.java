@@ -1,9 +1,9 @@
 package com.example.projektgruptest.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
@@ -11,15 +11,18 @@ import java.util.Set;
 @Table(name="OkresRozliczeniowy")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class OkresRozliczeniowy {
     @PrimaryKeyJoinColumn
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idOkresu;
     @Column(name = "poczatek")
-    private Date poczatek;
+    private LocalDateTime poczatek;
     @Column(name = "koniec")
-    private Date koniec;
+    private LocalDateTime koniec;
 
     //KLUCZE OBCE
     @OneToMany(mappedBy = "okresRozliczeniowy", cascade = CascadeType.REMOVE)

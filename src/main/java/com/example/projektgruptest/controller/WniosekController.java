@@ -1,13 +1,26 @@
 package com.example.projektgruptest.controller;
 
-import com.example.projektgruptest.model.Wniosek;
+import com.example.projektgruptest.config.security.UserWithPracownik;
+import com.example.projektgruptest.model.*;
+import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
+import com.example.projektgruptest.modelDTO.WniosekDTO;
 import com.example.projektgruptest.service.OkresRozliczeniowyService;
 import com.example.projektgruptest.service.PracownikService;
 import com.example.projektgruptest.service.WniosekService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,7 +28,8 @@ public class WniosekController {
     private final WniosekService wniosekService;
     private final PracownikService pracownikService; // Potrzebne tylko do testów
     private final OkresRozliczeniowyService okresRozliczeniowyService; // Potrzebne tylko do testów
-    @GetMapping("Wniosek")
+    @SecurityRequirement(name = "JWT Authentication")
+    @GetMapping("/Wnioski/test")
     public String test() {
         String s="Wnioski:\n";
         try {
@@ -51,4 +65,55 @@ public class WniosekController {
 
         return s;
     }
+    @SecurityRequirement(name = "JWT Authentication")
+    @GetMapping("/Wnioski")
+    public List<WniosekDTO> getWnioski(@AuthenticationPrincipal UserWithPracownik user){
+        List<WniosekDTO> list = new ArrayList<>();
+        for(Wniosek w: wniosekService.getWnioskiPraconika(user.getPracownik().getIdPracownika()))
+        {
+            Pracownik pracownik = pracownikService.getPracownik(user.getPracownik().getIdPracownika());
+            PracownikDTO pracownikDTO = new PracownikDTO(pracownik.getIdPracownika(),pracownik.getImie(),
+                    pracownik.getNazwisko(),pracownik.getEmailSluzbowy(),pracownik.getStopienNaukowy().getNazwa(),
+                    pracownik.getPracownikStanowisko().getNazwa(),pracownik.getRodzajDzialalnosci().getNazwa());
+            list.add(WniosekDTO.builder()
+                                    .idWniosku(w.getIdWniosku())
+                                    .idPracownika(user.getPracownik().getIdPracownika())
+                                    .dataPoczatkowa(w.getOkresRozliczeniowy().getPoczatek().toString())
+                                    .dataKoncowa(w.getOkresRozliczeniowy().getKoniec().toString())
+                                    .listaIdOcen(w.getOcenaSet().stream().map(ocena -> ocena.getIdOceny()).collect(Collectors.toList()))
+                                    .listaIdOsiagniec(w.getOsiagniecieSet().stream().map(osiagniecie -> osiagniecie.getIdOsiagniecia()).collect(Collectors.toList()))
+                        .build());
+        }
+        return list;
+    }
+    @SecurityRequirement(name = "JWT Authentication")
+    @PostMapping("/Wniosek")
+    public void dodajWniosek(@RequestBody WniosekDTO wniosekDTO) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        OkresRozliczeniowy okresRozliczeniowy = OkresRozliczeniowy.builder()
+                .poczatek(LocalDateTime.parse(wniosekDTO.getDataPoczatkowa(), formatter))
+                .koniec(LocalDateTime.parse(wniosekDTO.getDataKoncowa(), formatter))
+                .build();
+        okresRozliczeniowyService.addOkresRozliczeniowy(okresRozliczeniowy);
+
+        Wniosek wniosek = Wniosek.builder()
+                .osiagniecieSet(new HashSet<>())
+                .okresRozliczeniowy(okresRozliczeniowy)
+                .pracownik(pracownikService.getPracownik(wniosekDTO.getIdPracownika()))
+                .ocenaSet(new HashSet<>())
+                .build();
+        wniosekService.addWniosek(wniosek);
+    }
+    @SecurityRequirement(name = "JWT Authentication")
+    @DeleteMapping("/Wniosek/{id}/")
+    public void usunWniosek(@PathVariable Long id,@AuthenticationPrincipal UserWithPracownik user) {
+        Wniosek wniosek = wniosekService.getWniosek(id);
+        for(Wniosek wn : wniosekService.getWnioskiPraconika(user.getPracownik().getIdPracownika())) {
+            if(wn == wniosek) {
+                wniosekService.deleteWniosek(wniosek);
+                break;
+            }
+        }
+    }
+
 }

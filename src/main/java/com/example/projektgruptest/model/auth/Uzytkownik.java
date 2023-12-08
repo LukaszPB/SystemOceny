@@ -2,12 +2,14 @@ package com.example.projektgruptest.model.auth;
 
 import com.example.projektgruptest.model.Pracownik;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Uzytkownik {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
