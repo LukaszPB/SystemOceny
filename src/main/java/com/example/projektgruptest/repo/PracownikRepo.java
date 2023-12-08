@@ -11,4 +11,6 @@ public interface PracownikRepo extends JpaRepository<Pracownik,Long> {
     List<Pracownik> findByPracownikStanowisko_IdStanowiska(long pracownikStanowiskoId);
     List<Pracownik> findByStopienNaukowy_IdStopniaNaukowego(long stopienNaukowyId);
     List<Pracownik> findByRodzajDzialalnosci_IdRodzajDzialalnosci(long rodzajDzialanosciId);
+
+    List<Pracownik> findByPrzelozonyIdPracownika(long id);
 }

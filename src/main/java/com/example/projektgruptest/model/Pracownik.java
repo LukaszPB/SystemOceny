@@ -27,6 +27,9 @@ public class Pracownik {
 
     //KLUCZE OBCE
     @ManyToOne
+    @JoinColumn(name = "idPrzelozony", nullable = true)
+    private Pracownik przelozony;
+    @ManyToOne
     private RodzajDzialalnosci rodzajDzialalnosci;
 
     @OneToMany(mappedBy = "pracownik", cascade = CascadeType.REMOVE)

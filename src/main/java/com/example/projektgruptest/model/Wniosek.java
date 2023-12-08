@@ -28,8 +28,8 @@ public class Wniosek {
     @ManyToOne
     OkresRozliczeniowy okresRozliczeniowy;
 
-    @OneToMany(mappedBy = "wniosek", cascade = CascadeType.REMOVE)
-    Set<Ocena> ocenaSet;
+    @OneToOne(mappedBy = "wniosek", cascade = CascadeType.REMOVE)
+    private Ocena ocena;
 
     @Override
     public String toString() {

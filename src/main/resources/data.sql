@@ -40,34 +40,34 @@ INSERT INTO "pracownicy" (id_pracownika, pracownik_stanowisko_id_stanowiska,
                           rodzaj_dzialalnosci_id_rodzaj_dzialalnosci,
                           stopien_naukowy_id_stopnia_naukowego, email, imie, nazwisko)
 SELECT nextval('pracownicy_seq'),
-       (SELECT id_stanowiska FROM "pracownik_stanowiska" WHERE nazwa = 'WYKŁADOWCA'),
-       (SELECT id_rodzaj_dzialalnosci FROM "rodzaje_dzialalnosci" WHERE nazwa = 'NAUKOWO-BADAWCZA'),
-       (SELECT id_stopnia_naukowego FROM "stopnie_naukowe" WHERE nazwa = 'DOKTOR'),
-       'janKowalski@pb.edu.pl', 'JAN', 'KOWALSKI';
-INSERT INTO "pracownicy" (id_pracownika, pracownik_stanowisko_id_stanowiska,
-                              rodzaj_dzialalnosci_id_rodzaj_dzialalnosci,
-                              stopien_naukowy_id_stopnia_naukowego, email, imie, nazwisko)
-SELECT nextval('pracownicy_seq'),
-       (SELECT id_stanowiska FROM "pracownik_stanowiska" WHERE nazwa = 'PRACOWNIK ADMINISTRACYJNY'),
-       (SELECT id_rodzaj_dzialalnosci FROM "rodzaje_dzialalnosci" WHERE nazwa = 'DYDAKTYCZNO-ORGANIZACYJNA'),
-       (SELECT id_stopnia_naukowego FROM "stopnie_naukowe" WHERE nazwa = 'MAGISTER'),
-       'michałWójcicki@pb.edu.pl', 'MICHAŁ', 'WÓJCICKI';
-INSERT INTO "pracownicy" (id_pracownika, pracownik_stanowisko_id_stanowiska,
-                          rodzaj_dzialalnosci_id_rodzaj_dzialalnosci,
-                          stopien_naukowy_id_stopnia_naukowego, email, imie, nazwisko)
-SELECT nextval('pracownicy_seq'),
-       (SELECT id_stanowiska FROM "pracownik_stanowiska" WHERE nazwa = 'KIEROWNIK BADAŃ'),
-       (SELECT id_rodzaj_dzialalnosci FROM "rodzaje_dzialalnosci" WHERE nazwa = 'NAUKOWO-BADAWCZA'),
-       (SELECT id_stopnia_naukowego FROM "stopnie_naukowe" WHERE nazwa = 'DOKTOR'),
-       'krzysztofAdamczyk@pb.edu.pl', 'KRZYSZTOF', 'ADAMCZYK';
-INSERT INTO "pracownicy" (id_pracownika, pracownik_stanowisko_id_stanowiska,
-                          rodzaj_dzialalnosci_id_rodzaj_dzialalnosci,
-                          stopien_naukowy_id_stopnia_naukowego, email, imie, nazwisko)
-SELECT nextval('pracownicy_seq'),
        (SELECT id_stanowiska FROM "pracownik_stanowiska" WHERE nazwa = 'DZIEKAN'),
        (SELECT id_rodzaj_dzialalnosci FROM "rodzaje_dzialalnosci" WHERE nazwa = 'DYDAKTYCZNO-ORGANIZACYJNA'),
        (SELECT id_stopnia_naukowego FROM "stopnie_naukowe" WHERE nazwa = 'PROFESOR'),
        'zenonWolski@pb.edu.pl', 'ZENON', 'WOLSKI';
+INSERT INTO "pracownicy" (id_pracownika, id_przelozony, pracownik_stanowisko_id_stanowiska,
+                          rodzaj_dzialalnosci_id_rodzaj_dzialalnosci,
+                          stopien_naukowy_id_stopnia_naukowego, email, imie, nazwisko)
+SELECT nextval('pracownicy_seq'), 1,
+       (SELECT id_stanowiska FROM "pracownik_stanowiska" WHERE nazwa = 'WYKŁADOWCA'),
+       (SELECT id_rodzaj_dzialalnosci FROM "rodzaje_dzialalnosci" WHERE nazwa = 'NAUKOWO-BADAWCZA'),
+       (SELECT id_stopnia_naukowego FROM "stopnie_naukowe" WHERE nazwa = 'DOKTOR'),
+       'janKowalski@pb.edu.pl', 'JAN', 'KOWALSKI';
+INSERT INTO "pracownicy" (id_pracownika, id_przelozony, pracownik_stanowisko_id_stanowiska,
+                              rodzaj_dzialalnosci_id_rodzaj_dzialalnosci,
+                              stopien_naukowy_id_stopnia_naukowego, email, imie, nazwisko)
+SELECT nextval('pracownicy_seq'), 1,
+       (SELECT id_stanowiska FROM "pracownik_stanowiska" WHERE nazwa = 'PRACOWNIK ADMINISTRACYJNY'),
+       (SELECT id_rodzaj_dzialalnosci FROM "rodzaje_dzialalnosci" WHERE nazwa = 'DYDAKTYCZNO-ORGANIZACYJNA'),
+       (SELECT id_stopnia_naukowego FROM "stopnie_naukowe" WHERE nazwa = 'MAGISTER'),
+       'michałWójcicki@pb.edu.pl', 'MICHAŁ', 'WÓJCICKI';
+INSERT INTO "pracownicy" (id_pracownika, id_przelozony, pracownik_stanowisko_id_stanowiska,
+                          rodzaj_dzialalnosci_id_rodzaj_dzialalnosci,
+                          stopien_naukowy_id_stopnia_naukowego, email, imie, nazwisko)
+SELECT nextval('pracownicy_seq'), 1,
+       (SELECT id_stanowiska FROM "pracownik_stanowiska" WHERE nazwa = 'KIEROWNIK BADAŃ'),
+       (SELECT id_rodzaj_dzialalnosci FROM "rodzaje_dzialalnosci" WHERE nazwa = 'NAUKOWO-BADAWCZA'),
+       (SELECT id_stopnia_naukowego FROM "stopnie_naukowe" WHERE nazwa = 'DOKTOR'),
+       'krzysztofAdamczyk@pb.edu.pl', 'KRZYSZTOF', 'ADAMCZYK';
 
 -- Okres Rozliczeniowy
 INSERT INTO "okres_rozliczeniowy" (id_okresu,koniec,poczatek) values (nextval('okres_rozliczeniowy_seq'),

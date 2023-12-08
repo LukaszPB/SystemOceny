@@ -25,7 +25,7 @@ public class Ocena {
     private Date data;
 
     //KLUCZE OBCE
-    @ManyToOne
+    @OneToOne
     Wniosek wniosek;
 
     public String toString() {
