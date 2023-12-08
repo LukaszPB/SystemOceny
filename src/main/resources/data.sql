@@ -19,6 +19,38 @@ VALUES (nextval('rodzaje_dzialalnosci_seq'), 'NAUKOWO-BADAWCZA');
 INSERT INTO "rodzaje_dzialalnosci" (id_rodzaj_dzialalnosci, nazwa)
 VALUES (nextval('rodzaje_dzialalnosci_seq'), 'DYDAKTYCZNO-ORGANIZACYJNA');
 
+-- KRYTERIA OCENY
+INSERT INTO "kryteria_oceny" (czy_na_stanowisku_kierowniczym,czy_posiada_stopien_naukowy,
+                              prog_ocenyzwyroznieniemdo,prog_ocenyzwyroznieniemnb,
+                              prog_pozytywnej_ocenydo,prog_pozytywnej_ocenynb,id_kryterium,
+                              rodzaj_dzialalnosci_id_rodzaj_dzialalnosci)
+VALUES (true,true,60,250,60,40,nextval('kryteria_oceny_seq'),1);
+INSERT INTO "kryteria_oceny" (czy_na_stanowisku_kierowniczym,czy_posiada_stopien_naukowy,
+                              prog_ocenyzwyroznieniemdo,prog_ocenyzwyroznieniemnb,
+                              prog_pozytywnej_ocenydo,prog_pozytywnej_ocenynb,id_kryterium,
+                              rodzaj_dzialalnosci_id_rodzaj_dzialalnosci)
+VALUES (false,true,50,250,50,50,nextval('kryteria_oceny_seq'),1);
+INSERT INTO "kryteria_oceny" (czy_na_stanowisku_kierowniczym,czy_posiada_stopien_naukowy,
+                              prog_ocenyzwyroznieniemdo,prog_ocenyzwyroznieniemnb,
+                              prog_pozytywnej_ocenydo,prog_pozytywnej_ocenynb,id_kryterium,
+                              rodzaj_dzialalnosci_id_rodzaj_dzialalnosci)
+VALUES (false,false,50,150,40,40,nextval('kryteria_oceny_seq'),1);
+INSERT INTO "kryteria_oceny" (czy_na_stanowisku_kierowniczym,czy_posiada_stopien_naukowy,
+                              prog_ocenyzwyroznieniemdo,prog_ocenyzwyroznieniemnb,
+                              prog_pozytywnej_ocenydo,prog_pozytywnej_ocenynb,id_kryterium,
+                              rodzaj_dzialalnosci_id_rodzaj_dzialalnosci)
+VALUES (true,true,300,0,100,0,nextval('kryteria_oceny_seq'),51);
+INSERT INTO "kryteria_oceny" (czy_na_stanowisku_kierowniczym,czy_posiada_stopien_naukowy,
+                              prog_ocenyzwyroznieniemdo,prog_ocenyzwyroznieniemnb,
+                              prog_pozytywnej_ocenydo,prog_pozytywnej_ocenynb,id_kryterium,
+                              rodzaj_dzialalnosci_id_rodzaj_dzialalnosci)
+VALUES (false,true,300,0,100,0,nextval('kryteria_oceny_seq'),51);
+INSERT INTO "kryteria_oceny" (czy_na_stanowisku_kierowniczym,czy_posiada_stopien_naukowy,
+                              prog_ocenyzwyroznieniemdo,prog_ocenyzwyroznieniemnb,
+                              prog_pozytywnej_ocenydo,prog_pozytywnej_ocenynb,id_kryterium,
+                              rodzaj_dzialalnosci_id_rodzaj_dzialalnosci)
+VALUES (false,false,200,0,80,0,nextval('kryteria_oceny_seq'),51);
+
 -- STANOWISKA
 INSERT INTO "pracownik_stanowiska" (id_stanowiska, nazwa)
 VALUES (nextval('pracownik_stanowiska_seq'), 'DZIEKAN');
