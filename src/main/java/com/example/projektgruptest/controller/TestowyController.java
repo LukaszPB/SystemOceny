@@ -2,6 +2,7 @@ package com.example.projektgruptest.controller;
 
 import com.example.projektgruptest.model.*;
 import com.example.projektgruptest.service.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ public class TestowyController {
     private final PodKategorieService podKategorieService;
     private final RodzajDzialanosciService rodzajDzialanosciService;
     private final OkresRozliczeniowyService okresRozliczeniowyService;
+    @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/testowy")
     public String getStopnieNaukowe() {
         testowyService.addPracownik(Pracownik.builder()

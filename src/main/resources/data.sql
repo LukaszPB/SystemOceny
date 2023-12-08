@@ -224,3 +224,8 @@ INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownik
 SELECT 420, 'KOMISJA', 'KOMISJA', id_roli, null FROM "role" WHERE nazwa = 'KOMISJA';
 INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
 SELECT 69, 'PRACOWNIK', 'PRACOWNIK', id_roli, 1 FROM "role" WHERE nazwa = 'PRACOWNIK';
+
+-- Przelozony
+-- INSERT INTO "przelozeni" (id,imie,nazwisko,email)
+-- VALUES (1,'ROBERT','KUBICA','ADRESEMAIL@GMAIL.COM');
+

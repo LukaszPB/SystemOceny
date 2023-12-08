@@ -109,7 +109,6 @@ public class OsiagniecieController {
             if(os == osiagniecie) {
                 osiagniecie.setNazwa(o.getNazwa());
                 osiagniecie.setData(o.getData());
-                osiagniecie.setCzyZatwierdzone(o.isCzyZatwierdzone());
                 osiagniecie.setIloscPunktow(o.getIloscPunktow());
                 osiagniecie.setPodKategoria(podKategorieService.getPodkategoria(o.getPodKategoriaNazwa()));
                 osiagniecieService.addOsiagniecie(osiagniecie);
@@ -117,6 +116,20 @@ public class OsiagniecieController {
             }
         }
     }
+    @SecurityRequirement(name = "JWT Authentication")
+    @PutMapping("/OsiagniecieZatwierdz/{id}")
+    public void edytujOsiagniecie(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
+        Osiagniecie osiagniecie = osiagniecieService.getOsiagniecie(id);
+        for(Osiagniecie os : osiagniecieService.getOsiagnieciaPracownika(user.getPracownik().getIdPracownika())) {
+            if(os == osiagniecie) {
+                osiagniecie.setCzyZatwierdzone(true);
+                osiagniecieService.addOsiagniecie(osiagniecie);
+                break;
+            }
+        }
+    }
+
+
     @SecurityRequirement(name = "JWT Authentication")
     @DeleteMapping("/Osiagniecie/{id}")
     public void usunPracownika(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {

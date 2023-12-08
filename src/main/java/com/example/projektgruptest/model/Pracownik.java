@@ -41,6 +41,9 @@ public class Pracownik {
     @ManyToOne
     private StopienNaukowy stopienNaukowy;
 
+    @ManyToOne
+    private Przelozony przelozony;
+
     @Override
     public String toString() {
         return "Pracownik id " + idPracownika + ":\n" +
