@@ -6,15 +6,13 @@ import com.example.projektgruptest.model.Osiagniecie;
 import com.example.projektgruptest.model.auth.Uzytkownik;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
 import com.example.projektgruptest.modelDTO.UzytkownikDTO;
+import com.example.projektgruptest.repo.RolaRepo;
 import com.example.projektgruptest.service.RolaService;
 import com.example.projektgruptest.service.UzytkownikService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
@@ -25,6 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UzytkownikController {
     private final RolaService rolaService;
+    private final RolaRepo rolaRepo;
     private final UzytkownikService uzytkownikService;
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/Uzytkownicy")
@@ -32,7 +31,7 @@ public class UzytkownikController {
     {
         List<UzytkownikDTO> list = new ArrayList<>();
         if (user.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority) // Pobierz nazwę roli
+                .map(GrantedAuthority::getAuthority)
                 .anyMatch(role -> role.equals(rolaService.getRola(1).getNazwa()))) {
            for(Uzytkownik u: uzytkownikService.getUzytkownicy()){
                if(u.getPracownik()!=null){
@@ -48,10 +47,52 @@ public class UzytkownikController {
     }
     @SecurityRequirement(name = "JWT Authentication")
     @PostMapping("/Uzytkownik")
-    public void dodajUzytkownika(@RequestBody UzytkownikDTO uzytkownikDTO) {
+    public void dodajUzytkownika(@RequestBody UzytkownikDTO uzytkownikDTO,@AuthenticationPrincipal UserWithPracownik user) {
+        if (user.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(role -> role.equals(rolaService.getRola(1).getNazwa()))) {
+            Uzytkownik uzytkownik = uzytkownikService.addUzytkownik(uzytkownikDTO);
+            uzytkownikService.addUzytkownik(uzytkownik);
+        }
 
-        Uzytkownik uzytkownik = uzytkownikService.addUzytkownik(uzytkownikDTO);
-        uzytkownikService.addUzytkownik(uzytkownik);
+    }
+    @SecurityRequirement(name = "JWT Authentication")
+    @PutMapping("/Uzytkownik/{id}")
+    public void edytujUzytkownika(@PathVariable Long id,@RequestBody UzytkownikDTO u,@AuthenticationPrincipal UserWithPracownik user)
+    {
+        Uzytkownik uzytkownik = uzytkownikService.getUzytkownik(id);
+        if (user.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(role -> role.equals(rolaService.getRola(1).getNazwa()))) {
+            if(rolaService.getRola(u.getNazwaRoli())!=null)
+            {
+                uzytkownik.setRola(rolaService.getRola(u.getNazwaRoli()));
+            }
+            uzytkownikService.addUzytkownik(uzytkownik);
+        }
+        if(user.getPracownik()!=null)
+        {
+            System.out.println("WSZEDLEM");
+            System.out.println(user.getPracownik().getIdPracownika());
+            if(uzytkownikService.getUzytkownik(id).getPracownik().getIdPracownika() == user.getPracownik().getIdPracownika())
+            {
+                System.out.println("WSZEDLEM v2");
+                uzytkownik.setLogin(u.getLogin());
+                uzytkownik.setHaslo(u.getHaslo());
+                uzytkownikService.addUzytkownik(uzytkownik);
+            }
+        }
+    }
+    @SecurityRequirement(name = "JWT Authentication")
+    @DeleteMapping("/Uzytkownik/{id}")
+    public void usunUzytkownika(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user)
+    {
+        Uzytkownik uzytkownik = uzytkownikService.getUzytkownik(id);
+        if (user.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(role -> role.equals(rolaService.getRola(1).getNazwa()))) {
+           uzytkownikService.deleteUzytkownik(uzytkownik);
+        }
     }
 
 
