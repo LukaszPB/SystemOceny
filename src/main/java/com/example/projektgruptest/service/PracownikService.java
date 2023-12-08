@@ -20,6 +20,12 @@ public class PracownikService {
     public List<Pracownik> getPracownicy() {
         return pracownikRepo.findAll();
     }
+    public List<Pracownik> getPracownicyPrzelozonego(long id) {
+        return pracownikRepo.findByPrzelozonyIdPracownika(id);
+    }
+    public Pracownik getPrzelozonego(long id) {
+        return pracownikRepo.getReferenceById(id).getPrzelozony();
+    }
     public Pracownik getPracownik(long id) {
         return pracownikRepo.getReferenceById(id);
     }
@@ -36,9 +42,7 @@ public class PracownikService {
         pracownikRepo.save(pracownik);
     }
     public void deletePracownik(Pracownik pracownik) {
-        //osiagniecieRepo.deleteOsiagniecieByPracownikId(pracownik.getIdPracownika());
-        //ocenaRepo.deleteOcenaByPracownikId(pracownik.getIdPracownika());
-        //wniosekRepo.deleteWniosekByPracownikId(pracownik.getIdPracownika());
+        getPracownicyPrzelozonego(pracownik.getIdPracownika()).forEach(p->p.setPrzelozony(null));
         pracownikRepo.delete(pracownik);
     }
 }

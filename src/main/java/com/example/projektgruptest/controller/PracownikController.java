@@ -1,5 +1,6 @@
 package com.example.projektgruptest.controller;
 
+import com.example.projektgruptest.config.security.UserWithPracownik;
 import com.example.projektgruptest.model.Pracownik;
 import com.example.projektgruptest.model.PracownikDTO;
 import com.example.projektgruptest.service.PracownikService;
@@ -9,6 +10,7 @@ import com.example.projektgruptest.service.StopienNaukowyService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -80,6 +82,23 @@ public class PracownikController {
     public List<PracownikDTO> getPracownicy() {
         List<PracownikDTO> list = new ArrayList<>();
         for(Pracownik p : pracownikService.getPracownicy()) {
+            list.add(PracownikDTO.builder()
+                    .idPracownika(p.getIdPracownika())
+                    .imie(p.getImie())
+                    .nazwisko(p.getNazwisko())
+                    .emailSluzbowy(p.getEmailSluzbowy())
+                    .rodzajDzialalnosciNazwa(p.getRodzajDzialalnosci().getNazwa())
+                    .stanowiskoNazwa(p.getPracownikStanowisko().getNazwa())
+                    .stopienNaukowyNazwa(p.getStopienNaukowy().getNazwa())
+                    .build());
+        }
+        return list;
+    }
+    @SecurityRequirement(name = "JWT Authentication")
+    @GetMapping("/pracownicy_przelozonego")
+    public List<PracownikDTO> getPracownicyPrzelozonego(@AuthenticationPrincipal UserWithPracownik user) {
+        List<PracownikDTO> list = new ArrayList<>();
+        for(Pracownik p : pracownikService.getPracownicyPrzelozonego(user.getPracownik().getIdPracownika())) {
             list.add(PracownikDTO.builder()
                     .idPracownika(p.getIdPracownika())
                     .imie(p.getImie())
