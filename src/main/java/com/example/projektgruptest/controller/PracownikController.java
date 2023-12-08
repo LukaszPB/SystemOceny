@@ -37,6 +37,15 @@ public class PracownikController {
         return null;
     }
     @SecurityRequirement(name = "JWT Authentication")
+    @GetMapping("/pracownik_przelozony")
+    public PracownikDTO getPrzelozony(@AuthenticationPrincipal UserWithPracownik user) {
+        Pracownik pracownik = user.getPracownik();
+        if(pracownik != null) {
+            return pracownikService.getPrzelozonego(pracownik.getIdPracownika());
+        }
+        return null;
+    }
+    @SecurityRequirement(name = "JWT Authentication")
     @PostMapping("/pracownik_add")
     public void dodajPracownika(@RequestBody PracownikDTO pracownikDTO) {
         pracownikService.addPracownik(pracownikService.buildPracownik(pracownikDTO));

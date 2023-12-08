@@ -76,6 +76,8 @@ public class PracownikService {
     }
     private PracownikDTO convertToDTO(Pracownik p) {
 
+        if(p==null)
+            return null;
         return PracownikDTO.builder()
                 .idPracownika(p.getIdPracownika())
                 .imie(p.getImie())
