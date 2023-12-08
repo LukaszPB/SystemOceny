@@ -29,7 +29,7 @@ public class Wniosek {
     OkresRozliczeniowy okresRozliczeniowy;
 
     @OneToMany(mappedBy = "wniosek", cascade = CascadeType.REMOVE)
-    Set<Ocena> ocenaSet;
+    Set<Ocena> ocenaSet; //Powinna byc tylko jedna ocena ! ! !
 
     @Override
     public String toString() {
