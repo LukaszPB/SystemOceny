@@ -1,9 +1,12 @@
 package com.example.projektgruptest.controller;
 
 import com.example.projektgruptest.config.security.UserWithPracownik;
-import com.example.projektgruptest.model.*;
-import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
+import com.example.projektgruptest.model.OkresRozliczeniowy;
+import com.example.projektgruptest.model.Pracownik;
+import com.example.projektgruptest.model.PracownikDTO;
+import com.example.projektgruptest.model.Wniosek;
 import com.example.projektgruptest.modelDTO.WniosekDTO;
+import com.example.projektgruptest.service.OcenaService;
 import com.example.projektgruptest.service.OkresRozliczeniowyService;
 import com.example.projektgruptest.service.PracownikService;
 import com.example.projektgruptest.service.WniosekService;
@@ -13,13 +16,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 public class WniosekController {
     private final WniosekService wniosekService;
     private final PracownikService pracownikService; // Potrzebne tylko do testów
+    private OcenaService ocenaService;
     private final OkresRozliczeniowyService okresRozliczeniowyService; // Potrzebne tylko do testów
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/Wnioski/test")
@@ -80,7 +82,7 @@ public class WniosekController {
                                     .idPracownika(user.getPracownik().getIdPracownika())
                                     .dataPoczatkowa(w.getOkresRozliczeniowy().getPoczatek().toString())
                                     .dataKoncowa(w.getOkresRozliczeniowy().getKoniec().toString())
-                                    .listaIdOcen(w.getOcenaSet().stream().map(ocena -> ocena.getIdOceny()).collect(Collectors.toList()))
+                                    .idOceny(w.getOcena().getIdOceny())
                                     .listaIdOsiagniec(w.getOsiagniecieSet().stream().map(osiagniecie -> osiagniecie.getIdOsiagniecia()).collect(Collectors.toList()))
                         .build());
         }
@@ -100,7 +102,7 @@ public class WniosekController {
                 .osiagniecieSet(new HashSet<>())
                 .okresRozliczeniowy(okresRozliczeniowy)
                 .pracownik(pracownikService.getPracownik(wniosekDTO.getIdPracownika()))
-                .ocenaSet(new HashSet<>())
+                .ocena(ocenaService.getOcena(wniosekDTO.getIdOceny()))
                 .build();
         wniosekService.addWniosek(wniosek);
     }

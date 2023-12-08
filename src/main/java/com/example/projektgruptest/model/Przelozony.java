@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Entity
 @Table(name="Przelozeni")
 @Getter
@@ -23,8 +21,8 @@ public class Przelozony {
     @Column(name = "Email")
     private String emailSluzbowy;
 
-    @OneToMany(mappedBy = "przelozony", cascade = CascadeType.REMOVE)
-    Set<Pracownik> pracownikSet;
+//    @OneToMany(mappedBy = "przelozony", cascade = CascadeType.REMOVE)
+//    Set<Pracownik> pracownikSet;
 
     @Override
     public String toString() {
