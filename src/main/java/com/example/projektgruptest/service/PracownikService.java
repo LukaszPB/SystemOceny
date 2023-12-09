@@ -1,12 +1,13 @@
 package com.example.projektgruptest.service;
 
-import com.example.projektgruptest.model.*;
-import com.example.projektgruptest.repo.*;
+import com.example.projektgruptest.model.Pracownik;
+import com.example.projektgruptest.model.PracownikDTO;
+import com.example.projektgruptest.repo.PracownikRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,17 +19,18 @@ public class PracownikService {
     private final PracownikStanowiskoService pracownikStanowiskoService;
 
     public List<PracownikDTO> getPracownicy() {
-        return convertListToDTO(pracownikRepo.findAll());
+        return pracownikRepo.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
     public List<PracownikDTO> getPracownicyPrzelozonego(long id) {
-        return convertListToDTO(pracownikRepo.findByPrzelozonyIdPracownika(id));
+        return pracownikRepo.findByPrzelozonyIdPracownika(id).stream()
+            .map(this::convertToDTO)
+            .collect(Collectors.toList());
     }
     public PracownikDTO getPrzelozonego(long id) {
         return convertToDTO(pracownikRepo.getReferenceById(id).getPrzelozony());
     }
-//    public PracownikDTO getPracownikDTO(long id) {
-//        return convertToDTO(pracownikRepo.getReferenceById(id));
-//    }
     public Pracownik getPracownik(long id) {
         return pracownikRepo.getReferenceById(id);
     }
@@ -59,22 +61,7 @@ public class PracownikService {
                 pracownikRepo.getReferenceById(p.getIdPracownika()).setPrzelozony(null));
         pracownikRepo.delete(pracownik);
     }
-    private List<PracownikDTO> convertListToDTO(List<Pracownik> pracownicy) {
-        List<PracownikDTO> list = new ArrayList<>();
-        for(Pracownik p : pracownicy) {
-            list.add(PracownikDTO.builder()
-                    .idPracownika(p.getIdPracownika())
-                    .imie(p.getImie())
-                    .nazwisko(p.getNazwisko())
-                    .emailSluzbowy(p.getEmailSluzbowy())
-                    .rodzajDzialalnosciNazwa(p.getRodzajDzialalnosci().getNazwa())
-                    .stanowiskoNazwa(p.getPracownikStanowisko().getNazwa())
-                    .stopienNaukowyNazwa(p.getStopienNaukowy().getNazwa())
-                    .build());
-        }
-        return list;
-    }
-    private PracownikDTO convertToDTO(Pracownik p) {
+    public PracownikDTO convertToDTO(Pracownik p) {
 
         if(p==null)
             return null;
