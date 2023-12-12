@@ -7,18 +7,18 @@ import com.example.projektgruptest.repo.KryteriaOcenyRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class KryteriaOcenyService {
     private final KryteriaOcenyRepo kryteriaOcenyRepo;
     public List<KryteriaOcenyDTO> getKryteriaOceny() {
-        List<KryteriaOcenyDTO> list = new ArrayList<>();
-        kryteriaOcenyRepo.findAll().forEach(p->list.add(convertToDTO(p)));
-        return list;
+        return kryteriaOcenyRepo.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
     public KryteriaOcenyDTO getKryteriumOceny(Pracownik pracownik) {
         boolean czyMaTytulNaukowy = czyMaTytulNaukowy(pracownik.getStopienNaukowy().getNazwa());
