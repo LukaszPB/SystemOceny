@@ -2,22 +2,19 @@ package com.example.projektgruptest.controller;
 
 
 import com.example.projektgruptest.config.security.UserWithPracownik;
-import com.example.projektgruptest.model.Osiagniecie;
 import com.example.projektgruptest.model.auth.Uzytkownik;
-import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
 import com.example.projektgruptest.modelDTO.UzytkownikDTO;
 import com.example.projektgruptest.repo.RolaRepo;
 import com.example.projektgruptest.service.RolaService;
 import com.example.projektgruptest.service.UzytkownikService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor

@@ -28,6 +28,12 @@ public class PracownikController {
         return pracownikService.getPracownicy();
     }
     @SecurityRequirement(name = "JWT Authentication")
+    @GetMapping("/pracownik")
+    public PracownikDTO getPracownik(@AuthenticationPrincipal UserWithPracownik user) {
+        return pracownikService.convertToDTO(
+                pracownikService.getPracownik(user.getPracownik().getIdPracownika()));
+    }
+    @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/pracownicy_przelozonego")
     public List<PracownikDTO> getPracownicyPrzelozonego(@AuthenticationPrincipal UserWithPracownik user) {
         Pracownik pracownik = user.getPracownik();
