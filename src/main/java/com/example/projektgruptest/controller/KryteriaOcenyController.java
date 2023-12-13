@@ -15,11 +15,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class KryteriaOcenyController {
     private final KryteriaOcenyService kryteriaOcenyService;
+
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/kryteriaOceny_all")
     public List<KryteriaOcenyDTO> getKryteriaOceny() {
         return kryteriaOcenyService.getKryteriaOceny();
     }
+
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/kryteriumOceny")
     public KryteriaOcenyDTO getKryteriumOceny(@AuthenticationPrincipal UserWithPracownik user) {

@@ -38,6 +38,9 @@ public class SpringSecConfig {
                 .csrf(customizer -> {
                     customizer.disable();
                 })
+                .cors(customizer -> {
+                    customizer.configure(http);
+                })
                 .addFilterAfter(jwtAuthorizationFilter, ExceptionTranslationFilter.class);
 
         return http.build();
