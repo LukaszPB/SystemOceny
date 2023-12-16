@@ -89,6 +89,24 @@ public class OsiagniecieController {
         return list;
     }
     @SecurityRequirement(name = "JWT Authentication")
+    @GetMapping("/OsiagnieciaPoId/{id}")
+    public List<OsiagniecieDTO> getOsiagnieciaPoId(@PathVariable Long id) {
+
+        List<OsiagniecieDTO> list = new ArrayList<>();
+        for(Osiagniecie o : osiagniecieService.getOsiagnieciaPracownika(id)) {
+            list.add(OsiagniecieDTO.builder()
+                    .idOsiagniecia(o.getIdOsiagniecia())
+                    .nazwa(o.getNazwa())
+                    .iloscPunktow(o.getIloscPunktow())
+                    .data(o.getData())
+                    .czyZatwierdzone(o.getCzyZatwierdzone())
+                    .idWniosku(o.getWniosek().getIdWniosku())
+                    .podKategoriaNazwa(o.getPodKategoria().getNazwa())
+                    .build());
+        }
+        return list;
+    }
+    @SecurityRequirement(name = "JWT Authentication")
     @PostMapping("/Osiagniecie")
     public void dodajOsiagniecie(@RequestBody OsiagniecieDTO osiagniecieDTO) {
         Osiagniecie osiagniecie = Osiagniecie.builder()
