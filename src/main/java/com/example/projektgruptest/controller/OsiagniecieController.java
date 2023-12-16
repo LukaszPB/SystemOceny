@@ -130,8 +130,20 @@ public class OsiagniecieController {
                 osiagniecie.setData(o.getData());
                 osiagniecie.setIloscPunktow(o.getIloscPunktow());
                 osiagniecie.setPodKategoria(podKategorieService.getPodkategoria(o.getPodKategoriaNazwa()));
+                osiagniecie.setCzyZatwierdzone(os.getCzyZatwierdzone());
                 osiagniecieService.addOsiagniecie(osiagniecie);
-                break;
+                return;
+            }
+        }
+        for(Osiagniecie os : osiagniecieService.getOsiagnieciaPodwladnych(user.getPracownik().getIdPracownika())) {
+            if(os == osiagniecie) {
+                osiagniecie.setNazwa(o.getNazwa());
+                osiagniecie.setData(o.getData());
+                osiagniecie.setIloscPunktow(o.getIloscPunktow());
+                osiagniecie.setPodKategoria(podKategorieService.getPodkategoria(o.getPodKategoriaNazwa()));
+                osiagniecie.setCzyZatwierdzone(os.getCzyZatwierdzone());
+                osiagniecieService.addOsiagniecie(osiagniecie);
+                return;
             }
         }
     }
@@ -140,6 +152,13 @@ public class OsiagniecieController {
     public void edytujOsiagniecie(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
         Osiagniecie osiagniecie = osiagniecieService.getOsiagniecie(id);
         for(Osiagniecie os : osiagniecieService.getOsiagnieciaPracownika(user.getPracownik().getIdPracownika())) {
+            if(os == osiagniecie) {
+                osiagniecie.setCzyZatwierdzone(true);
+                osiagniecieService.addOsiagniecie(osiagniecie);
+                return;
+            }
+        }
+        for(Osiagniecie os : osiagniecieService.getOsiagnieciaPodwladnych(user.getPracownik().getIdPracownika())) {
             if(os == osiagniecie) {
                 osiagniecie.setCzyZatwierdzone(true);
                 osiagniecieService.addOsiagniecie(osiagniecie);
