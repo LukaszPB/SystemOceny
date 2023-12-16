@@ -92,6 +92,7 @@ public class OsiagniecieController {
     @GetMapping("/OsiagnieciaPoId/{id}")
     public List<OsiagniecieDTO> getOsiagnieciaPoId(@PathVariable Long id) {
 
+
         List<OsiagniecieDTO> list = new ArrayList<>();
         for(Osiagniecie o : osiagniecieService.getOsiagnieciaPracownika(id)) {
             list.add(OsiagniecieDTO.builder()
