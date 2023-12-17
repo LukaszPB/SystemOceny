@@ -20,9 +20,11 @@ public class UzytkownikService {
     public List<Uzytkownik> getUzytkownicy(){return uzytkownikRepo.findAll();}
     public void addUzytkownik(Uzytkownik uzytkownik){uzytkownikRepo.save(uzytkownik);}
     public void deleteUzytkownik(Uzytkownik uzytkownik){
-        Pracownik pracownik = uzytkownik.getPracownik();
-        uzytkownik.setPracownik(null);
-        pracownikService.deletePracownik(pracownik);
+        if(uzytkownik.getPracownik()!=null){
+            Pracownik pracownik = uzytkownik.getPracownik();
+            uzytkownik.setPracownik(null);
+            pracownikService.deletePracownik(pracownik);
+        }
         uzytkownikRepo.delete(uzytkownik);
     }
     public UzytkownikDTO addUzytkownikDTO(Uzytkownik uzytkownik)
