@@ -64,7 +64,11 @@ public class UzytkownikService {
         }
         else
         {
-            Pracownik pracownik = new Pracownik();
+            Pracownik pracownik = Pracownik.builder()
+                    .imie(uzytkownikDTO.getImiePracownika())
+                    .nazwisko(uzytkownikDTO.getNazwiskoPracownika())
+                    .build();
+
             pracownikService.addPracownik(pracownik);
             uzytkownik = Uzytkownik.builder()
                     .login(uzytkownikDTO.getLogin())
