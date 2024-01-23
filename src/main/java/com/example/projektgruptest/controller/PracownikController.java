@@ -52,7 +52,7 @@ public class PracownikController {
         return null;
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @PostMapping("/pracownik_add")
+    @PostMapping("/pracownik_add") //dtopracownik
     public void dodajPracownika(@RequestBody PracownikDTO pracownikDTO) {
         pracownikService.addPracownik(pracownikService.buildPracownik(pracownikDTO));
     }

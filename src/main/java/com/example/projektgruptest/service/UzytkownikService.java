@@ -50,7 +50,7 @@ public class UzytkownikService {
                 .build();
         return uzytkownikDTO;
     }
-    public Uzytkownik addUzytkownik(UzytkownikDTO uzytkownikDTO)
+    public Uzytkownik addUzytkownik(UzytkownikDTO uzytkownikDTO) //listowanie uzytkownikow
     {
         Uzytkownik uzytkownik = null;
         if(uzytkownikDTO.getNazwaRoli().equals("ADMIN") || uzytkownikDTO.getNazwaRoli().equals("KOMISJA") )
