@@ -8,10 +8,6 @@ import java.util.List;
 
 @Repository
 public interface OsiagniecieRepo extends JpaRepository<Osiagniecie,Long> {
-//    @Modifying
-//    @Transactional
-//    @Query("DELETE FROM Osiagniecie o WHERE o.wniosek.pracownik.idPracownika = :pracownikId")
-//    void deleteOsiagniecieByPracownikId(@Param("pracownikId") Long pracownikId);
     List<Osiagniecie> findByWniosekPracownikIdPracownika(long pracownikId);
     List<Osiagniecie> findByWniosekIdWniosku(long pracownikwniosekId);
 }
