@@ -13,4 +13,14 @@ public class GlobalExceptionHandler {
         String bodyOfResponse = ex.getMessage();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(bodyOfResponse);
     }
+    @ExceptionHandler(PermissionDeniedException.class)
+    public ResponseEntity<Object> handleResourceNotFoundException(PermissionDeniedException ex, WebRequest request) {
+        String bodyOfResponse = ex.getMessage();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(bodyOfResponse);
+    }
+    @ExceptionHandler(ValidationFailedException.class)
+    public ResponseEntity<Object> handleResourceNotFoundException(ValidationFailedException ex, WebRequest request) {
+        String bodyOfResponse = ex.getMessage();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(bodyOfResponse);
+    }
 }

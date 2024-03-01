@@ -22,7 +22,7 @@ public class OsiagniecieService {
     public Osiagniecie getOsiagniecie(long id) {
         return osiagniecieRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Osiagniecie o podanym id nie zostało znalezione: " + id));
+                        "Osiagniecie o podanym id nie zostalo znalezione: " + id));
     }
     public List<Osiagniecie> getOsiagnieciaPracownika(long id) {
         return osiagniecieRepo.findByWniosekPracownikIdPracownika(id);
@@ -36,29 +36,51 @@ public class OsiagniecieService {
 
         return resultList;
     }
-    public List<Osiagniecie> getOsiagnieciaWniosku(long id) {
-        return osiagniecieRepo.findByWniosekIdWniosku(id);
-    }
     public void addOsiagniecie(OsiagniecieDTO osiagniecieDTO) {
         Osiagniecie osiagniecie = buildOsiagniecie(osiagniecieDTO);
         osiagniecieRepo.save(osiagniecie);
     }
-    public void editOsiagniecie(OsiagniecieDTO osiagniecieDTO,long id) {
-        Osiagniecie osiagniecie = osiagniecieRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Osiagniecie o podanym id nie zostało znalezione: " + id));
+    private Osiagniecie buildOsiagniecie(OsiagniecieDTO osiagniecieDTO) {
+        return Osiagniecie.builder()
+                .czyZatwierdzone(false)
+                .podKategoria(podKategorieService.getPodkategoria(osiagniecieDTO.getPodKategoriaNazwa()))
+                .wniosek(wniosekService.getWniosek(osiagniecieDTO.getIdWniosku()))
+                .data(osiagniecieDTO.getData())
+                .nazwa(osiagniecieDTO.getNazwa())
+                .iloscPunktow(osiagniecieDTO.getIloscPunktow())
+                .build();
+    }
+    public void editOsiagnieciePracownik(OsiagniecieDTO osiagniecieDTO,long id) {
+        Osiagniecie osiagniecie = getOsiagniecie(id);
 
         modifyOsiagniecie(osiagniecie, osiagniecieDTO);
+        osiagniecie.setCzyZatwierdzone(false);
 
         osiagniecieRepo.save(osiagniecie);
     }
+    public void editOsiagnieciePrzelozony(OsiagniecieDTO osiagniecieDTO,long id) {
+        Osiagniecie osiagniecie = getOsiagniecie(id);
+
+        modifyOsiagniecie(osiagniecie, osiagniecieDTO);
+        osiagniecie.setCzyZatwierdzone(osiagniecieDTO.isCzyZatwierdzone());
+
+        osiagniecieRepo.save(osiagniecie);
+    }
+    private void modifyOsiagniecie(Osiagniecie osiagniecie, OsiagniecieDTO osiagniecieDTO) {
+        osiagniecie.setNazwa(osiagniecieDTO.getNazwa());
+        osiagniecie.setPodKategoria(podKategorieService.getPodkategoria(
+                osiagniecieDTO.getPodKategoriaNazwa()));
+        osiagniecie.setWniosek(wniosekService.getWniosek(osiagniecieDTO.getIdWniosku()));
+        osiagniecie.setData(osiagniecieDTO.getData());
+        osiagniecie.setIloscPunktow(osiagniecieDTO.getIloscPunktow());
+    }
     public void approveOsiagniecie(long id) {
-        Osiagniecie osiagniecie = osiagniecieRepo.getReferenceById(id);
+        Osiagniecie osiagniecie = getOsiagniecie(id);
         osiagniecie.setCzyZatwierdzone(true);
         osiagniecieRepo.save(osiagniecie);
     }
     public void deleteOsiagniecie(long id) {
-        Osiagniecie osiagniecie = osiagniecieRepo.getReferenceById(id);
+        Osiagniecie osiagniecie = getOsiagniecie(id);
         osiagniecieRepo.delete(osiagniecie);
     }
     public boolean canModify(long idPracownika, long idOsagniecia) {
@@ -72,6 +94,11 @@ public class OsiagniecieService {
 
         return getOsiagnieciaPodwladnych(idPracownika).contains(osiagniecie);
     }
+    public List<OsiagniecieDTO> convertListToDTO(List<Osiagniecie> osiagniecieList) {
+        return osiagniecieList.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
     public OsiagniecieDTO convertToDTO(Osiagniecie osiagniecie) {
         return OsiagniecieDTO.builder()
                 .idOsiagniecia(osiagniecie.getIdOsiagniecia())
@@ -82,28 +109,5 @@ public class OsiagniecieService {
                 .idWniosku(osiagniecie.getWniosek().getIdWniosku())
                 .podKategoriaNazwa(osiagniecie.getPodKategoria().getNazwa())
                 .build();
-    }
-    public List<OsiagniecieDTO> convertListToDTO(List<Osiagniecie> osiagniecieList) {
-        return osiagniecieList.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
-    private Osiagniecie buildOsiagniecie(OsiagniecieDTO osiagniecieDTO) {
-        return Osiagniecie.builder()
-                .czyZatwierdzone(false)
-                .podKategoria(podKategorieService.getPodkategoria(osiagniecieDTO.getPodKategoriaNazwa()))
-                .wniosek(wniosekService.getWniosek(osiagniecieDTO.getIdWniosku()))
-                .data(osiagniecieDTO.getData())
-                .nazwa(osiagniecieDTO.getNazwa())
-                .iloscPunktow(osiagniecieDTO.getIloscPunktow())
-                .build();
-    }
-    private void modifyOsiagniecie(Osiagniecie osiagniecie, OsiagniecieDTO osiagniecieDTO) {
-        osiagniecie.setNazwa(osiagniecieDTO.getNazwa());
-        osiagniecie.setPodKategoria(podKategorieService.getPodkategoria(
-                osiagniecieDTO.getPodKategoriaNazwa()));
-        osiagniecie.setWniosek(wniosekService.getWniosek(osiagniecieDTO.getIdWniosku()));
-        osiagniecie.setData(osiagniecieDTO.getData());
-        osiagniecie.setIloscPunktow(osiagniecieDTO.getIloscPunktow());
     }
 }
