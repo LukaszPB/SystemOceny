@@ -175,7 +175,7 @@ VALUES (true,15,'2023-06-01 20:00:00',nextval('osiagniecia_seq'),
         1,'Publikacje naukowe');
 
 INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,wniosek_id_wniosku,nazwa)
-VALUES (true,60,'2022-04-01 20:00:00',nextval('osiagniecia_seq'),
+VALUES (false,60,'2022-04-01 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Uzyskanie stopnia doktora'),
         51,'Uzyskanie stopnia doktora');
 
@@ -185,7 +185,7 @@ VALUES (true,25,'2022-05-11 20:00:00',nextval('osiagniecia_seq'),
         51,'Publikacje naukowe');
 
 INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,wniosek_id_wniosku,nazwa)
-VALUES (true,60,'2023-02-01 18:00:00',nextval('osiagniecia_seq'),
+VALUES (false,60,'2023-02-01 18:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Uzyskanie stopnia doktora'),
         101,'Uzyskanie stopnia doktora');
 
@@ -210,7 +210,7 @@ VALUES (true,20,'2023-02-21 20:00:00',nextval('osiagniecia_seq'),
         151,'Publikacje naukowe');
 
 INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,wniosek_id_wniosku,nazwa)
-VALUES (true,10,'2023-07-15 20:00:00',nextval('osiagniecia_seq'),
+VALUES (false,10,'2023-07-15 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
         201,'Publikacje naukowe');
 

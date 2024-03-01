@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class KryteriaOcenyService {
     private final KryteriaOcenyRepo kryteriaOcenyRepo;
+    private final StopienNaukowyService stopienNaukowyService;
     public List<KryteriaOcenyDTO> getKryteriaOceny() {
         return kryteriaOcenyRepo.findAll().stream()
                 .map(this::convertToDTO)
