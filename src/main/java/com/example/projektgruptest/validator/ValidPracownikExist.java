@@ -10,9 +10,9 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = WniosekExistValidator.class)
-public @interface ValidWniosekExist {
-    String message() default "Wniosek does not exist";
+@Constraint(validatedBy = PodKategoriaExistValidator.class)
+public @interface ValidPracownikExist {
+    String message() default "Pracownik does not exist";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

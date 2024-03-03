@@ -20,9 +20,9 @@ public class OkresRozliczeniowy {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idOkresu;
     @Column(name = "poczatek")
-    private LocalDateTime poczatek;
+    private Date poczatek;
     @Column(name = "koniec")
-    private LocalDateTime koniec;
+    private Date koniec;
 
     //KLUCZE OBCE
     @OneToMany(mappedBy = "okresRozliczeniowy", cascade = CascadeType.REMOVE)
