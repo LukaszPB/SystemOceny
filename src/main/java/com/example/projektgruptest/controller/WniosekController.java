@@ -25,9 +25,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class WniosekController {
     private final WniosekService wniosekService;
-    private final PracownikService pracownikService; // Potrzebne tylko do testów
-    private final OcenaService ocenaService;
-    private final OkresRozliczeniowyService okresRozliczeniowyService; // Potrzebne tylko do testów
 
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/Wnioski")
@@ -45,7 +42,7 @@ public class WniosekController {
     }
     @SecurityRequirement(name = "JWT Authentication")
     @DeleteMapping("/Wniosek/{id}")
-    public void usunWniosek(@PathVariable Long id,@AuthenticationPrincipal UserWithPracownik user) {
+    public void usunWniosek(@PathVariable Long id) {
         Wniosek wniosek = wniosekService.getWniosek(id);
         wniosekService.deleteWniosek(wniosek);
     }

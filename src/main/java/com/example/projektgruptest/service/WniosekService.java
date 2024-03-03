@@ -18,7 +18,6 @@ public class WniosekService {
 
     private final OkresRozliczeniowyService okresRozliczeniowyService;
     private final PracownikService pracownikService;
-
     private final WniosekRepo wniosekRepo;
     public Wniosek getWniosek(long id) {
         return wniosekRepo.findById(id)
