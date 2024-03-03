@@ -30,6 +30,9 @@ public class SpringSecConfig {
                             .requestMatchers("/pracownik_add").hasAuthority("ADMIN")
                             .requestMatchers("/pracownik_edit/{id}").hasAuthority("ADMIN")
                             .requestMatchers("//pracownik_delete/{id}").hasAuthority("ADMIN")
+                            .requestMatchers("/Wnioski").hasAuthority("PRACOWNIK")
+                            .requestMatchers("/Wniosek").hasAuthority("ADMIN")
+                            .requestMatchers("/Wniosek/{id}").hasAuthority("ADMIN")
                             .anyRequest().authenticated();
                 })
                 .sessionManagement(customizer -> {
