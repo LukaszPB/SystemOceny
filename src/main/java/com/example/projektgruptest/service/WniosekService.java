@@ -28,6 +28,20 @@ public class WniosekService {
     public List<Wniosek> getWnioskiPracownika(long id) {
         return wniosekRepo.findByPracownikIdPracownika(id);
     }
+    public Wniosek getAktywnyWniosekPracownika(long id) {
+        for(Wniosek wniosek : getWnioskiPracownika(id)) {
+            if(wniosek.getOcena() == null) {
+                return wniosek;
+            }
+        }
+       return null;
+    }
+    public List<Wniosek> getNieaktywneWnioskiPracownika(long id) {
+        List<Wniosek> nieaktywneWnioskiList = getWnioskiPracownika(id);
+        nieaktywneWnioskiList.removeIf(w->w.getOcena() == null);
+
+        return nieaktywneWnioskiList;
+    }
     public List<WniosekDTO> convertListToDTO(List<Wniosek> wnioskiList)
     {
         return wnioskiList.stream()
@@ -78,5 +92,9 @@ public class WniosekService {
     }
     public void deleteWniosek(Wniosek wniosek) {
         wniosekRepo.delete(wniosek);
+    }
+    public boolean canUserAccessThisWniosek(long idUsera, long idWniosku) {
+        Wniosek wniosek = getWniosek(idWniosku);
+        return pracownikService.CanUserAccessPracownikData(idUsera,wniosek.getPracownik().getIdPracownika());
     }
 }

@@ -4,9 +4,6 @@ import com.example.projektgruptest.config.security.UserWithPracownik;
 import com.example.projektgruptest.model.Pracownik;
 import com.example.projektgruptest.model.PracownikDTO;
 import com.example.projektgruptest.service.PracownikService;
-import com.example.projektgruptest.service.PracownikStanowiskoService;
-import com.example.projektgruptest.service.RodzajDzialanosciService;
-import com.example.projektgruptest.service.StopienNaukowyService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,14 +15,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PracownikController {
     private final PracownikService pracownikService;
-    private final PracownikStanowiskoService pracownikStanowiskoService; //dla testow
-    private final RodzajDzialanosciService rodzajDzialanosciService;
-    private final StopienNaukowyService stopienNaukowyService;
 
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/pracownik_getAll")
     public List<PracownikDTO> getPracownicy() {
-        return pracownikService.getPracownicy();
+        return pracownikService.convertListToDTO(pracownikService.getPracownicy());
     }
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/pracownik")
@@ -38,7 +32,8 @@ public class PracownikController {
     public List<PracownikDTO> getPracownicyPrzelozonego(@AuthenticationPrincipal UserWithPracownik user) {
         Pracownik pracownik = user.getPracownik();
         if(pracownik != null) {
-            return pracownikService.getPracownicyPrzelozonego(pracownik.getIdPracownika());
+            return pracownikService.convertListToDTO(
+                    pracownikService.getPracownicyPrzelozonego(pracownik.getIdPracownika()));
         }
         return null;
     }
@@ -47,7 +42,8 @@ public class PracownikController {
     public PracownikDTO getPrzelozony(@AuthenticationPrincipal UserWithPracownik user) {
         Pracownik pracownik = user.getPracownik();
         if(pracownik != null) {
-            return pracownikService.getPrzelozonego(pracownik.getIdPracownika());
+            return pracownikService.convertToDTO(
+                    pracownikService.getPrzelozonego(pracownik.getIdPracownika()));
         }
         return null;
     }

@@ -2,7 +2,7 @@ package com.example.projektgruptest.service;
 
 import com.example.projektgruptest.exception.ResourceNotFoundException;
 import com.example.projektgruptest.model.Osiagniecie;
-import com.example.projektgruptest.model.PracownikDTO;
+import com.example.projektgruptest.model.Pracownik;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
 import com.example.projektgruptest.repo.OsiagniecieRepo;
 import lombok.AllArgsConstructor;
@@ -24,17 +24,20 @@ public class OsiagniecieService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Osiagniecie o podanym id nie zostalo znalezione: " + id));
     }
-    public List<Osiagniecie> getOsiagnieciaPracownika(long id) {
-        return osiagniecieRepo.findByWniosekPracownikIdPracownika(id);
+    public List<Osiagniecie> getOsiagnieciaPracownika(long idPracownika) {
+        return osiagniecieRepo.findByWniosekPracownikIdPracownika(idPracownika);
     }
-    public List<Osiagniecie> getOsiagnieciaPodwladnych(long id) {
+    public List<Osiagniecie> getOsiagnieciaPodwladnych(long idPracownika) {
         List<Osiagniecie> resultList = new ArrayList<>();
 
-        for (PracownikDTO pracownik : pracownikService.getPracownicyPrzelozonego(id)) {
+        for (Pracownik pracownik : pracownikService.getPracownicyPrzelozonego(idPracownika)) {
             resultList.addAll(getOsiagnieciaPracownika(pracownik.getIdPracownika()));
         }
 
         return resultList;
+    }
+    public List<Osiagniecie> getOsiagnieciaZWniosku(long idWniosku) {
+        return osiagniecieRepo.findByWniosekIdWniosku(idWniosku);
     }
     public void addOsiagniecie(OsiagniecieDTO osiagniecieDTO) {
         Osiagniecie osiagniecie = buildOsiagniecie(osiagniecieDTO);
@@ -83,13 +86,13 @@ public class OsiagniecieService {
         Osiagniecie osiagniecie = getOsiagniecie(id);
         osiagniecieRepo.delete(osiagniecie);
     }
-    public boolean canModify(long idPracownika, long idOsagniecia) {
+    public boolean canModifyOsiagniecie(long idPracownika, long idOsagniecia) {
         Osiagniecie osiagniecie = getOsiagniecie(idOsagniecia);
 
         return getOsiagnieciaPracownika(idPracownika).contains(osiagniecie) ||
                 getOsiagnieciaPodwladnych(idPracownika).contains(osiagniecie);
     }
-    public boolean canApprove(long idPracownika, long idOsiagniecia) {
+    public boolean canApproveOsiagniecie(long idPracownika, long idOsiagniecia) {
         Osiagniecie osiagniecie = getOsiagniecie(idOsiagniecia);
 
         return getOsiagnieciaPodwladnych(idPracownika).contains(osiagniecie);
