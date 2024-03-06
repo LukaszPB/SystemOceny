@@ -3,7 +3,6 @@ package com.example.projektgruptest.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
@@ -27,11 +26,4 @@ public class OkresRozliczeniowy {
     //KLUCZE OBCE
     @OneToMany(mappedBy = "okresRozliczeniowy", cascade = CascadeType.REMOVE)
     Set<Wniosek> wniosekSet;
-
-    @Override
-    public String toString() {
-        return "OkresRozliczeniowy id " + idOkresu + ":\n" +
-                "   " + poczatek + "\n" +
-                "   " + koniec + "\n";
-    }
 }

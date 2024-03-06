@@ -22,12 +22,7 @@ public class KategoriaOsiagniec {
     //KLUCZE OBCE
     @ManyToOne
     RodzajDzialalnosci rodzajDzialalnosci;
-
     @OneToMany(mappedBy = "kategoriaOsiagniec", cascade = CascadeType.REMOVE)
     Set<PodKategoria> podKategoriaSet;
-    @Override
-    public String toString() {
-        return "Kategoria Osiągnięć id " +idKategoriaOsiagniec + ":\n" +
-                "   " + nazwaKategorii + "\n";
-    }
+
 }

@@ -40,18 +40,4 @@ public class Pracownik {
 
     @ManyToOne
     private StopienNaukowy stopienNaukowy;
-
-//    @ManyToOne
-//    private Przelozony przelozonyy;
-
-    @Override
-    public String toString() {
-        return "Pracownik id " + idPracownika + ":\n" +
-                "   " + stopienNaukowy.getNazwa() + "\n" +
-                "   " + rodzajDzialalnosci.getNazwa() + "\n" +
-                "   " + stopienNaukowy.getNazwa() + "\n" +
-                "   " + imie + "\n" +
-                "   " + nazwisko + "\n" +
-                "   " + emailSluzbowy + "\n";
-    }
 }

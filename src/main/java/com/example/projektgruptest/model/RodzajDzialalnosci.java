@@ -27,9 +27,4 @@ public class RodzajDzialalnosci {
 
     @OneToMany(mappedBy = "rodzajDzialalnosci")
     Set<Pracownik> pracownikSet;
-    @Override
-    public String toString() {
-        return "Rodzaj Działalności id " + idRodzajDzialalnosci + ":\n" +
-                "   " + nazwa + "\n";
-    }
 }

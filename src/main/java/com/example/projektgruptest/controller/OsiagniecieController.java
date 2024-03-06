@@ -6,6 +6,7 @@ import com.example.projektgruptest.exception.ValidationFailedException;
 import com.example.projektgruptest.model.Osiagniecie;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
 import com.example.projektgruptest.service.OsiagniecieService;
+import com.example.projektgruptest.service.WniosekService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OsiagniecieController {
     private final OsiagniecieService osiagniecieService;
+    private  final WniosekService wniosekService;
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/Osiagniecia")
     public List<OsiagniecieDTO> getOsiagniecia(@AuthenticationPrincipal UserWithPracownik user) {
@@ -36,6 +38,17 @@ public class OsiagniecieController {
         return osiagniecieService.convertListToDTO(osiagnieciaPodwladnychList);
     }
     @SecurityRequirement(name = "JWT Authentication")
+    @GetMapping("/OsiagnieciaZWniosku/{id}")
+    public List<OsiagniecieDTO> getOsiagnieciaZWniosku(@PathVariable long id, @AuthenticationPrincipal UserWithPracownik user) {
+        if(wniosekService.canUserAccessThisWniosek(user.getPracownik().getIdPracownika(),id)) {
+            List<Osiagniecie> osiagnieciaZWnioskuList = osiagniecieService.getOsiagnieciaZWniosku(id);
+            return osiagniecieService.convertListToDTO(osiagnieciaZWnioskuList);
+        }
+        else {
+            throw new PermissionDeniedException("You don't have permission to modify this wniosek");
+        }
+    }
+    @SecurityRequirement(name = "JWT Authentication")
     @PostMapping("/Osiagniecie")
     public void dodajOsiagniecie(@RequestBody @Valid OsiagniecieDTO osiagniecieDTO, BindingResult result) {
         if(result.hasErrors()) {
@@ -50,10 +63,10 @@ public class OsiagniecieController {
         if(result.hasErrors()) {
             throw new ValidationFailedException("Validation has failed " + result.getFieldErrors());
         }
-        else if(osiagniecieService.canApprove(user.getPracownik().getIdPracownika(),id)) {
+        else if(osiagniecieService.canApproveOsiagniecie(user.getPracownik().getIdPracownika(),id)) {
             osiagniecieService.editOsiagnieciePrzelozony(osiagniecieDTO,id);
         }
-        else if(osiagniecieService.canModify(user.getPracownik().getIdPracownika(),id)) {
+        else if(osiagniecieService.canModifyOsiagniecie(user.getPracownik().getIdPracownika(),id)) {
             osiagniecieService.editOsiagnieciePracownik(osiagniecieDTO,id);
         }
         else {
@@ -63,7 +76,7 @@ public class OsiagniecieController {
     @SecurityRequirement(name = "JWT Authentication")
     @PutMapping("/OsiagniecieZatwierdz/{id}")
     public void edytujOsiagniecie(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
-        if(osiagniecieService.canApprove(user.getPracownik().getIdPracownika(),id)) {
+        if(osiagniecieService.canApproveOsiagniecie(user.getPracownik().getIdPracownika(),id)) {
             osiagniecieService.approveOsiagniecie(id);
         }
         else {
@@ -73,7 +86,7 @@ public class OsiagniecieController {
     @SecurityRequirement(name = "JWT Authentication")
     @DeleteMapping("/Osiagniecie/{id}")
     public void usunPracownika(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
-        if(osiagniecieService.canModify(user.getPracownik().getIdPracownika(),id)) {
+        if(osiagniecieService.canModifyOsiagniecie(user.getPracownik().getIdPracownika(),id)) {
             osiagniecieService.deleteOsiagniecie(id);
         }
         else {

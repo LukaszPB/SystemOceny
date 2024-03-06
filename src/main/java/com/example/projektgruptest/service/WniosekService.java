@@ -8,7 +8,6 @@ import com.example.projektgruptest.repo.WniosekRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +27,20 @@ public class WniosekService {
     public List<Wniosek> getWnioskiPracownika(long id) {
         return wniosekRepo.findByPracownikIdPracownika(id);
     }
+    public Wniosek getAktywnyWniosekPracownika(long id) {
+        for(Wniosek wniosek : getWnioskiPracownika(id)) {
+            if(wniosek.getOcena() == null) {
+                return wniosek;
+            }
+        }
+       return null;
+    }
+    public List<Wniosek> getNieaktywneWnioskiPracownika(long id) {
+        List<Wniosek> nieaktywneWnioskiList = getWnioskiPracownika(id);
+        nieaktywneWnioskiList.removeIf(w->w.getOcena() == null);
+
+        return nieaktywneWnioskiList;
+    }
     public List<WniosekDTO> convertListToDTO(List<Wniosek> wnioskiList)
     {
         return wnioskiList.stream()
@@ -36,28 +49,15 @@ public class WniosekService {
     }
     public WniosekDTO convertToDTO(Wniosek wniosek)
     {
-        if(wniosek.getOcena()!=null)
-        {
-            return WniosekDTO.builder()
-                    .idWniosku(wniosek.getIdWniosku())
-                    .idPracownika(wniosek.getPracownik().getIdPracownika())
-                    .dataPoczatkowa(wniosek.getOkresRozliczeniowy().getPoczatek())
-                    .dataKoncowa(wniosek.getOkresRozliczeniowy().getKoniec())
-                    .idOceny(wniosek.getOcena().getIdOceny())
-                    .listaIdOsiagniec(wniosek.getOsiagniecieSet().stream().map(osiagniecie -> osiagniecie.getIdOsiagniecia()).collect(Collectors.toList()))
-                    .build();
-        }
-        else
-        {
-            return WniosekDTO.builder()
-                    .idWniosku(wniosek.getIdWniosku())
-                    .idPracownika(wniosek.getPracownik().getIdPracownika())
-                    .dataPoczatkowa(wniosek.getOkresRozliczeniowy().getPoczatek())
-                    .dataKoncowa(wniosek.getOkresRozliczeniowy().getKoniec())
-                    .idOceny(null)
-                    .listaIdOsiagniec(wniosek.getOsiagniecieSet().stream().map(osiagniecie -> osiagniecie.getIdOsiagniecia()).collect(Collectors.toList()))
-                    .build();
-        }
+        Long idOceny = wniosek.getOcena() != null ? wniosek.getOcena().getIdOceny() : null;
+
+        return WniosekDTO.builder()
+                .idWniosku(wniosek.getIdWniosku())
+                .idPracownika(wniosek.getPracownik().getIdPracownika())
+                .dataPoczatkowa(wniosek.getOkresRozliczeniowy().getPoczatek())
+                .dataKoncowa(wniosek.getOkresRozliczeniowy().getKoniec())
+                .idOceny(idOceny)
+                .build();
     }
     public void addWniosek(WniosekDTO wniosekDTO) {
         Wniosek wniosek = buildWniosek(wniosekDTO);
@@ -70,7 +70,6 @@ public class WniosekService {
                 .build();
         okresRozliczeniowyService.addOkresRozliczeniowy(okresRozliczeniowy);
         return Wniosek.builder()
-                .osiagniecieSet(new HashSet<>())
                 .okresRozliczeniowy(okresRozliczeniowy)
                 .pracownik(pracownikService.getPracownik(wniosekDTO.getIdPracownika()))
                 .ocena(null)
@@ -78,5 +77,9 @@ public class WniosekService {
     }
     public void deleteWniosek(Wniosek wniosek) {
         wniosekRepo.delete(wniosek);
+    }
+    public boolean canUserAccessThisWniosek(long idUsera, long idWniosku) {
+        Wniosek wniosek = getWniosek(idWniosku);
+        return pracownikService.CanUserAccessPracownikData(idUsera,wniosek.getPracownik().getIdPracownika());
     }
 }

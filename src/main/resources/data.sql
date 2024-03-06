@@ -237,8 +237,8 @@ VALUES (400,'2023-10-25 21:32:00',nextval('oceny_seq'),1,'pozytywna');
 INSERT INTO "oceny" (ilosc_punktow,data,id_oceny,wniosek_id_wniosku,nazwa)
 VALUES (400,'2023-10-25 21:32:00',nextval('oceny_seq'),51,'pozytywna z wyróżnieniem');
 
-INSERT INTO "oceny" (ilosc_punktow,data,id_oceny,wniosek_id_wniosku,nazwa)
-VALUES (400,'2023-10-25 21:32:00',nextval('oceny_seq'),101,'pozytywna');
+-- INSERT INTO "oceny" (ilosc_punktow,data,id_oceny,wniosek_id_wniosku,nazwa)
+-- VALUES (400,'2023-10-25 21:32:00',nextval('oceny_seq'),101,'pozytywna');
 
 INSERT INTO "oceny" (ilosc_punktow,data,id_oceny,wniosek_id_wniosku,nazwa)
 VALUES (400,'2023-10-25 21:32:00',nextval('oceny_seq'),151,'negatywna');
