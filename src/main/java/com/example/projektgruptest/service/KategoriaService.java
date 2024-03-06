@@ -1,6 +1,7 @@
 package com.example.projektgruptest.service;
 
 import com.example.projektgruptest.model.KategoriaOsiagniec;
+import com.example.projektgruptest.model.PodKategoria;
 import com.example.projektgruptest.repo.KategoriaOsiagniecRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,4 +24,10 @@ public class KategoriaService {
     public void deleteKategoria(KategoriaOsiagniec kategoriaOsiagniec) {
         kategoriaOsiagniecRepo.delete(kategoriaOsiagniec);
     }
+
+    //TODO: adrian do zrobienia
+//    public Set<PodKategoria> getPodKategoriaSet(long id){
+//        KategoriaOsiagniec kategoriaOsiagniec = getKategoria(id);
+//        return kategoriaOsiagniec.getPodKategoriaSet();
+//    }
 }
