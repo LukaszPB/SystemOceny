@@ -19,7 +19,7 @@ public class OcenaController {
     private final OcenaService ocenaService;
     private final WniosekService wniosekService;
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/Oceny")
+    @GetMapping("/oceny")
     public List<OcenaDTO> getOceny(@AuthenticationPrincipal UserWithPracownik user){
         List<OcenaDTO> list = new ArrayList<>();
         for(Ocena o: ocenaService.getOcenyPracownika(user.getPracownik().getIdPracownika())){
@@ -33,7 +33,7 @@ public class OcenaController {
         return list;
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @PostMapping("/Ocena")
+    @PostMapping("/ocena")
     public void dodajOcene(@RequestBody OcenaDTO ocenaDTO)
     {
         Ocena ocena = Ocena.builder()
@@ -45,7 +45,7 @@ public class OcenaController {
         ocenaService.addOcena(ocena);
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @PutMapping("/Ocena/{id}")
+    @PutMapping("/ocena/{id}")
     public void edytujOcene(@PathVariable Long id, @RequestBody OcenaDTO o, @AuthenticationPrincipal UserWithPracownik user) {
         Ocena ocena = ocenaService.getOcena(id);
         for(Ocena oc : ocenaService.getOcenyPracownika(user.getPracownik().getIdPracownika())){
@@ -59,7 +59,7 @@ public class OcenaController {
         }
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @DeleteMapping("/Ocena/{id}")
+    @DeleteMapping("/ocena/{id}")
     public void usunOcene(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
         Ocena ocena = ocenaService.getOcena(id);
        for (Ocena o: ocenaService.getOcenyPracownika(user.getPracownik().getIdPracownika())){

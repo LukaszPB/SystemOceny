@@ -17,7 +17,7 @@ public class PracownikController {
     private final PracownikService pracownikService;
 
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/pracownik_getAll")
+    @GetMapping("/pracownikPobierzWszystkich")
     public List<PracownikDTO> getPracownicy() {
         return pracownikService.convertListToDTO(pracownikService.getPracownicy());
     }
@@ -38,7 +38,7 @@ public class PracownikController {
         return null;
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/pracownik_przelozony")
+    @GetMapping("/pracownikPrzelozony")
     public PracownikDTO getPrzelozony(@AuthenticationPrincipal UserWithPracownik user) {
         Pracownik pracownik = user.getPracownik();
         if(pracownik != null) {
@@ -48,12 +48,12 @@ public class PracownikController {
         return null;
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @PostMapping("/pracownik_add") //dtopracownik
+    @PostMapping("/pracownikDodaj") //dtopracownik
     public void dodajPracownika(@RequestBody PracownikDTO pracownikDTO) {
         pracownikService.addPracownik(pracownikService.buildPracownik(pracownikDTO));
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @PutMapping("/pracownik_edit/{id}")
+    @PutMapping("/pracownikEdytuj/{id}")
     public void edytujPracownika(@PathVariable Long id, @RequestBody PracownikDTO pracownikDTO) {
         pracownikService.editPracownik(id,pracownikDTO);
     }

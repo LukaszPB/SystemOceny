@@ -17,13 +17,13 @@ public class KryteriaOcenyController {
     private final KryteriaOcenyService kryteriaOcenyService;
 
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/KryteriaOcenyWszystkie")
+    @GetMapping("/kryteriaOcenyWszystkie")
     public List<KryteriaOcenyDTO> getKryteriaOceny() {
         return kryteriaOcenyService.getKryteriaOceny();
     }
 
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/KryteriumOceny")
+    @GetMapping("/kryteriumOceny")
     public KryteriaOcenyDTO getKryteriumOceny(@AuthenticationPrincipal UserWithPracownik user) {
         if(user.getPracownik() != null) {
             return kryteriaOcenyService.getKryteriumOceny(user.getPracownik());

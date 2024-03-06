@@ -22,7 +22,7 @@ public class OsiagniecieController {
     private final OsiagniecieService osiagniecieService;
     private  final WniosekService wniosekService;
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/Osiagniecia")
+    @GetMapping("/osiagniecia")
     public List<OsiagniecieDTO> getOsiagniecia(@AuthenticationPrincipal UserWithPracownik user) {
         List<Osiagniecie> osiagniecieList =
                 osiagniecieService.getOsiagnieciaPracownika(user.getPracownik().getIdPracownika());
@@ -30,7 +30,7 @@ public class OsiagniecieController {
         return osiagniecieService.convertListToDTO(osiagniecieList);
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/OsiagnieciaPodwladnych")
+    @GetMapping("/osiagnieciaPodwladnych")
     public List<OsiagniecieDTO> getOsiagnieciaPodwladnych(@AuthenticationPrincipal UserWithPracownik user) {
         List<Osiagniecie> osiagnieciaPodwladnychList =
                 osiagniecieService.getOsiagnieciaPodwladnych(user.getPracownik().getIdPracownika());
@@ -38,7 +38,7 @@ public class OsiagniecieController {
         return osiagniecieService.convertListToDTO(osiagnieciaPodwladnychList);
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/OsiagnieciaZWniosku/{id}")
+    @GetMapping("/osiagnieciaZWniosku/{id}")
     public List<OsiagniecieDTO> getOsiagnieciaZWniosku(@PathVariable long id, @AuthenticationPrincipal UserWithPracownik user) {
         if(wniosekService.canUserAccessThisWniosek(user.getPracownik().getIdPracownika(),id)) {
             List<Osiagniecie> osiagnieciaZWnioskuList = osiagniecieService.getOsiagnieciaZWniosku(id);
@@ -49,7 +49,7 @@ public class OsiagniecieController {
         }
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @PostMapping("/Osiagniecie")
+    @PostMapping("/osiagniecie")
     public void dodajOsiagniecie(@RequestBody @Valid OsiagniecieDTO osiagniecieDTO, BindingResult result) {
         if(result.hasErrors()) {
             throw new ValidationFailedException("Validation has failed " + result.getFieldErrors());
@@ -57,7 +57,7 @@ public class OsiagniecieController {
         osiagniecieService.addOsiagniecie(osiagniecieDTO);
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @PutMapping("/Osiagniecie/{id}")
+    @PutMapping("/osiagniecie/{id}")
     public void edytujOsiagniecie(@PathVariable long id, @RequestBody @Valid OsiagniecieDTO osiagniecieDTO, BindingResult result,
                                   @AuthenticationPrincipal UserWithPracownik user) {
         if(result.hasErrors()) {
@@ -74,7 +74,7 @@ public class OsiagniecieController {
         }
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @PutMapping("/OsiagniecieZatwierdz/{id}")
+    @PutMapping("/osiagniecieZatwierdz/{id}")
     public void edytujOsiagniecie(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
         if(osiagniecieService.canApproveOsiagniecie(user.getPracownik().getIdPracownika(),id)) {
             osiagniecieService.approveOsiagniecie(id);
@@ -84,7 +84,7 @@ public class OsiagniecieController {
         }
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @DeleteMapping("/Osiagniecie/{id}")
+    @DeleteMapping("/osiagniecie/{id}")
     public void usunPracownika(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
         if(osiagniecieService.canModifyOsiagniecie(user.getPracownik().getIdPracownika(),id)) {
             osiagniecieService.deleteOsiagniecie(id);

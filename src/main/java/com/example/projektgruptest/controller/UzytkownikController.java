@@ -23,7 +23,7 @@ public class UzytkownikController {
     private final RolaRepo rolaRepo;
     private final UzytkownikService uzytkownikService;
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/Uzytkownicy")
+    @GetMapping("/uzytkownicy")
     public List<UzytkownikDTO> getUzytkownicy(@AuthenticationPrincipal UserWithPracownik user)
     {
         List<UzytkownikDTO> list = new ArrayList<>();
@@ -43,7 +43,7 @@ public class UzytkownikController {
         return list;
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @PostMapping("/Uzytkownik")
+    @PostMapping("/uzytkownik")
     public void dodajUzytkownika(@RequestBody UzytkownikDTO uzytkownikDTO,@AuthenticationPrincipal UserWithPracownik user) {
         if (user.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -54,7 +54,7 @@ public class UzytkownikController {
 
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @PutMapping("/Uzytkownik/{id}")
+    @PutMapping("/uzytkownik/{id}")
     public void edytujUzytkownika(@PathVariable Long id,@RequestBody UzytkownikDTO u,@AuthenticationPrincipal UserWithPracownik user)
     {
         Uzytkownik uzytkownik = uzytkownikService.getUzytkownik(id);
@@ -82,7 +82,7 @@ public class UzytkownikController {
         }
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @DeleteMapping("/Uzytkownik/{id}")
+    @DeleteMapping("/uzytkownik/{id}")
     public void usunUzytkownika(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user)
     {
         Uzytkownik uzytkownik = uzytkownikService.getUzytkownik(id);

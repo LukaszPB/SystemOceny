@@ -65,12 +65,12 @@ public class WniosekController {
         }
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @PostMapping("/Wniosek")
+    @PostMapping("/wniosek")
     public void dodajWniosek(@RequestBody WniosekDTO wniosekDTO) {
         wniosekService.addWniosek(wniosekDTO);
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @DeleteMapping("/Wniosek/{id}")
+    @DeleteMapping("/wniosek/{id}")
     public void usunWniosek(@PathVariable Long id) {
         Wniosek wniosek = wniosekService.getWniosek(id);
         wniosekService.deleteWniosek(wniosek);
