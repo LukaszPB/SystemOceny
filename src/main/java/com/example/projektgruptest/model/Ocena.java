@@ -27,11 +27,4 @@ public class Ocena {
     //KLUCZE OBCE
     @OneToOne
     Wniosek wniosek;
-
-    public String toString() {
-        return "Ocena id " + idOceny + ":\n" +
-                "   " + nazwa + "\n" +
-                "   " + iloscPunktow + "\n" +
-                "   " + data + "\n";
-    }
 }

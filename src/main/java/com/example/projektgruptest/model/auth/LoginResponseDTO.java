@@ -1,6 +1,6 @@
 package com.example.projektgruptest.model.auth;
 
-import com.example.projektgruptest.model.PracownikDTO;
+import com.example.projektgruptest.modelDTO.PracownikDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,4 +12,5 @@ public class LoginResponseDTO {
     private String rola;
     private String token;
     private PracownikDTO pracownik;
+    private boolean czyMaPodwladnych;
 }

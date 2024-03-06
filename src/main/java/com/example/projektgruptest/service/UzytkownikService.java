@@ -20,9 +20,11 @@ public class UzytkownikService {
     public List<Uzytkownik> getUzytkownicy(){return uzytkownikRepo.findAll();}
     public void addUzytkownik(Uzytkownik uzytkownik){uzytkownikRepo.save(uzytkownik);}
     public void deleteUzytkownik(Uzytkownik uzytkownik){
-        Pracownik pracownik = uzytkownik.getPracownik();
-        uzytkownik.setPracownik(null);
-        pracownikService.deletePracownik(pracownik);
+        if(uzytkownik.getPracownik()!=null){
+            Pracownik pracownik = uzytkownik.getPracownik();
+            uzytkownik.setPracownik(null);
+            pracownikService.deletePracownik(pracownik);
+        }
         uzytkownikRepo.delete(uzytkownik);
     }
     public UzytkownikDTO addUzytkownikDTO(Uzytkownik uzytkownik)
@@ -48,7 +50,7 @@ public class UzytkownikService {
                 .build();
         return uzytkownikDTO;
     }
-    public Uzytkownik addUzytkownik(UzytkownikDTO uzytkownikDTO)
+    public Uzytkownik addUzytkownik(UzytkownikDTO uzytkownikDTO) //listowanie uzytkownikow
     {
         Uzytkownik uzytkownik = null;
         if(uzytkownikDTO.getNazwaRoli().equals("ADMIN") || uzytkownikDTO.getNazwaRoli().equals("KOMISJA") )
@@ -62,7 +64,11 @@ public class UzytkownikService {
         }
         else
         {
-            Pracownik pracownik = new Pracownik();
+            Pracownik pracownik = Pracownik.builder()
+                    .imie(uzytkownikDTO.getImiePracownika())
+                    .nazwisko(uzytkownikDTO.getNazwiskoPracownika())
+                    .build();
+
             pracownikService.addPracownik(pracownik);
             uzytkownik = Uzytkownik.builder()
                     .login(uzytkownikDTO.getLogin())

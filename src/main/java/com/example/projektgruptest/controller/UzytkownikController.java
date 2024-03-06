@@ -61,6 +61,7 @@ public class UzytkownikController {
         if (user.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .anyMatch(role -> role.equals(rolaService.getRola(1).getNazwa()))) {
+            System.out.println("ADMIN");
             if(rolaService.getRola(u.getNazwaRoli())!=null)
             {
                 uzytkownik.setRola(rolaService.getRola(u.getNazwaRoli()));

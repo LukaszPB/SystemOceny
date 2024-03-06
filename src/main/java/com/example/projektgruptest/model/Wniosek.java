@@ -21,20 +21,10 @@ public class Wniosek {
     //KLUCZE OBCE
     @OneToMany(mappedBy = "wniosek", cascade = CascadeType.REMOVE)
     Set<Osiagniecie> osiagniecieSet;
-
     @ManyToOne
     Pracownik pracownik;
-
     @ManyToOne
     OkresRozliczeniowy okresRozliczeniowy;
-
     @OneToOne(mappedBy = "wniosek", cascade = CascadeType.REMOVE)
-    private Ocena ocena;
-
-    @Override
-    public String toString() {
-        return "Wniosek id " + idWniosku + ":\n" +
-                "   " + pracownik + "\n" +
-                "   " + okresRozliczeniowy + "\n";
-    }
+    Ocena ocena;
 }

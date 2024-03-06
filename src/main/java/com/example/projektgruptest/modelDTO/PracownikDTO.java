@@ -1,4 +1,4 @@
-package com.example.projektgruptest.model;
+package com.example.projektgruptest.modelDTO;
 
 import lombok.*;
 

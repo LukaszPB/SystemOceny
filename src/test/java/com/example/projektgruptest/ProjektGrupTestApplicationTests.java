@@ -8,6 +8,7 @@ class ProjektGrupTestApplicationTests {
 
     @Test
     void contextLoads() {
+        //Dodanie testow
     }
 
 }

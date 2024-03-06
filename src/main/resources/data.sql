@@ -175,7 +175,7 @@ VALUES (true,15,'2023-06-01 20:00:00',nextval('osiagniecia_seq'),
         1,'Publikacje naukowe');
 
 INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,wniosek_id_wniosku,nazwa)
-VALUES (true,60,'2022-04-01 20:00:00',nextval('osiagniecia_seq'),
+VALUES (false,60,'2022-04-01 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Uzyskanie stopnia doktora'),
         51,'Uzyskanie stopnia doktora');
 
@@ -185,7 +185,7 @@ VALUES (true,25,'2022-05-11 20:00:00',nextval('osiagniecia_seq'),
         51,'Publikacje naukowe');
 
 INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,wniosek_id_wniosku,nazwa)
-VALUES (true,60,'2023-02-01 18:00:00',nextval('osiagniecia_seq'),
+VALUES (false,60,'2023-02-01 18:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Uzyskanie stopnia doktora'),
         101,'Uzyskanie stopnia doktora');
 
@@ -210,7 +210,7 @@ VALUES (true,20,'2023-02-21 20:00:00',nextval('osiagniecia_seq'),
         151,'Publikacje naukowe');
 
 INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,wniosek_id_wniosku,nazwa)
-VALUES (true,10,'2023-07-15 20:00:00',nextval('osiagniecia_seq'),
+VALUES (false,10,'2023-07-15 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
         201,'Publikacje naukowe');
 
@@ -237,8 +237,8 @@ VALUES (400,'2023-10-25 21:32:00',nextval('oceny_seq'),1,'pozytywna');
 INSERT INTO "oceny" (ilosc_punktow,data,id_oceny,wniosek_id_wniosku,nazwa)
 VALUES (400,'2023-10-25 21:32:00',nextval('oceny_seq'),51,'pozytywna z wyróżnieniem');
 
-INSERT INTO "oceny" (ilosc_punktow,data,id_oceny,wniosek_id_wniosku,nazwa)
-VALUES (400,'2023-10-25 21:32:00',nextval('oceny_seq'),101,'pozytywna');
+-- INSERT INTO "oceny" (ilosc_punktow,data,id_oceny,wniosek_id_wniosku,nazwa)
+-- VALUES (400,'2023-10-25 21:32:00',nextval('oceny_seq'),101,'pozytywna');
 
 INSERT INTO "oceny" (ilosc_punktow,data,id_oceny,wniosek_id_wniosku,nazwa)
 VALUES (400,'2023-10-25 21:32:00',nextval('oceny_seq'),151,'negatywna');
@@ -257,11 +257,11 @@ SELECT 420, 'KOMISJA', 'KOMISJA', id_roli, null FROM "role" WHERE nazwa = 'KOMIS
 INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
 SELECT 69, 'PRACOWNIK', 'PRACOWNIK', id_roli, 1 FROM "role" WHERE nazwa = 'PRACOWNIK';
 INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
-SELECT 1, 'PRACOWNIK1', 'PRACOWNIK', id_roli, 51 FROM "role" WHERE nazwa = 'PRACOWNIK';
+SELECT 1000, 'PRACOWNIK1', 'PRACOWNIK', id_roli, 51 FROM "role" WHERE nazwa = 'PRACOWNIK';
 INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
-SELECT 2, 'PRACOWNIK2', 'PRACOWNIK', id_roli, 101 FROM "role" WHERE nazwa = 'PRACOWNIK';
+SELECT 2000, 'PRACOWNIK2', 'PRACOWNIK', id_roli, 101 FROM "role" WHERE nazwa = 'PRACOWNIK';
 INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
-SELECT 3, 'PRACOWNIK3', 'PRACOWNIK', id_roli, 151 FROM "role" WHERE nazwa = 'PRACOWNIK';
+SELECT 3000, 'PRACOWNIK3', 'PRACOWNIK', id_roli, 151 FROM "role" WHERE nazwa = 'PRACOWNIK';
 
 -- Przelozony
 -- INSERT INTO "przelozeni" (id,imie,nazwisko,email)
