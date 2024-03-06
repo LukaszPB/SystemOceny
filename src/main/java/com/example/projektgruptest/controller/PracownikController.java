@@ -23,18 +23,18 @@ public class PracownikController {
     private final StopienNaukowyService stopienNaukowyService;
 
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/pracownik_getAll")
+    @GetMapping("/PracownikPobierzWszystkich")
     public List<PracownikDTO> getPracownicy() {
         return pracownikService.getPracownicy();
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/pracownik")
+    @GetMapping("/Pracownik")
     public PracownikDTO getPracownik(@AuthenticationPrincipal UserWithPracownik user) {
         return pracownikService.convertToDTO(
                 pracownikService.getPracownik(user.getPracownik().getIdPracownika()));
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/pracownicy_przelozonego")
+    @GetMapping("/PracownicyPrzelozonego")
     public List<PracownikDTO> getPracownicyPrzelozonego(@AuthenticationPrincipal UserWithPracownik user) {
         Pracownik pracownik = user.getPracownik();
         if(pracownik != null) {
@@ -43,7 +43,7 @@ public class PracownikController {
         return null;
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/pracownik_przelozony")
+    @GetMapping("/PracownikPrzelozony")
     public PracownikDTO getPrzelozony(@AuthenticationPrincipal UserWithPracownik user) {
         Pracownik pracownik = user.getPracownik();
         if(pracownik != null) {
@@ -52,12 +52,12 @@ public class PracownikController {
         return null;
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @PostMapping("/pracownik_add")
+    @PostMapping("/PracownikDodaj")
     public void dodajPracownika(@RequestBody PracownikDTO pracownikDTO) {
         pracownikService.addPracownik(pracownikService.buildPracownik(pracownikDTO));
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @PutMapping("/pracownik_edit/{id}")
+    @PutMapping("/PracownikEdytuj/{id}")
     public void edytujPracownika(@PathVariable Long id, @RequestBody PracownikDTO pracownikDTO) {
         pracownikService.editPracownik(id,pracownikDTO);
     }

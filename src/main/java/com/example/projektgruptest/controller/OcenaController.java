@@ -71,10 +71,7 @@ public class OcenaController {
                     .nazwa(o.getNazwa())
                     .iloscPunktow(o.getIloscPunktow())
                     .data(o.getData())
-                    //.data(new java.util.Date(o.getData().getTime()))
                     .build());
-            //System.out.println(o.getData());
-           // System.out.println(list.get(0).getData());
         }
         return list;
     }

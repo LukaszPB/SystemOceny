@@ -74,14 +74,6 @@ public class TestowyController {
         for(PodKategoria element : podKategorieService.getPodKategorie()) {
             s += element;
         }
-//        osiagniecieService.addOsiagniecie(Osiagniecie.builder()
-//                .czyZatwierdzone(false)
-//                .data(new Date())
-//                .nazwa("Publikacja naukowa")
-//                .iloscPunktow(20)
-//                .wniosek(wniosekService.getWniosek(1))
-//                .podKategoria(podKategorieService.getPodKategorie().get(0))
-//                .build());
 
         s+="\nOkres rozliczeniowy \n";
         for(OkresRozliczeniowy okresRozliczeniowy: testowyService.getOkresRozliczeniow()){
