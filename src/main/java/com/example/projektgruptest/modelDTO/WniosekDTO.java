@@ -3,7 +3,6 @@ package com.example.projektgruptest.modelDTO;
 import lombok.*;
 
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -12,13 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 public class WniosekDTO {
 
-    private long idWniosku;
-    //PracownikDTO pracownikDTO;
-    private long idPracownika;
+    private Long idWniosku;
+    private Long idPracownika;
     private Date dataPoczatkowa, dataKoncowa;
     private Long idOceny;
-    private List<Long> listaIdOsiagniec;
-
-
-
 }

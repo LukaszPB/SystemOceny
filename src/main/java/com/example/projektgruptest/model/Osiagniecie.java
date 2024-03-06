@@ -25,20 +25,9 @@ public class Osiagniecie {
     private Date data;
     @Column(name = "czyZatwierdzone")
     private Boolean czyZatwierdzone;
-
     // KLUCZE OBCE
     @ManyToOne
     PodKategoria podKategoria;
-
     @ManyToOne
     Wniosek wniosek;
-
-    @Override
-    public String toString() {
-        return "Osiagnięcie id " + idOsiagniecia + ":\n" +
-                "   " + nazwa + "\n" +
-                "   " + iloscPunktow + "\n" +
-                "   " + data + "\n" +
-                "   " + czyZatwierdzone + "\n";
-    }
 }

@@ -2,7 +2,7 @@ package com.example.projektgruptest.controller;
 
 import com.example.projektgruptest.config.security.UserWithPracownik;
 import com.example.projektgruptest.model.Pracownik;
-import com.example.projektgruptest.model.PracownikDTO;
+import com.example.projektgruptest.modelDTO.PracownikDTO;
 import com.example.projektgruptest.service.PracownikService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;

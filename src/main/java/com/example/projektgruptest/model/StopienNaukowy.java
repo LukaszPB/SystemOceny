@@ -21,10 +21,4 @@ public class StopienNaukowy {
     //KLUCZE OBCE
     @OneToMany(mappedBy = "stopienNaukowy")
     Set<Pracownik> pracownikSet;
-
-    @Override
-    public String toString() {
-        return "Stopień Naukowy id " + idStopniaNaukowego + ":\n" +
-                "   " + nazwa + "\n";
-    }
 }
