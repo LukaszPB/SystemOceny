@@ -12,4 +12,5 @@ public class LoginResponseDTO {
     private String rola;
     private String token;
     private PracownikDTO pracownik;
+    private boolean czyMaPodwladnych;
 }
