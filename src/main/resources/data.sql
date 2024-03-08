@@ -243,17 +243,13 @@ VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),1,'pozy
 INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id_oceny,pracownik_id_pracownika,nazwa)
 VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),51,'pozytywna z wyróżnieniem');
 
--- INSERT INTO "oceny" (ilosc_punktow,data,id_oceny,wniosek_id_wniosku,nazwa)
--- VALUES (400,'2023-10-25 21:32:00',nextval('oceny_seq'),101,'pozytywna');
-
 INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id_oceny,pracownik_id_pracownika,nazwa)
 VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),101,'negatywna');
 
 INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id_oceny,pracownik_id_pracownika,nazwa)
 VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),151,'pozytywna');
 
--- INSERT INTO "oceny" (ilosc_punktow,data,id_oceny,id_pracownika,nazwa,id_Oceny)
--- VALUES (400,'2023-10-25 21:32:00',nextval('oceny_seq'),251,'pozytywna z wyróżnieniem',4);
+
 
 
 -- UZYTKOWNIK
