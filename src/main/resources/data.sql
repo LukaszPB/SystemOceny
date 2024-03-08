@@ -144,20 +144,20 @@ SELECT 160, 160, nextval('pod_kategorie_seq'), 'Uzyskanie tytułu profesora',
 
 INSERT INTO "pod_kategorie" (max_punktow,min_punktow,id_pod_kategorii,nazwa,grupa_id)
 SELECT 120,120,nextval('pod_kategorie_seq'),'Uzyskanie stopnia doktora habilitowanego',
-    (SELECT id FROM "grupa" WHERE nazwa = 'grupa ZWYKLYPRACOWNIK');
+    (SELECT id FROM "grupa" WHERE nazwa = 'Grupa ZWYKLYPRACOWNIK');
 
 INSERT INTO "pod_kategorie" (max_punktow,min_punktow,id_pod_kategorii,nazwa,grupa_id)
 SELECT 60,60,nextval('pod_kategorie_seq'),'Uzyskanie stopnia doktora',
-    (SELECT id FROM "grupa" WHERE nazwa = 'grupa ZWYKLYPRACOWNIK');
+    (SELECT id FROM "grupa" WHERE nazwa = 'Grupa ZWYKLYPRACOWNIK');
 
 INSERT INTO "pod_kategorie" (max_punktow,min_punktow,id_pod_kategorii,nazwa,grupa_id)
 SELECT 30,10,nextval('pod_kategorie_seq'),'Publikacje naukowe',
-    (SELECT id FROM "grupa" WHERE nazwa = 'grupa ZWYKLYPRACOWNIK');
+    (SELECT id FROM "grupa" WHERE nazwa = 'Grupa ZWYKLYPRACOWNIK');
 
 INSERT INTO "pod_kategorie" (max_punktow,min_punktow,id_pod_kategorii,nazwa,grupa_id)
 SELECT 20,10,nextval('pod_kategorie_seq'),'Patenty na wynalazki, prawa ochronne na wzory użytkowe i wyłączne prawa
 hodowców do odmian roślin',
-    (SELECT id FROM "grupa" WHERE nazwa = 'grupa ZWYKLYPRACOWNIK');
+    (SELECT id FROM "grupa" WHERE nazwa = 'Grupa ZWYKLYPRACOWNIK');
 -----
 
 
