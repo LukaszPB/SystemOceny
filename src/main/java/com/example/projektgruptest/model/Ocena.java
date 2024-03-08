@@ -16,7 +16,7 @@ public class Ocena {
     @PrimaryKeyJoinColumn
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long idOceny;
+    private Long id;
     @Column(name = "nazwa")
     private String nazwa;
 

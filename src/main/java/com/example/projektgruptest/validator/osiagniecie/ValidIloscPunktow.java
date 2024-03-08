@@ -1,4 +1,4 @@
-package com.example.projektgruptest.validator;
+package com.example.projektgruptest.validator.osiagniecie;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

@@ -62,17 +62,17 @@ public class UzytkownikController {
                 .map(GrantedAuthority::getAuthority)
                 .anyMatch(role -> role.equals(rolaService.getRola(1).getNazwa()))) {
             System.out.println("ADMIN");
-            if(rolaService.getRola(u.getNazwaRoli())!=null)
+            if(rolaService.getRola(u.getRola())!=null)
             {
-                uzytkownik.setRola(rolaService.getRola(u.getNazwaRoli()));
+                uzytkownik.setRola(rolaService.getRola(u.getRola()));
             }
             uzytkownikService.addUzytkownik(uzytkownik);
         }
         if(user.getPracownik()!=null)
         {
             System.out.println("WSZEDLEM");
-            System.out.println(user.getPracownik().getIdPracownika());
-            if(uzytkownikService.getUzytkownik(id).getPracownik().getIdPracownika() == user.getPracownik().getIdPracownika())
+            System.out.println(user.getPracownik().getId());
+            if(uzytkownikService.getUzytkownik(id).getPracownik().getId() == user.getPracownik().getId())
             {
                 System.out.println("WSZEDLEM v2");
                 uzytkownik.setLogin(u.getLogin());

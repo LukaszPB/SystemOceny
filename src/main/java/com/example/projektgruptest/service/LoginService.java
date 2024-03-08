@@ -20,15 +20,15 @@ public class LoginService {
 
         if(user.getPracownik() != null) {
             pracownikDto = PracownikDTO.builder()
-                    .idPracownika(user.getPracownik().getIdPracownika())
+                    .id(user.getPracownik().getId())
                     .imie(user.getPracownik().getImie())
                     .nazwisko(user.getPracownik().getNazwisko())
-                    .emailSluzbowy(user.getPracownik().getEmailSluzbowy())
+                    .email(user.getPracownik().getEmail())
                     .grupa(user.getPracownik().getGrupa().getNazwa())
-                    .stanowiskoNazwa(user.getPracownik().getPracownikStanowisko().getNazwa())
-                    .stopienNaukowyNazwa(user.getPracownik().getStopienNaukowy().getNazwa())
+                    .stanowisko(user.getPracownik().getPracownikStanowisko().getNazwa())
+                    .stopienNaukowy(user.getPracownik().getStopienNaukowy().getNazwa())
                     .build();
-            czyMaPodwladnych = pracownikService.getPracownicyPrzelozonego(pracownikDto.getIdPracownika()).size()>0;
+            czyMaPodwladnych = pracownikService.getPracownicyPrzelozonego(pracownikDto.getId()).size()>0;
         }
 
         var dto = LoginResponseDTO.builder()

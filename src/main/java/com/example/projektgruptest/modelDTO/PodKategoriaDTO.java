@@ -1,6 +1,6 @@
 package com.example.projektgruptest.modelDTO;
 
-import com.example.projektgruptest.validator.ValidIloscPunktow;
+import com.example.projektgruptest.validator.osiagniecie.ValidIloscPunktow;
 import lombok.*;
 
 @Getter

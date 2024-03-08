@@ -11,15 +11,12 @@ import lombok.*;
 @AllArgsConstructor
 public class PracownikDTO {
     @NotEmpty
-    private Long idPracownika;
+    private Long id;
     private String imie;
     private String nazwisko;
-    private String emailSluzbowy;
-    private String stopienNaukowyNazwa;
-    private String stanowiskoNazwa;
+    private String email;
+    private String stopienNaukowy;
+    private String stanowisko;
     @NotBlank
     private String grupa;
-    //Lista osiagniec pracownika oraz jego ocen
-    private Long[] osiagniecieSet;
-    private Long[] ocenaSet;
 }

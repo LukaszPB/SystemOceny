@@ -14,7 +14,7 @@ public class StopienNaukowy {
     @PrimaryKeyJoinColumn
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long idStopniaNaukowego;
+    private Long id;
     @Column(name = "nazwa")
     private String nazwa;
 

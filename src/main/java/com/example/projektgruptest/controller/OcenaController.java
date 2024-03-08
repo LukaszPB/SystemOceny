@@ -21,9 +21,9 @@ public class OcenaController {
     @GetMapping("/oceny")
     public List<OcenaDTO> getOceny(@AuthenticationPrincipal UserWithPracownik user){
         List<OcenaDTO> list = new ArrayList<>();
-        for(Ocena o: ocenaService.getOcenyPracownika(user.getPracownik().getIdPracownika())){
+        for(Ocena o: ocenaService.getOcenyPracownika(user.getPracownik().getId())){
             list.add(OcenaDTO.builder()
-                    .idOceny(o.getIdOceny())
+                    .id(o.getId())
                     .nazwa(o.getNazwa())
                     .dataPoczatkowa(o.getDataPoczatkowa())
                     .dataKoncowa(o.getDataKoncowa())
@@ -44,7 +44,7 @@ public class OcenaController {
     @PutMapping("/ocena/{id}")
     public void edytujOcene(@PathVariable Long id, @RequestBody OcenaDTO o, @AuthenticationPrincipal UserWithPracownik user) {
         Ocena ocena = ocenaService.getOcena(id);
-        for(Ocena oc : ocenaService.getOcenyPracownika(user.getPracownik().getIdPracownika())){
+        for(Ocena oc : ocenaService.getOcenyPracownika(user.getPracownik().getId())){
             if(oc == ocena){
                 ocena.setNazwa(o.getNazwa());
                 ocenaService.addOcena(ocena);
@@ -56,7 +56,7 @@ public class OcenaController {
     @DeleteMapping("/ocena/{id}")
     public void usunOcene(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
         Ocena ocena = ocenaService.getOcena(id);
-       for (Ocena o: ocenaService.getOcenyPracownika(user.getPracownik().getIdPracownika())){
+       for (Ocena o: ocenaService.getOcenyPracownika(user.getPracownik().getId())){
            if(o == ocena){
                ocenaService.deleteOcena((ocena));
                break;

@@ -2,53 +2,53 @@
 -- DROP TABLE grupa,kryteria_oceny,oceny,osiagniecia,pod_kategorie,pracownicy,pracownik_stanowiska,role,stopnie_naukowe,uzytkownik;
 
 -- ROLE
-INSERT INTO "role" (id_roli, nazwa) VALUES (nextval('role_seq'), 'ADMIN');
-INSERT INTO "role" (id_roli, nazwa) VALUES (nextval('role_seq'), 'KOMISJA');
-INSERT INTO "role" (id_roli, nazwa) VALUES (nextval('role_seq'), 'PRACOWNIK');
+INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'ADMIN');
+INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'KOMISJA');
+INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'PRACOWNIK');
 
 
 
 
 --GRUPA
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'Grupa ZWYKLYPRACOWNIK');
+VALUES (nextval('grupa_seq'), 'ZWYKLYPRACOWNIK');
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'Grupa DN');
+VALUES (nextval('grupa_seq'), 'DN');
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'Grupa OIN');
+VALUES (nextval('grupa_seq'), 'OIN');
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'Grupa OWI');
+VALUES (nextval('grupa_seq'), 'OWI');
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'Grupa BRPM');
+VALUES (nextval('grupa_seq'), 'BRPM');
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'Grupa BWM');
+VALUES (nextval('grupa_seq'), 'BWM');
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'Grupa DJK');
+VALUES (nextval('grupa_seq'), 'DJK');
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'Grupa WYDZIALY');  --ROZPISAĆ NA POSZCZEGÓLNE WYDZIAŁY
+VALUES (nextval('grupa_seq'), 'WYDZIALY');  --ROZPISAĆ NA POSZCZEGÓLNE WYDZIAŁY
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'Grupa JEDN.OGOLNOUCZ.');
+VALUES (nextval('grupa_seq'), 'JEDN.OGOLNOUCZ.');
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'Grupa DSP');
+VALUES (nextval('grupa_seq'), 'DSP');
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'Grupa SJO');
+VALUES (nextval('grupa_seq'), 'SJO');
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'Grupa CSSDiR');
+VALUES (nextval('grupa_seq'), 'CSSDiR');
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'Grupa DJK');
+VALUES (nextval('grupa_seq'), 'DJK');
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'Grupa BON');
+VALUES (nextval('grupa_seq'), 'BON');
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'Grupa SWFiS');
+VALUES (nextval('grupa_seq'), 'SWFiS');
 
 -- STOPIEŃ NAUKOWY
-INSERT INTO "stopnie_naukowe" (id_stopnia_naukowego, nazwa)
+INSERT INTO "stopnie_naukowe" (id, nazwa)
 VALUES (nextval('stopnie_naukowe_seq'), 'MAGISTER');
-INSERT INTO "stopnie_naukowe" (id_stopnia_naukowego, nazwa)
+INSERT INTO "stopnie_naukowe" (id, nazwa)
 VALUES (nextval('stopnie_naukowe_seq'), 'DOKTOR');
-INSERT INTO "stopnie_naukowe" (id_stopnia_naukowego, nazwa)
+INSERT INTO "stopnie_naukowe" (id, nazwa)
 VALUES (nextval('stopnie_naukowe_seq'), 'DOKTOR HABILITOWANY');
-INSERT INTO "stopnie_naukowe" (id_stopnia_naukowego, nazwa)
+INSERT INTO "stopnie_naukowe" (id, nazwa)
 VALUES (nextval('stopnie_naukowe_seq'), 'PROFESOR');
 
 -- KRYTERIA OCENY
@@ -89,147 +89,147 @@ INSERT INTO "kryteria_oceny" (czy_na_stanowisku_kierowniczym, czy_posiada_stopie
 VALUES (false, false, 200, 0, 80, 0, nextval('kryteria_oceny_seq'), 1);
 
 -- STANOWISKA
-INSERT INTO "pracownik_stanowiska" (id_stanowiska, nazwa)
+INSERT INTO "pracownik_stanowiska" (id, nazwa)
 VALUES (nextval('pracownik_stanowiska_seq'), 'DZIEKAN');
-INSERT INTO "pracownik_stanowiska" (id_stanowiska, nazwa)
+INSERT INTO "pracownik_stanowiska" (id, nazwa)
 VALUES (nextval('pracownik_stanowiska_seq'), 'PRODZIEKAN');
-INSERT INTO "pracownik_stanowiska" (id_stanowiska, nazwa)
+INSERT INTO "pracownik_stanowiska" (id, nazwa)
 VALUES (nextval('pracownik_stanowiska_seq'), 'WYKŁADOWCA');
-INSERT INTO "pracownik_stanowiska" (id_stanowiska, nazwa)
+INSERT INTO "pracownik_stanowiska" (id, nazwa)
 VALUES (nextval('pracownik_stanowiska_seq'), 'PRACOWNIK ADMINISTRACYJNY');
-INSERT INTO "pracownik_stanowiska" (id_stanowiska, nazwa)
+INSERT INTO "pracownik_stanowiska" (id, nazwa)
 VALUES (nextval('pracownik_stanowiska_seq'), 'BIBLJOTEKARZ');
-INSERT INTO "pracownik_stanowiska" (id_stanowiska, nazwa)
+INSERT INTO "pracownik_stanowiska" (id, nazwa)
 VALUES (nextval('pracownik_stanowiska_seq'), 'ADIUNKT');
-INSERT INTO "pracownik_stanowiska" (id_stanowiska, nazwa)
+INSERT INTO "pracownik_stanowiska" (id, nazwa)
 VALUES (nextval('pracownik_stanowiska_seq'), 'KIEROWNIK BADAŃ');
 
 -- PRACOWNIK
-INSERT INTO "pracownicy" (id_pracownika,grupa_id, pracownik_stanowisko_id_stanowiska,stopien_naukowy_id_stopnia_naukowego, email, imie, nazwisko)
+INSERT INTO "pracownicy" (id,grupa_id, pracownik_stanowisko_id,stopien_naukowy_id, email, imie, nazwisko)
 SELECT nextval('pracownicy_seq'),
-       (SELECT id FROM "grupa" WHERE nazwa = 'Grupa ZWYKLYPRACOWNIK'),
-       (SELECT id_stanowiska FROM "pracownik_stanowiska" WHERE nazwa = 'DZIEKAN'),
-       (SELECT id_stopnia_naukowego FROM "stopnie_naukowe" WHERE nazwa = 'PROFESOR'),
+       (SELECT id FROM "grupa" WHERE nazwa = 'WYDZIALY'),
+       (SELECT id FROM "pracownik_stanowiska" WHERE nazwa = 'DZIEKAN'),
+       (SELECT id FROM "stopnie_naukowe" WHERE nazwa = 'PROFESOR'),
        'zenonWolski@pb.edu.pl', 'ZENON', 'WOLSKI';
 
-INSERT INTO "pracownicy" (id_pracownika,grupa_id, id_przelozony, pracownik_stanowisko_id_stanowiska,stopien_naukowy_id_stopnia_naukowego, email, imie, nazwisko)
+INSERT INTO "pracownicy" (id,grupa_id, przelozony, pracownik_stanowisko_id,stopien_naukowy_id, email, imie, nazwisko)
 SELECT nextval('pracownicy_seq'),
-       (SELECT id FROM "grupa" WHERE nazwa = 'Grupa ZWYKLYPRACOWNIK'),
+       (SELECT id FROM "grupa" WHERE nazwa = 'ZWYKLYPRACOWNIK'),
        1,
-       (SELECT id_stanowiska FROM "pracownik_stanowiska" WHERE nazwa = 'WYKŁADOWCA'),
-       (SELECT id_stopnia_naukowego FROM "stopnie_naukowe" WHERE nazwa = 'DOKTOR'),
+       (SELECT id FROM "pracownik_stanowiska" WHERE nazwa = 'WYKŁADOWCA'),
+       (SELECT id FROM "stopnie_naukowe" WHERE nazwa = 'DOKTOR'),
        'janKowalski@pb.edu.pl', 'JAN', 'KOWALSKI';
 
-INSERT INTO "pracownicy" (id_pracownika,grupa_id, id_przelozony, pracownik_stanowisko_id_stanowiska,stopien_naukowy_id_stopnia_naukowego, email, imie, nazwisko)
+INSERT INTO "pracownicy" (id,grupa_id, przelozony, pracownik_stanowisko_id,stopien_naukowy_id, email, imie, nazwisko)
 SELECT nextval('pracownicy_seq'),
-       (SELECT id FROM "grupa" WHERE nazwa = 'Grupa ZWYKLYPRACOWNIK'),
+       (SELECT id FROM "grupa" WHERE nazwa = 'BRPM'),
        1,
-       (SELECT id_stanowiska FROM "pracownik_stanowiska" WHERE nazwa = 'PRACOWNIK ADMINISTRACYJNY'),
-       (SELECT id_stopnia_naukowego FROM "stopnie_naukowe" WHERE nazwa = 'MAGISTER'),
+       (SELECT id FROM "pracownik_stanowiska" WHERE nazwa = 'PRACOWNIK ADMINISTRACYJNY'),
+       (SELECT id FROM "stopnie_naukowe" WHERE nazwa = 'MAGISTER'),
        'michalWojcicki@pb.edu.pl', 'MICHAŁ', 'WÓJCICKI';
 
-INSERT INTO "pracownicy" (id_pracownika,grupa_id, id_przelozony, pracownik_stanowisko_id_stanowiska, stopien_naukowy_id_stopnia_naukowego, email, imie, nazwisko)
+INSERT INTO "pracownicy" (id,grupa_id, przelozony, pracownik_stanowisko_id, stopien_naukowy_id, email, imie, nazwisko)
 SELECT nextval('pracownicy_seq'),
-       (SELECT id FROM "grupa" WHERE nazwa = 'Grupa ZWYKLYPRACOWNIK'),
+       (SELECT id FROM "grupa" WHERE nazwa = 'ZWYKLYPRACOWNIK'),
        1,
-       (SELECT id_stanowiska FROM "pracownik_stanowiska" WHERE nazwa = 'KIEROWNIK BADAŃ'),
-       (SELECT id_stopnia_naukowego FROM "stopnie_naukowe" WHERE nazwa = 'DOKTOR'),
+       (SELECT id FROM "pracownik_stanowiska" WHERE nazwa = 'KIEROWNIK BADAŃ'),
+       (SELECT id FROM "stopnie_naukowe" WHERE nazwa = 'DOKTOR'),
        'krzysztofAdamczyk@pb.edu.pl', 'KRZYSZTOF', 'ADAMCZYK';
 
 
 --PodKategorie
 INSERT INTO "pod_kategorie" (max_punktow, min_punktow, id_pod_kategorii, nazwa, grupa_id)
 SELECT 160, 160, nextval('pod_kategorie_seq'), 'Uzyskanie tytułu profesora',
-       (SELECT id FROM "grupa" WHERE nazwa = 'Grupa WYDZIALY');
+       (SELECT id FROM "grupa" WHERE nazwa = 'WYDZIALY');
 
 INSERT INTO "pod_kategorie" (max_punktow,min_punktow,id_pod_kategorii,nazwa,grupa_id)
 SELECT 120,120,nextval('pod_kategorie_seq'),'Uzyskanie stopnia doktora habilitowanego',
-    (SELECT id FROM "grupa" WHERE nazwa = 'Grupa ZWYKLYPRACOWNIK');
+    (SELECT id FROM "grupa" WHERE nazwa = 'WYDZIALY');
 
 INSERT INTO "pod_kategorie" (max_punktow,min_punktow,id_pod_kategorii,nazwa,grupa_id)
 SELECT 60,60,nextval('pod_kategorie_seq'),'Uzyskanie stopnia doktora',
-    (SELECT id FROM "grupa" WHERE nazwa = 'Grupa ZWYKLYPRACOWNIK');
+    (SELECT id FROM "grupa" WHERE nazwa = 'BRPM');
 
 INSERT INTO "pod_kategorie" (max_punktow,min_punktow,id_pod_kategorii,nazwa,grupa_id)
 SELECT 30,10,nextval('pod_kategorie_seq'),'Publikacje naukowe',
-    (SELECT id FROM "grupa" WHERE nazwa = 'Grupa ZWYKLYPRACOWNIK');
+    (SELECT id FROM "grupa" WHERE nazwa = 'BRPM');
 
 INSERT INTO "pod_kategorie" (max_punktow,min_punktow,id_pod_kategorii,nazwa,grupa_id)
 SELECT 20,10,nextval('pod_kategorie_seq'),'Patenty na wynalazki, prawa ochronne na wzory użytkowe i wyłączne prawa
 hodowców do odmian roślin',
-    (SELECT id FROM "grupa" WHERE nazwa = 'Grupa ZWYKLYPRACOWNIK');
+    (SELECT id FROM "grupa" WHERE nazwa = 'BRPM');
 -----
 
 
 
 --Osiągniecie
-INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,pracownik_id_pracownika,nazwa)
-VALUES (true,20,'2023-02-01 20:00:00',nextval('osiagniecia_seq'),
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
+VALUES (true,false,20,'2023-02-01 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
         1,'Publikacje naukowe');
 
-INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,pracownik_id_pracownika,nazwa)
-VALUES (true,30,'2023-02-15 20:00:00',nextval('osiagniecia_seq'),
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
+VALUES (true,false,30,'2023-02-15 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
         1,'Publikacje naukowe');
 
-INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,pracownik_id_pracownika,nazwa)
-VALUES (true,15,'2023-06-01 20:00:00',nextval('osiagniecia_seq'),
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
+VALUES (true,false,15,'2023-06-01 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
         1,'Publikacje naukowe');
 
-INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,pracownik_id_pracownika,nazwa)
-VALUES (false,60,'2022-04-01 20:00:00',nextval('osiagniecia_seq'),
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
+VALUES (false,false,60,'2022-04-01 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Uzyskanie stopnia doktora'),
         51,'Uzyskanie stopnia doktora');
 
-INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,pracownik_id_pracownika,nazwa)
-VALUES (true,25,'2022-05-11 20:00:00',nextval('osiagniecia_seq'),
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
+VALUES (true,false,25,'2022-05-11 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
         51,'Publikacje naukowe');
 
-INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,pracownik_id_pracownika,nazwa)
-VALUES (false,60,'2023-02-01 18:00:00',nextval('osiagniecia_seq'),
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
+VALUES (false,false,60,'2023-02-01 18:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Uzyskanie stopnia doktora'),
         101,'Uzyskanie stopnia doktora');
 
-INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,pracownik_id_pracownika,nazwa)
-VALUES (true,10,'2023-01-05 20:00:00',nextval('osiagniecia_seq'),
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
+VALUES (true,false,10,'2023-01-05 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
         101,'Publikacje naukowe');
 
-INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,pracownik_id_pracownika,nazwa)
-VALUES (true,10,'2023-04-04 20:30:00',nextval('osiagniecia_seq'),
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
+VALUES (true,false,10,'2023-04-04 20:30:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
         151,'Publikacje naukowe');
 
-INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,pracownik_id_pracownika,nazwa)
-VALUES (true,30,'2023-04-04 20:45:00',nextval('osiagniecia_seq'),
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
+VALUES (true,false,30,'2023-04-04 20:45:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
         151,'Publikacje naukowe');
 
-INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,pracownik_id_pracownika,nazwa)
-VALUES (true,20,'2023-02-21 20:00:00',nextval('osiagniecia_seq'),
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
+VALUES (true,false,20,'2023-02-21 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
         151,'Publikacje naukowe');
 
-INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,pracownik_id_pracownika,nazwa)
-VALUES (false,10,'2023-07-15 20:00:00',nextval('osiagniecia_seq'),
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
+VALUES (false,false,10,'2023-07-15 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
         151,'Publikacje naukowe');
 
-INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,pracownik_id_pracownika,nazwa)
-VALUES (true,15,'2023-10-11 20:00:00',nextval('osiagniecia_seq'),
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
+VALUES (true,false,15,'2023-10-11 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
         151,'Publikacje naukowe');
 
-INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,pracownik_id_pracownika,nazwa)
-VALUES (true,10,'2022-01-07 20:00:00',nextval('osiagniecia_seq'),
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
+VALUES (true,false,10,'2022-01-07 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
         151,'Publikacje naukowe');
 
-INSERT INTO "osiagniecia" (czy_zatwierdzone,ilosc_punktow,data,id_osiagniecia,pod_kategoria_id_pod_kategorii,pracownik_id_pracownika,nazwa)
-VALUES (true,160,'2022-02-06 20:00:00',nextval('osiagniecia_seq'),
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
+VALUES (true,false,160,'2022-02-06 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Uzyskanie tytułu profesora'),
         1,'Uzyskano tytul profesora');
 
@@ -237,31 +237,31 @@ VALUES (true,160,'2022-02-06 20:00:00',nextval('osiagniecia_seq'),
 
 
 -- Ocena
-INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id_oceny,pracownik_id_pracownika,nazwa)
+INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa)
 VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),1,'pozytywna');
 
-INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id_oceny,pracownik_id_pracownika,nazwa)
+INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa)
 VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),51,'pozytywna z wyróżnieniem');
 
-INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id_oceny,pracownik_id_pracownika,nazwa)
+INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa)
 VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),101,'negatywna');
 
-INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id_oceny,pracownik_id_pracownika,nazwa)
+INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa)
 VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),151,'pozytywna');
 
 
 
 
 -- UZYTKOWNIK
-INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
-SELECT 2137, 'ADMIN', 'ADMIN', id_roli, null FROM "role" WHERE nazwa = 'ADMIN';
-INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
-SELECT 420, 'KOMISJA', 'KOMISJA', id_roli, null FROM "role" WHERE nazwa = 'KOMISJA';
-INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
-SELECT 69, 'PRACOWNIK', 'PRACOWNIK', id_roli, 1 FROM "role" WHERE nazwa = 'PRACOWNIK';
-INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
-SELECT 1000, 'PRACOWNIK1', 'PRACOWNIK', id_roli, 51 FROM "role" WHERE nazwa = 'PRACOWNIK';
-INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
-SELECT 2000, 'PRACOWNIK2', 'PRACOWNIK', id_roli, 101 FROM "role" WHERE nazwa = 'PRACOWNIK';
-INSERT INTO "uzytkownik" (id, login, haslo, rola_id_roli, pracownik_id_pracownika)
-SELECT 3000, 'PRACOWNIK3', 'PRACOWNIK', id_roli, 151 FROM "role" WHERE nazwa = 'PRACOWNIK';
+INSERT INTO "uzytkownik" (id, login, haslo, rola_id, pracownik_id)
+SELECT 2137, 'ADMIN', 'ADMIN', id, null FROM "role" WHERE nazwa = 'ADMIN';
+INSERT INTO "uzytkownik" (id, login, haslo, rola_id, pracownik_id)
+SELECT 420, 'KOMISJA', 'KOMISJA', id, null FROM "role" WHERE nazwa = 'KOMISJA';
+INSERT INTO "uzytkownik" (id, login, haslo, rola_id, pracownik_id)
+SELECT 69, 'PRACOWNIK', 'PRACOWNIK', id, 1 FROM "role" WHERE nazwa = 'PRACOWNIK';
+INSERT INTO "uzytkownik" (id, login, haslo, rola_id, pracownik_id)
+SELECT 1000, 'PRACOWNIK1', 'PRACOWNIK', id, 51 FROM "role" WHERE nazwa = 'PRACOWNIK';
+INSERT INTO "uzytkownik" (id, login, haslo, rola_id, pracownik_id)
+SELECT 2000, 'PRACOWNIK2', 'PRACOWNIK', id, 101 FROM "role" WHERE nazwa = 'PRACOWNIK';
+INSERT INTO "uzytkownik" (id, login, haslo, rola_id, pracownik_id)
+SELECT 3000, 'PRACOWNIK3', 'PRACOWNIK', id, 151 FROM "role" WHERE nazwa = 'PRACOWNIK';

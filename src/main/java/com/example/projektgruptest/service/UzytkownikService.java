@@ -33,8 +33,8 @@ public class UzytkownikService {
                 .id(uzytkownik.getId())
                 .login(uzytkownik.getLogin())
                 .haslo(uzytkownik.getHaslo())
-                .nazwaRoli(uzytkownik.getRola().getNazwa())
-                .idPracownika(uzytkownik.getPracownik().getIdPracownika())
+                .rola(uzytkownik.getRola().getNazwa())
+                .idPracownika(uzytkownik.getPracownik().getId())
                 .imiePracownika(uzytkownik.getPracownik().getImie())
                 .nazwiskoPracownika(uzytkownik.getPracownik().getNazwisko())
                 .build();
@@ -46,19 +46,19 @@ public class UzytkownikService {
                 .id(uzytkownik.getId())
                 .login(uzytkownik.getLogin())
                 .haslo(uzytkownik.getHaslo())
-                .nazwaRoli(uzytkownik.getRola().getNazwa())
+                .rola(uzytkownik.getRola().getNazwa())
                 .build();
         return uzytkownikDTO;
     }
     public Uzytkownik addUzytkownik(UzytkownikDTO uzytkownikDTO) //listowanie uzytkownikow
     {
         Uzytkownik uzytkownik = null;
-        if(uzytkownikDTO.getNazwaRoli().equals("ADMIN") || uzytkownikDTO.getNazwaRoli().equals("KOMISJA") )
+        if(uzytkownikDTO.getRola().equals("ADMIN") || uzytkownikDTO.getRola().equals("KOMISJA") )
         {
              uzytkownik = Uzytkownik.builder()
                     .login(uzytkownikDTO.getLogin())
                     .haslo(uzytkownikDTO.getHaslo())
-                    .rola(rolaRepo.findByNazwa(uzytkownikDTO.getNazwaRoli()))
+                    .rola(rolaRepo.findByNazwa(uzytkownikDTO.getRola()))
                     .pracownik(null)
                     .build();
         }
@@ -73,7 +73,7 @@ public class UzytkownikService {
             uzytkownik = Uzytkownik.builder()
                     .login(uzytkownikDTO.getLogin())
                     .haslo(uzytkownikDTO.getHaslo())
-                    .rola(rolaRepo.findByNazwa(uzytkownikDTO.getNazwaRoli()))
+                    .rola(rolaRepo.findByNazwa(uzytkownikDTO.getRola()))
                     .pracownik(pracownik)
                     .build();
         }

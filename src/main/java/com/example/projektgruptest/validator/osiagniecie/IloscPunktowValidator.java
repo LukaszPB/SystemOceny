@@ -1,4 +1,4 @@
-package com.example.projektgruptest.validator;
+package com.example.projektgruptest.validator.osiagniecie;
 
 import com.example.projektgruptest.model.PodKategoria;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
@@ -27,7 +27,6 @@ public class IloscPunktowValidator implements ConstraintValidator<ValidIloscPunk
         int max = podkategoria.getMaxPunktow();
 
         int iloscPunktow = osiagniecieDTO.getIloscPunktow();
-        System.out.println(iloscPunktow + " " + min + " "  + max);
         return iloscPunktow >= min && iloscPunktow <= max;
     }
 }

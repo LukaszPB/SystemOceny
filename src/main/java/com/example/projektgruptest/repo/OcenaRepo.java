@@ -5,8 +5,6 @@ import com.example.projektgruptest.model.Pracownik;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface OcenaRepo extends JpaRepository<Ocena,Long> {
 //    @Modifying
@@ -15,6 +13,6 @@ public interface OcenaRepo extends JpaRepository<Ocena,Long> {
 //    void deleteOcenaByPracownikId(@Param("pracownikId") Long pracownikId);
     //List<Ocena> findByWniosekPracownikIdPracownika(long pracownikId);
 
-    Pracownik findByPracownik_IdPracownika(long idPracownika);
+    Pracownik findByPracownik_Id(long idPracownika);
 
 }

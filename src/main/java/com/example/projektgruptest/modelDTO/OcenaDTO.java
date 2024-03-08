@@ -1,7 +1,5 @@
 package com.example.projektgruptest.modelDTO;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
@@ -15,7 +13,7 @@ import java.util.Date;
 public class OcenaDTO {
 
     @NotEmpty
-    private long idOceny;
+    private long id;
 
     private String nazwa;
 

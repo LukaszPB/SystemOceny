@@ -8,14 +8,14 @@ import java.util.List;
 
 @Repository
 public interface PracownikRepo extends JpaRepository<Pracownik,Long> {
-    List<Pracownik> findByPracownikStanowisko_IdStanowiska(long pracownikStanowiskoId);
-    List<Pracownik> findByStopienNaukowy_IdStopniaNaukowego(long stopienNaukowyId);
-    List<Pracownik> findByPrzelozonyIdPracownika(long id);
-    List<Pracownik> findByOcenaSet_IdOceny(long idOceny);
+    List<Pracownik> findByPracownikStanowisko_Id(long pracownikStanowiskoId);
+    List<Pracownik> findByStopienNaukowy_Id(long stopienNaukowyId);
+    List<Pracownik> findByPrzelozonyId(long id);
+    List<Pracownik> findByOcenaSet_Id(long idOceny);
 
     //List<Pracownik> findByOcenaSet_IdPracownika(long idPracownika);
 
-    List<Pracownik> findByOsiagniecieSet_IdOsiagniecia(long idOsiagniecia);
+    List<Pracownik> findByOsiagniecieSet_Id(long id);
 
 
 }
