@@ -27,7 +27,7 @@ public class KryteriaOcenyService {
         for(KryteriaOcenyDTO kryteriaOceny : getKryteriaOceny()) {
             if(kryteriaOceny.isCzyNaStanowiskuKierowniczym() == czKierownik &&
                 kryteriaOceny.isCzyPosiadaStopienNaukowy() == czyMaTytulNaukowy&&
-                Objects.equals(kryteriaOceny.getRodzajDzialalnosciNazwa(), pracownik.getRodzajDzialalnosci().getNazwa())) {
+                Objects.equals(kryteriaOceny.getGrupa(), pracownik.getGrupa().getNazwa())) { //TODO:PODEJZANE DZIALANIE
                 return  kryteriaOceny;
             }
         }
@@ -44,7 +44,7 @@ public class KryteriaOcenyService {
         return KryteriaOcenyDTO.builder()
                 .progPozytywnejOcenyDO(kryteriaOceny.getProgPozytywnejOcenyDO())
                 .progPozytywnejOcenyNB(kryteriaOceny.getProgPozytywnejOcenyNB())
-                .rodzajDzialalnosciNazwa(kryteriaOceny.getRodzajDzialalnosci().getNazwa())
+                .grupa(kryteriaOceny.getGrupa().getNazwa())
                 .IdKryterium(kryteriaOceny.getIdKryterium())
                 .progOcenyZWyroznieniemDO(kryteriaOceny.getProgOcenyZWyroznieniemDO())
                 .progOcenyZWyroznieniemNB(kryteriaOceny.getProgOcenyZWyroznieniemNB())

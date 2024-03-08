@@ -24,7 +24,7 @@ public class LoginService {
                     .imie(user.getPracownik().getImie())
                     .nazwisko(user.getPracownik().getNazwisko())
                     .emailSluzbowy(user.getPracownik().getEmailSluzbowy())
-                    .rodzajDzialalnosciNazwa(user.getPracownik().getRodzajDzialalnosci().getNazwa())
+                    .grupa(user.getPracownik().getGrupa().getNazwa())
                     .stanowiskoNazwa(user.getPracownik().getPracownikStanowisko().getNazwa())
                     .stopienNaukowyNazwa(user.getPracownik().getStopienNaukowy().getNazwa())
                     .build();

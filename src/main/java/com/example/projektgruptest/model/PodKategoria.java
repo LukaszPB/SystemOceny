@@ -24,8 +24,9 @@ public class PodKategoria {
 
     //KLUCZE OBCE
     @ManyToOne
-    KategoriaOsiagniec kategoriaOsiagniec;
+    Grupa grupa;
 
     @OneToMany(mappedBy = "podKategoria", cascade = CascadeType.REMOVE)
     Set<Osiagniecie> osiagniecieSet;
+
 }

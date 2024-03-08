@@ -4,7 +4,6 @@ import com.example.projektgruptest.config.security.UserWithPracownik;
 import com.example.projektgruptest.model.Ocena;
 import com.example.projektgruptest.modelDTO.OcenaDTO;
 import com.example.projektgruptest.service.OcenaService;
-import com.example.projektgruptest.service.WniosekService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OcenaController {
     private final OcenaService ocenaService;
-    private final WniosekService wniosekService;
+    //private final WniosekService wniosekService;
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/oceny")
     public List<OcenaDTO> getOceny(@AuthenticationPrincipal UserWithPracownik user){
@@ -26,8 +25,8 @@ public class OcenaController {
             list.add(OcenaDTO.builder()
                     .idOceny(o.getIdOceny())
                     .nazwa(o.getNazwa())
-                    .iloscPunktow(o.getIloscPunktow())
-                    .data(o.getData())
+                    .dataPoczatkowa(o.getDataPoczatkowa())
+                    .dataKoncowa(o.getDataKoncowa())
                     .build());
         }
         return list;
@@ -38,9 +37,6 @@ public class OcenaController {
     {
         Ocena ocena = Ocena.builder()
                 .nazwa(ocenaDTO.getNazwa())
-                .iloscPunktow(ocenaDTO.getIloscPunktow())
-                .data(ocenaDTO.getData())
-                .wniosek(wniosekService.getWniosek(ocenaDTO.getIdWniosku()))
                 .build();
         ocenaService.addOcena(ocena);
     }
@@ -51,8 +47,6 @@ public class OcenaController {
         for(Ocena oc : ocenaService.getOcenyPracownika(user.getPracownik().getIdPracownika())){
             if(oc == ocena){
                 ocena.setNazwa(o.getNazwa());
-                ocena.setIloscPunktow(o.getIloscPunktow());
-                ocena.setData(o.getData());
                 ocenaService.addOcena(ocena);
                 break;
             }

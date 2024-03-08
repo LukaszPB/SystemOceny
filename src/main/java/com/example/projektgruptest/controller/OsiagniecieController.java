@@ -6,7 +6,6 @@ import com.example.projektgruptest.exception.ValidationFailedException;
 import com.example.projektgruptest.model.Osiagniecie;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
 import com.example.projektgruptest.service.OsiagniecieService;
-import com.example.projektgruptest.service.WniosekService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OsiagniecieController {
     private final OsiagniecieService osiagniecieService;
-    private  final WniosekService wniosekService;
+    //private  final WniosekService wniosekService;
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/osiagniecia")
     public List<OsiagniecieDTO> getOsiagniecia(@AuthenticationPrincipal UserWithPracownik user) {
@@ -38,15 +37,9 @@ public class OsiagniecieController {
         return osiagniecieService.convertListToDTO(osiagnieciaPodwladnychList);
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/osiagnieciaZWniosku/{id}")
-    public List<OsiagniecieDTO> getOsiagnieciaZWniosku(@PathVariable long id, @AuthenticationPrincipal UserWithPracownik user) {
-        if(wniosekService.canUserAccessThisWniosek(user.getPracownik().getIdPracownika(),id)) {
-            List<Osiagniecie> osiagnieciaZWnioskuList = osiagniecieService.getOsiagnieciaZWniosku(id);
-            return osiagniecieService.convertListToDTO(osiagnieciaZWnioskuList);
-        }
-        else {
-            throw new PermissionDeniedException("You don't have permission to modify this wniosek");
-        }
+    @GetMapping("/osiagnieciaZOceny/{id}")
+    public List<OsiagniecieDTO> getOsiagnieciaZOceny(@PathVariable long id, @AuthenticationPrincipal UserWithPracownik user) {
+        return osiagniecieService.podajListeOsiagniecUzytkownikaZOceny(id,user.getPracownik().getIdPracownika());
     }
     @SecurityRequirement(name = "JWT Authentication")
     @PostMapping("/osiagniecie")

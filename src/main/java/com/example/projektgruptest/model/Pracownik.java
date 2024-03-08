@@ -29,11 +29,16 @@ public class Pracownik {
     @ManyToOne
     @JoinColumn(name = "idPrzelozony", nullable = true)
     private Pracownik przelozony;
+
+    //Nowe dodane połaczenia
     @ManyToOne
-    private RodzajDzialalnosci rodzajDzialalnosci;
+    private Grupa grupa;
+
+    @OneToMany(mappedBy = "pracownik" , cascade = CascadeType.REMOVE)
+    private Set<Osiagniecie> osiagniecieSet;
 
     @OneToMany(mappedBy = "pracownik", cascade = CascadeType.REMOVE)
-    private Set<Wniosek> wniosek;
+    private Set<Ocena> ocenaSet;
 
     @ManyToOne
     private PracownikStanowisko pracownikStanowisko;

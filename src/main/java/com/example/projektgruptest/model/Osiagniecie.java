@@ -29,5 +29,5 @@ public class Osiagniecie {
     @ManyToOne
     PodKategoria podKategoria;
     @ManyToOne
-    Wniosek wniosek;
+    Pracownik pracownik;
 }

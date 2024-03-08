@@ -19,12 +19,13 @@ public class Ocena {
     private Long idOceny;
     @Column(name = "nazwa")
     private String nazwa;
-    @Column(name = "iloscPunktow")
-    private Integer iloscPunktow;
-    @Column(name = "data")
-    private Date data;
+
+    @Column(name = "dataPoczatkowa")
+    private Date dataPoczatkowa;
+    @Column(name = "dataKoncowa")
+    private Date dataKoncowa;
 
     //KLUCZE OBCE
-    @OneToOne
-    Wniosek wniosek;
+    @ManyToOne
+    Pracownik pracownik;
 }

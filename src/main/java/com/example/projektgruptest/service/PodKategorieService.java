@@ -21,9 +21,9 @@ public class PodKategorieService {
     public PodKategoria getPodkategoria(String nazwa) {
         return podKategoriaRepo.findByNazwa(nazwa);
     }
-    public List<PodKategoria> getPodKategorieKategori(long id) {
-        return podKategoriaRepo.findByKategoriaOsiagniecIdKategoriaOsiagniec(id);
-    }
+//    public List<PodKategoria> getPodKategorieKategori(long id) {
+//        return podKategoriaRepo.findByKategoriaOsiagniecIdKategoriaOsiagniec(id);
+//    }
     public void addPodkategoria(PodKategoria podKategoria) {
         podKategoriaRepo.save(podKategoria);
     }

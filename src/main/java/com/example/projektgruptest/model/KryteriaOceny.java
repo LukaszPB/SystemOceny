@@ -28,6 +28,6 @@ public class KryteriaOceny {
 
     //KLUCZE OBCE
     @ManyToOne
-    RodzajDzialalnosci rodzajDzialalnosci;
+    Grupa grupa;
 
 }
