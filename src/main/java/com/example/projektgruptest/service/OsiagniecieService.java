@@ -43,13 +43,8 @@ public class OsiagniecieService {
 
         return resultList;
     }
-//    public List<Osiagniecie> getOsiagnieciaZWniosku(long idWniosku) {
-//        return osiagniecieRepo.findByWniosekIdWniosku(idWniosku);
-//    }
-//    public List<Osiagniecie> getOsiagnieciaZOceny(long idOceny){
-//        pracownikService.getPracownikOceny();
-//        return osiagniecieRepo.findByPracownikIdPracownika(idOceny);
-//    }
+
+
     public void addOsiagniecie(OsiagniecieDTO osiagniecieDTO) {
         Osiagniecie osiagniecie = buildOsiagniecie(osiagniecieDTO);
         osiagniecieRepo.save(osiagniecie);
