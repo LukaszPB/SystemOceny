@@ -13,7 +13,5 @@ public class UzytkownikDTO {
     private String login;
     private String haslo;
     private String rola;
-    private long idPracownika;
-    private String imiePracownika;
-    private String nazwiskoPracownika;
+    private Long idPracownika;
 }

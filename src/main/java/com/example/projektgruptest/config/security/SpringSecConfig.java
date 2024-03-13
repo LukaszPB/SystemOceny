@@ -26,10 +26,9 @@ public class SpringSecConfig {
                     customizer
                             .requestMatchers("/login").permitAll()
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                            .requestMatchers("/pracownik_getAll").hasAuthority("ADMIN")
-                            .requestMatchers("/pracownik_add").hasAuthority("ADMIN")
-                            .requestMatchers("/pracownik_edit/{id}").hasAuthority("ADMIN")
-                            .requestMatchers("//pracownik_delete/{id}").hasAuthority("ADMIN")
+                            .requestMatchers("/pracownikDodaj").hasAuthority("ADMIN")
+                            .requestMatchers("/uzytkownicy").hasAuthority("ADMIN")
+                            .requestMatchers("/pracownikEdytuj/{id}").hasAuthority("ADMIN")
                             .requestMatchers("/Wnioski").hasAuthority("PRACOWNIK")
                             .requestMatchers("/Wniosek").hasAuthority("ADMIN")
                             .requestMatchers("/Wniosek/{id}").hasAuthority("ADMIN")
