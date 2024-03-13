@@ -28,10 +28,13 @@ public class SpringSecConfig {
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                             .requestMatchers("/pracownikDodaj").hasAuthority("ADMIN")
                             .requestMatchers("/uzytkownicy").hasAuthority("ADMIN")
+                            .requestMatchers("/uzytkownikEdytuj/{id}").hasAuthority("ADMIN")
+                            .requestMatchers("/uzytkownikUsun/{id}").hasAuthority("ADMIN")
                             .requestMatchers("/pracownikEdytuj/{id}").hasAuthority("ADMIN")
                             .requestMatchers("/Wnioski").hasAuthority("PRACOWNIK")
                             .requestMatchers("/Wniosek").hasAuthority("ADMIN")
                             .requestMatchers("/Wniosek/{id}").hasAuthority("ADMIN")
+
                             .anyRequest().authenticated();
                 })
                 .sessionManagement(customizer -> {
