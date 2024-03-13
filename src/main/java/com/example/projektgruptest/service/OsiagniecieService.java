@@ -1,12 +1,12 @@
 package com.example.projektgruptest.service;
 
-import com.example.projektgruptest.exception.PermissionDeniedException;
 import com.example.projektgruptest.exception.ResourceNotFoundException;
 import com.example.projektgruptest.model.Grupa;
 import com.example.projektgruptest.model.Osiagniecie;
 import com.example.projektgruptest.model.Pracownik;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
 import com.example.projektgruptest.repo.OsiagniecieRepo;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,6 @@ public class OsiagniecieService {
     private final OsiagniecieRepo osiagniecieRepo;
     private final PracownikService pracownikService;
     private final PodKategorieService podKategorieService;
-    private final OcenaService ocenaService;
     public Osiagniecie getOsiagniecie(long id) {
         return osiagniecieRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -41,14 +40,6 @@ public class OsiagniecieService {
 
         return resultList;
     }
-    public List<Osiagniecie> podajListeOsiagniecUzytkownikaZOceny(long idOceny,long idPracownika){
-        if(ocenaService.canUserAccessThisOcena(idOceny,idPracownika)){
-            return getOsiagnieciaPracownika(idPracownika);
-        }
-        else {
-            throw new PermissionDeniedException("You don't have permission to get this Osiagniacia from Ocena");
-        }
-    }
     public void addOsiagniecie(OsiagniecieDTO osiagniecieDTO) {
         Osiagniecie osiagniecie = buildOsiagniecie(osiagniecieDTO);
         osiagniecieRepo.save(osiagniecie);
@@ -64,19 +55,17 @@ public class OsiagniecieService {
                 .iloscPunktow(osiagniecieDTO.getIloscPunktow())
                 .build();
     }
-    public void editOsiagnieciePracownik(OsiagniecieDTO osiagniecieDTO,long id) {
-        Osiagniecie osiagniecie = getOsiagniecie(id);
+    public void editOsiagniecie(OsiagniecieDTO osiagniecieDTO,long idOceny, long idPracownika) {
+        Osiagniecie osiagniecie = getOsiagniecie(idOceny);
 
         modifyOsiagniecie(osiagniecie, osiagniecieDTO);
-        osiagniecie.setZatwierdzone(false);
 
-        osiagniecieRepo.save(osiagniecie);
-    }
-    public void editOsiagnieciePrzelozony(OsiagniecieDTO osiagniecieDTO,long id) {
-        Osiagniecie osiagniecie = getOsiagniecie(id);
-
-        modifyOsiagniecie(osiagniecie, osiagniecieDTO);
-        osiagniecie.setZatwierdzone(osiagniecieDTO.isZatwierdzone());
+        if(canApproveOsiagniecie(pracownikService.getPracownik(idPracownika),idOceny)) {
+            osiagniecie.setZatwierdzone(osiagniecieDTO.isZatwierdzone());
+        }
+        else {
+            osiagniecie.setZatwierdzone(false);
+        }
 
         osiagniecieRepo.save(osiagniecie);
     }
@@ -95,6 +84,13 @@ public class OsiagniecieService {
     public void deleteOsiagniecie(long id) {
         Osiagniecie osiagniecie = getOsiagniecie(id);
         osiagniecieRepo.delete(osiagniecie);
+    }
+    @Transactional
+    public void zarchiwizujOsiagniecia(List<Osiagniecie> osiagniecieList) {
+        osiagniecieList.forEach(osiagniecie -> {
+            osiagniecie.setZarchiwizowane(true);
+            osiagniecieRepo.save(osiagniecie);
+        });
     }
     public boolean canModifyOsiagniecie(Pracownik pracownik, long idOsagniecia) {
         Osiagniecie osiagniecie = getOsiagniecie(idOsagniecia);

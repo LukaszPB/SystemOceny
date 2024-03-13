@@ -1,6 +1,10 @@
 package com.example.projektgruptest.modelDTO;
 
+import com.example.projektgruptest.validator.EditValidationGrup;
+import com.example.projektgruptest.validator.ValidPracownikExist;
+import com.example.projektgruptest.validator.ocena.ValidDatesOrder;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Date;
@@ -10,19 +14,18 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ValidDatesOrder(groups = EditValidationGrup.class)
 public class OcenaDTO {
-
-    @NotEmpty
     private long id;
-
+    @NotEmpty(groups = EditValidationGrup.class)
     private String nazwa;
-
     private int iloscPunktow;
-    @NotEmpty
+    @NotNull(groups = EditValidationGrup.class)
     private Date dataPoczatkowa;
-    @NotEmpty
+    @NotNull(groups = EditValidationGrup.class)
     private Date dataKoncowa;
-
+    @ValidPracownikExist
+    private Long idPracownika;
     private boolean czyZatwierdzona;
 
 }

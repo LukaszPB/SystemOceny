@@ -3,64 +3,70 @@ package com.example.projektgruptest.controller;
 import com.example.projektgruptest.config.security.UserWithPracownik;
 import com.example.projektgruptest.model.Ocena;
 import com.example.projektgruptest.modelDTO.OcenaDTO;
+import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
 import com.example.projektgruptest.service.OcenaService;
+import com.example.projektgruptest.validator.EditValidationGrup;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class OcenaController {
     private final OcenaService ocenaService;
-    //private final WniosekService wniosekService;
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/oceny")
     public List<OcenaDTO> getOceny(@AuthenticationPrincipal UserWithPracownik user){
-        List<OcenaDTO> list = new ArrayList<>();
-        for(Ocena o: ocenaService.getOcenyPracownika(user.getPracownik().getId())){
-            list.add(OcenaDTO.builder()
-                    .id(o.getId())
-                    .nazwa(o.getNazwa())
-                    .dataPoczatkowa(o.getDataPoczatkowa())
-                    .dataKoncowa(o.getDataKoncowa())
-                    .build());
-        }
-        return list;
+        List<Ocena> listaOcenPracownika = ocenaService.getOcenyPracownika(user.getPracownik().getId());
+        return ocenaService.convertListToDTO(listaOcenPracownika);
+    }
+    @SecurityRequirement(name = "JWT Authentication")
+    @GetMapping("/osiagnieciaZOceny/{id}")
+    public List<OsiagniecieDTO> getOsiagnieciaZOceny(@PathVariable long id, @AuthenticationPrincipal UserWithPracownik user) {
+        return ocenaService.getOsiagnieciaZOcenyUsera(id,user.getPracownik().getId());
     }
     @SecurityRequirement(name = "JWT Authentication")
     @PostMapping("/ocena")
-    public void dodajOcene(@RequestBody OcenaDTO ocenaDTO)
-    {
-        Ocena ocena = Ocena.builder()
-                .nazwa(ocenaDTO.getNazwa())
-                .build();
-        ocenaService.addOcena(ocena);
+    public ResponseEntity<String> dodajOcene(@RequestBody @Valid OcenaDTO ocenaDTO, BindingResult result) {
+        if(result.hasErrors()) {
+            return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
+        }
+        ocenaService.addOcena(ocenaDTO);
+        return ResponseEntity.ok("Sukces");
     }
     @SecurityRequirement(name = "JWT Authentication")
     @PutMapping("/ocena/{id}")
-    public void edytujOcene(@PathVariable Long id, @RequestBody OcenaDTO o, @AuthenticationPrincipal UserWithPracownik user) {
-        Ocena ocena = ocenaService.getOcena(id);
-        for(Ocena oc : ocenaService.getOcenyPracownika(user.getPracownik().getId())){
-            if(oc == ocena){
-                ocena.setNazwa(o.getNazwa());
-                ocenaService.addOcena(ocena);
-                break;
-            }
+    public ResponseEntity<String> edytujOcene(@PathVariable Long id, @RequestBody
+            @Validated(EditValidationGrup.class) OcenaDTO ocenaDTO, BindingResult result) {
+        if(result.hasErrors()) {
+            return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
         }
+        if(ocenaService.czyZatwierdzona(id)) {
+            return ResponseEntity.badRequest().body("Ocena jest już zatwierdzona, nie można jej modyfikować");
+        }
+        ocenaService.editOcena(id,ocenaDTO);
+        return ResponseEntity.ok("Sukces");
+    }
+    @SecurityRequirement(name = "JWT Authentication")
+    @PutMapping("/ocenaZatwierdz/{id}")
+    public ResponseEntity<String> zatwierdzOcene(@PathVariable Long id) {
+        if(ocenaService.czyZatwierdzona(id)) {
+            return ResponseEntity.badRequest().body("Ocena jest już zatwierdzona, nie można jej modyfikować");
+        }
+        ocenaService.zatwierdzOcene(id);
+        return ResponseEntity.ok("Sukces");
     }
     @SecurityRequirement(name = "JWT Authentication")
     @DeleteMapping("/ocena/{id}")
-    public void usunOcene(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
-        Ocena ocena = ocenaService.getOcena(id);
-       for (Ocena o: ocenaService.getOcenyPracownika(user.getPracownik().getId())){
-           if(o == ocena){
-               ocenaService.deleteOcena((ocena));
-               break;
-           }
-       }
+    public ResponseEntity<String> usunOcene(@PathVariable Long id) {
+       ocenaService.deleteOcena(id);
+        return ResponseEntity.ok("Sukces");
     }
 }
