@@ -19,11 +19,12 @@ public class Ocena {
     private Long id;
     @Column(name = "nazwa")
     private String nazwa;
-
     @Column(name = "dataPoczatkowa")
     private Date dataPoczatkowa;
     @Column(name = "dataKoncowa")
     private Date dataKoncowa;
+    @Column(name = "zatwierdzona")
+    private Boolean zatwierdzona;
 
     //KLUCZE OBCE
     @ManyToOne

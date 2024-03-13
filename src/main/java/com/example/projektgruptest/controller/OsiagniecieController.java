@@ -30,18 +30,10 @@ public class OsiagniecieController {
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/osiagnieciaZGrupy/{id}")
     public List<OsiagniecieDTO> getOsiagnieciaZGrupy(@PathVariable long id, @AuthenticationPrincipal UserWithPracownik user) {
-        List<Osiagniecie> osiagnieciaPodwladnychList =
+        List<Osiagniecie> osiagnieciaPracownikaList =
                 osiagniecieService.getOsiagnieciaZGrupy(id,user.getPracownik().getGrupa());
 
-        return osiagniecieService.convertListToDTO(osiagnieciaPodwladnychList);
-    }
-    @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/osiagnieciaZOceny/{id}")
-    public List<OsiagniecieDTO> getOsiagnieciaZOceny(@PathVariable long id, @AuthenticationPrincipal UserWithPracownik user) {
-        List<Osiagniecie> osiagnieciaZOcenyList = osiagniecieService.podajListeOsiagniecUzytkownikaZOceny
-                (id,user.getPracownik().getId());
-
-        return osiagniecieService.convertListToDTO(osiagnieciaZOcenyList);
+        return osiagniecieService.convertListToDTO(osiagnieciaPracownikaList);
     }
     @SecurityRequirement(name = "JWT Authentication")
     @PostMapping("/osiagniecie")
@@ -59,12 +51,8 @@ public class OsiagniecieController {
         if(result.hasErrors()) {
             return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
         }
-        else if(osiagniecieService.canApproveOsiagniecie(user.getPracownik(),id)) {
-            osiagniecieService.editOsiagnieciePrzelozony(osiagniecieDTO,id);
-            return ResponseEntity.ok("Sukces");
-        }
         else if(osiagniecieService.canModifyOsiagniecie(user.getPracownik(),id)) {
-            osiagniecieService.editOsiagnieciePracownik(osiagniecieDTO,id);
+            osiagniecieService.editOsiagniecie(osiagniecieDTO,id,user.getPracownik().getId());
             return ResponseEntity.ok("Sukces");
         }
         else {
@@ -84,7 +72,7 @@ public class OsiagniecieController {
     }
     @SecurityRequirement(name = "JWT Authentication")
     @DeleteMapping("/osiagniecie/{id}")
-    public ResponseEntity<String> usunPracownika(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
+    public ResponseEntity<String> usunOsiagniecie(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
         if(osiagniecieService.canModifyOsiagniecie(user.getPracownik(),id)) {
             osiagniecieService.deleteOsiagniecie(id);
             return ResponseEntity.ok("Sukces");

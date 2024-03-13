@@ -199,6 +199,16 @@ VALUES (true,false,10,'2023-01-05 20:00:00',nextval('osiagniecia_seq'),
         101,'Publikacje naukowe');
 
 INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
+VALUES (true,true,10,'2023-01-05 20:00:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
+        101,'Publikacje naukowe');
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
+VALUES (true,false,10,'2021-01-05 20:00:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
+        101,'Publikacje naukowe');
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
 VALUES (true,false,10,'2023-04-04 20:30:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
         151,'Publikacje naukowe');
@@ -237,17 +247,17 @@ VALUES (true,false,160,'2022-02-06 20:00:00',nextval('osiagniecia_seq'),
 
 
 -- Ocena
-INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa)
-VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),1,'pozytywna');
+INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa,zatwierdzona)
+VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),1,'pozytywna',true);
 
-INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa)
-VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),51,'pozytywna z wyróżnieniem');
+INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa,zatwierdzona)
+VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),51,'pozytywna z wyróżnieniem',false);
 
-INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa)
-VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),101,'negatywna');
+INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa,zatwierdzona)
+VALUES ('2022-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),101,'negatywna',false);
 
-INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa)
-VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),151,'pozytywna');
+INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa,zatwierdzona)
+VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),151,'pozytywna',false);
 
 
 
