@@ -17,23 +17,28 @@ public class Pracownik {
     @PrimaryKeyJoinColumn
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long idPracownika;
+    private Long id;
     @Column(name = "imie")
     private String imie;
     @Column(name = "nazwisko")
     private String nazwisko;
     @Column(name = "Email")
-    private String emailSluzbowy;
+    private String email;
 
     //KLUCZE OBCE
     @ManyToOne
-    @JoinColumn(name = "idPrzelozony", nullable = true)
+    @JoinColumn(name = "Przelozony", nullable = true)
     private Pracownik przelozony;
+
+    //Nowe dodane połaczenia
     @ManyToOne
-    private RodzajDzialalnosci rodzajDzialalnosci;
+    private Grupa grupa;
+
+    @OneToMany(mappedBy = "pracownik" , cascade = CascadeType.REMOVE)
+    private Set<Osiagniecie> osiagniecieSet;
 
     @OneToMany(mappedBy = "pracownik", cascade = CascadeType.REMOVE)
-    private Set<Wniosek> wniosek;
+    private Set<Ocena> ocenaSet;
 
     @ManyToOne
     private PracownikStanowisko pracownikStanowisko;

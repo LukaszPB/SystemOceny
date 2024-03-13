@@ -4,7 +4,6 @@ import com.example.projektgruptest.config.security.UserWithPracownik;
 import com.example.projektgruptest.model.Ocena;
 import com.example.projektgruptest.modelDTO.OcenaDTO;
 import com.example.projektgruptest.service.OcenaService;
-import com.example.projektgruptest.service.WniosekService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,17 +16,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OcenaController {
     private final OcenaService ocenaService;
-    private final WniosekService wniosekService;
+    //private final WniosekService wniosekService;
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/oceny")
     public List<OcenaDTO> getOceny(@AuthenticationPrincipal UserWithPracownik user){
         List<OcenaDTO> list = new ArrayList<>();
-        for(Ocena o: ocenaService.getOcenyPracownika(user.getPracownik().getIdPracownika())){
+        for(Ocena o: ocenaService.getOcenyPracownika(user.getPracownik().getId())){
             list.add(OcenaDTO.builder()
-                    .idOceny(o.getIdOceny())
+                    .id(o.getId())
                     .nazwa(o.getNazwa())
-                    .iloscPunktow(o.getIloscPunktow())
-                    .data(o.getData())
+                    .dataPoczatkowa(o.getDataPoczatkowa())
+                    .dataKoncowa(o.getDataKoncowa())
                     .build());
         }
         return list;
@@ -38,9 +37,6 @@ public class OcenaController {
     {
         Ocena ocena = Ocena.builder()
                 .nazwa(ocenaDTO.getNazwa())
-                .iloscPunktow(ocenaDTO.getIloscPunktow())
-                .data(ocenaDTO.getData())
-                .wniosek(wniosekService.getWniosek(ocenaDTO.getIdWniosku()))
                 .build();
         ocenaService.addOcena(ocena);
     }
@@ -48,11 +44,9 @@ public class OcenaController {
     @PutMapping("/ocena/{id}")
     public void edytujOcene(@PathVariable Long id, @RequestBody OcenaDTO o, @AuthenticationPrincipal UserWithPracownik user) {
         Ocena ocena = ocenaService.getOcena(id);
-        for(Ocena oc : ocenaService.getOcenyPracownika(user.getPracownik().getIdPracownika())){
+        for(Ocena oc : ocenaService.getOcenyPracownika(user.getPracownik().getId())){
             if(oc == ocena){
                 ocena.setNazwa(o.getNazwa());
-                ocena.setIloscPunktow(o.getIloscPunktow());
-                ocena.setData(o.getData());
                 ocenaService.addOcena(ocena);
                 break;
             }
@@ -62,7 +56,7 @@ public class OcenaController {
     @DeleteMapping("/ocena/{id}")
     public void usunOcene(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
         Ocena ocena = ocenaService.getOcena(id);
-       for (Ocena o: ocenaService.getOcenyPracownika(user.getPracownik().getIdPracownika())){
+       for (Ocena o: ocenaService.getOcenyPracownika(user.getPracownik().getId())){
            if(o == ocena){
                ocenaService.deleteOcena((ocena));
                break;

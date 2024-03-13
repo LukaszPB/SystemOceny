@@ -1,9 +1,9 @@
 package com.example.projektgruptest.modelDTO;
 
-import com.example.projektgruptest.validator.ValidIloscPunktow;
+import com.example.projektgruptest.validator.osiagniecie.ValidIloscPunktow;
 import com.example.projektgruptest.validator.ValidPodKategoriaExist;
-import com.example.projektgruptest.validator.ValidUserCanAddToWnisek;
-import com.example.projektgruptest.validator.ValidWniosekExist;
+import com.example.projektgruptest.validator.ValidPracownikExist;
+import com.example.projektgruptest.validator.osiagniecie.ValidUserCanAddOsiagniecie;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -17,18 +17,19 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ValidIloscPunktow
+@ValidUserCanAddOsiagniecie
 public class OsiagniecieDTO {
-    private Long idOsiagniecia;
+    private Long id;
     @NotEmpty(message = "Name can't be empty")
     @Size(min = 1, max = 250, message = "Name length must be between 1 and 250 characters")
     private String nazwa;
     private int iloscPunktow;
     @NotNull(message = "Date can't be empty")
     private Date data;
-    private boolean czyZatwierdzone;
+    private boolean zatwierdzone;
+    private boolean zarchiwizowana;
     @ValidPodKategoriaExist
     private String podKategoriaNazwa;
-    @ValidWniosekExist
-    @ValidUserCanAddToWnisek
-    private Long idWniosku;
+    @ValidPracownikExist
+    private Long idPracownika;
 }

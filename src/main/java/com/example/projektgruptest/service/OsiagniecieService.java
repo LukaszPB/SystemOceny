@@ -1,6 +1,8 @@
 package com.example.projektgruptest.service;
 
+import com.example.projektgruptest.exception.PermissionDeniedException;
 import com.example.projektgruptest.exception.ResourceNotFoundException;
+import com.example.projektgruptest.model.Grupa;
 import com.example.projektgruptest.model.Osiagniecie;
 import com.example.projektgruptest.model.Pracownik;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,26 +21,33 @@ public class OsiagniecieService {
     private final OsiagniecieRepo osiagniecieRepo;
     private final PracownikService pracownikService;
     private final PodKategorieService podKategorieService;
-    private final WniosekService wniosekService;
+    private final OcenaService ocenaService;
     public Osiagniecie getOsiagniecie(long id) {
         return osiagniecieRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Osiagniecie o podanym id nie zostalo znalezione: " + id));
+                        "Osiagniecie o podanym id nie istnieje: " + id));
     }
     public List<Osiagniecie> getOsiagnieciaPracownika(long idPracownika) {
-        return osiagniecieRepo.findByWniosekPracownikIdPracownika(idPracownika);
+        return osiagniecieRepo.findByPracownik_Id(idPracownika);
     }
-    public List<Osiagniecie> getOsiagnieciaPodwladnych(long idPracownika) {
+    public List<Osiagniecie> getOsiagnieciaZGrupy(long idPracownika, Grupa grupa) {
         List<Osiagniecie> resultList = new ArrayList<>();
 
-        for (Pracownik pracownik : pracownikService.getPracownicyPrzelozonego(idPracownika)) {
-            resultList.addAll(getOsiagnieciaPracownika(pracownik.getIdPracownika()));
+        for (Osiagniecie osiagniecie : getOsiagnieciaPracownika(idPracownika)) {
+            if(Objects.equals(osiagniecie.getPodKategoria().getGrupa().getId(), grupa.getId())) {
+                resultList.add(osiagniecie);
+            }
         }
 
         return resultList;
     }
-    public List<Osiagniecie> getOsiagnieciaZWniosku(long idWniosku) {
-        return osiagniecieRepo.findByWniosekIdWniosku(idWniosku);
+    public List<Osiagniecie> podajListeOsiagniecUzytkownikaZOceny(long idOceny,long idPracownika){
+        if(ocenaService.canUserAccessThisOcena(idOceny,idPracownika)){
+            return getOsiagnieciaPracownika(idPracownika);
+        }
+        else {
+            throw new PermissionDeniedException("You don't have permission to get this Osiagniacia from Ocena");
+        }
     }
     public void addOsiagniecie(OsiagniecieDTO osiagniecieDTO) {
         Osiagniecie osiagniecie = buildOsiagniecie(osiagniecieDTO);
@@ -45,9 +55,10 @@ public class OsiagniecieService {
     }
     private Osiagniecie buildOsiagniecie(OsiagniecieDTO osiagniecieDTO) {
         return Osiagniecie.builder()
-                .czyZatwierdzone(false)
+                .zatwierdzone(false)
+                .zarchiwizowane(false)
                 .podKategoria(podKategorieService.getPodkategoria(osiagniecieDTO.getPodKategoriaNazwa()))
-                .wniosek(wniosekService.getWniosek(osiagniecieDTO.getIdWniosku()))
+                .pracownik(pracownikService.getPracownik(osiagniecieDTO.getIdPracownika()))
                 .data(osiagniecieDTO.getData())
                 .nazwa(osiagniecieDTO.getNazwa())
                 .iloscPunktow(osiagniecieDTO.getIloscPunktow())
@@ -57,7 +68,7 @@ public class OsiagniecieService {
         Osiagniecie osiagniecie = getOsiagniecie(id);
 
         modifyOsiagniecie(osiagniecie, osiagniecieDTO);
-        osiagniecie.setCzyZatwierdzone(false);
+        osiagniecie.setZatwierdzone(false);
 
         osiagniecieRepo.save(osiagniecie);
     }
@@ -65,7 +76,7 @@ public class OsiagniecieService {
         Osiagniecie osiagniecie = getOsiagniecie(id);
 
         modifyOsiagniecie(osiagniecie, osiagniecieDTO);
-        osiagniecie.setCzyZatwierdzone(osiagniecieDTO.isCzyZatwierdzone());
+        osiagniecie.setZatwierdzone(osiagniecieDTO.isZatwierdzone());
 
         osiagniecieRepo.save(osiagniecie);
     }
@@ -73,29 +84,30 @@ public class OsiagniecieService {
         osiagniecie.setNazwa(osiagniecieDTO.getNazwa());
         osiagniecie.setPodKategoria(podKategorieService.getPodkategoria(
                 osiagniecieDTO.getPodKategoriaNazwa()));
-        osiagniecie.setWniosek(wniosekService.getWniosek(osiagniecieDTO.getIdWniosku()));
         osiagniecie.setData(osiagniecieDTO.getData());
         osiagniecie.setIloscPunktow(osiagniecieDTO.getIloscPunktow());
     }
     public void approveOsiagniecie(long id) {
         Osiagniecie osiagniecie = getOsiagniecie(id);
-        osiagniecie.setCzyZatwierdzone(true);
+        osiagniecie.setZatwierdzone(true);
         osiagniecieRepo.save(osiagniecie);
     }
     public void deleteOsiagniecie(long id) {
         Osiagniecie osiagniecie = getOsiagniecie(id);
         osiagniecieRepo.delete(osiagniecie);
     }
-    public boolean canModifyOsiagniecie(long idPracownika, long idOsagniecia) {
+    public boolean canModifyOsiagniecie(Pracownik pracownik, long idOsagniecia) {
         Osiagniecie osiagniecie = getOsiagniecie(idOsagniecia);
 
-        return getOsiagnieciaPracownika(idPracownika).contains(osiagniecie) ||
-                getOsiagnieciaPodwladnych(idPracownika).contains(osiagniecie);
+        return !osiagniecie.getZatwierdzone() && !osiagniecie.getZarchiwizowane() &&
+                Objects.equals(pracownik.getGrupa().getId(), osiagniecie.getPodKategoria().getGrupa().getId()) &&
+                Objects.equals(pracownik.getId(), osiagniecie.getPracownik().getId());
     }
-    public boolean canApproveOsiagniecie(long idPracownika, long idOsiagniecia) {
+    public boolean canApproveOsiagniecie(Pracownik pracownik, long idOsiagniecia) {
         Osiagniecie osiagniecie = getOsiagniecie(idOsiagniecia);
 
-        return getOsiagnieciaPodwladnych(idPracownika).contains(osiagniecie);
+        return !osiagniecie.getZatwierdzone() && !osiagniecie.getZarchiwizowane() &&
+                Objects.equals(pracownik.getGrupa().getId(), osiagniecie.getPodKategoria().getGrupa().getId());
     }
     public List<OsiagniecieDTO> convertListToDTO(List<Osiagniecie> osiagniecieList) {
         return osiagniecieList.stream()
@@ -104,12 +116,12 @@ public class OsiagniecieService {
     }
     public OsiagniecieDTO convertToDTO(Osiagniecie osiagniecie) {
         return OsiagniecieDTO.builder()
-                .idOsiagniecia(osiagniecie.getIdOsiagniecia())
+                .id(osiagniecie.getId())
                 .nazwa(osiagniecie.getNazwa())
                 .iloscPunktow(osiagniecie.getIloscPunktow())
                 .data(osiagniecie.getData())
-                .czyZatwierdzone(osiagniecie.getCzyZatwierdzone())
-                .idWniosku(osiagniecie.getWniosek().getIdWniosku())
+                .zatwierdzone(osiagniecie.getZatwierdzone())
+                .idPracownika(osiagniecie.getPracownik().getId())
                 .podKategoriaNazwa(osiagniecie.getPodKategoria().getNazwa())
                 .build();
     }

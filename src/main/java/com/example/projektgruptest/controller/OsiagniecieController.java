@@ -1,15 +1,14 @@
 package com.example.projektgruptest.controller;
 
 import com.example.projektgruptest.config.security.UserWithPracownik;
-import com.example.projektgruptest.exception.PermissionDeniedException;
-import com.example.projektgruptest.exception.ValidationFailedException;
 import com.example.projektgruptest.model.Osiagniecie;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
 import com.example.projektgruptest.service.OsiagniecieService;
-import com.example.projektgruptest.service.WniosekService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -20,77 +19,78 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OsiagniecieController {
     private final OsiagniecieService osiagniecieService;
-    private  final WniosekService wniosekService;
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/osiagniecia")
     public List<OsiagniecieDTO> getOsiagniecia(@AuthenticationPrincipal UserWithPracownik user) {
         List<Osiagniecie> osiagniecieList =
-                osiagniecieService.getOsiagnieciaPracownika(user.getPracownik().getIdPracownika());
+                osiagniecieService.getOsiagnieciaPracownika(user.getPracownik().getId());
 
         return osiagniecieService.convertListToDTO(osiagniecieList);
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/osiagnieciaPodwladnych")
-    public List<OsiagniecieDTO> getOsiagnieciaPodwladnych(@AuthenticationPrincipal UserWithPracownik user) {
+    @GetMapping("/osiagnieciaZGrupy/{id}")
+    public List<OsiagniecieDTO> getOsiagnieciaZGrupy(@PathVariable long id, @AuthenticationPrincipal UserWithPracownik user) {
         List<Osiagniecie> osiagnieciaPodwladnychList =
-                osiagniecieService.getOsiagnieciaPodwladnych(user.getPracownik().getIdPracownika());
+                osiagniecieService.getOsiagnieciaZGrupy(id,user.getPracownik().getGrupa());
 
         return osiagniecieService.convertListToDTO(osiagnieciaPodwladnychList);
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/osiagnieciaZWniosku/{id}")
-    public List<OsiagniecieDTO> getOsiagnieciaZWniosku(@PathVariable long id, @AuthenticationPrincipal UserWithPracownik user) {
-        if(wniosekService.canUserAccessThisWniosek(user.getPracownik().getIdPracownika(),id)) {
-            List<Osiagniecie> osiagnieciaZWnioskuList = osiagniecieService.getOsiagnieciaZWniosku(id);
-            return osiagniecieService.convertListToDTO(osiagnieciaZWnioskuList);
-        }
-        else {
-            throw new PermissionDeniedException("You don't have permission to modify this wniosek");
-        }
+    @GetMapping("/osiagnieciaZOceny/{id}")
+    public List<OsiagniecieDTO> getOsiagnieciaZOceny(@PathVariable long id, @AuthenticationPrincipal UserWithPracownik user) {
+        List<Osiagniecie> osiagnieciaZOcenyList = osiagniecieService.podajListeOsiagniecUzytkownikaZOceny
+                (id,user.getPracownik().getId());
+
+        return osiagniecieService.convertListToDTO(osiagnieciaZOcenyList);
     }
     @SecurityRequirement(name = "JWT Authentication")
     @PostMapping("/osiagniecie")
-    public void dodajOsiagniecie(@RequestBody @Valid OsiagniecieDTO osiagniecieDTO, BindingResult result) {
+    public ResponseEntity<String> dodajOsiagniecie(@RequestBody @Valid OsiagniecieDTO osiagniecieDTO, BindingResult result) {
         if(result.hasErrors()) {
-            throw new ValidationFailedException("Validation has failed " + result.getFieldErrors());
+            return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
         }
         osiagniecieService.addOsiagniecie(osiagniecieDTO);
+        return ResponseEntity.ok("Sukces");
     }
     @SecurityRequirement(name = "JWT Authentication")
     @PutMapping("/osiagniecie/{id}")
-    public void edytujOsiagniecie(@PathVariable long id, @RequestBody @Valid OsiagniecieDTO osiagniecieDTO, BindingResult result,
+    public ResponseEntity<String> edytujOsiagniecie(@PathVariable long id, @RequestBody @Valid OsiagniecieDTO osiagniecieDTO, BindingResult result,
                                   @AuthenticationPrincipal UserWithPracownik user) {
         if(result.hasErrors()) {
-            throw new ValidationFailedException("Validation has failed " + result.getFieldErrors());
+            return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
         }
-        else if(osiagniecieService.canApproveOsiagniecie(user.getPracownik().getIdPracownika(),id)) {
+        else if(osiagniecieService.canApproveOsiagniecie(user.getPracownik(),id)) {
             osiagniecieService.editOsiagnieciePrzelozony(osiagniecieDTO,id);
+            return ResponseEntity.ok("Sukces");
         }
-        else if(osiagniecieService.canModifyOsiagniecie(user.getPracownik().getIdPracownika(),id)) {
+        else if(osiagniecieService.canModifyOsiagniecie(user.getPracownik(),id)) {
             osiagniecieService.editOsiagnieciePracownik(osiagniecieDTO,id);
+            return ResponseEntity.ok("Sukces");
         }
         else {
-            throw new PermissionDeniedException("You don't have permission to modify this achievement");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Brak uprawnień do edycji");
         }
     }
     @SecurityRequirement(name = "JWT Authentication")
     @PutMapping("/osiagniecieZatwierdz/{id}")
-    public void edytujOsiagniecie(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
-        if(osiagniecieService.canApproveOsiagniecie(user.getPracownik().getIdPracownika(),id)) {
+    public ResponseEntity<String> edytujOsiagniecie(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
+        if(osiagniecieService.canApproveOsiagniecie(user.getPracownik(),id)) {
             osiagniecieService.approveOsiagniecie(id);
+            return ResponseEntity.ok("Sukces");
         }
         else {
-            throw new PermissionDeniedException("You don't have permission to approve this achievement");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Brak uprawnień do zatwierdzania");
         }
     }
     @SecurityRequirement(name = "JWT Authentication")
     @DeleteMapping("/osiagniecie/{id}")
-    public void usunPracownika(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
-        if(osiagniecieService.canModifyOsiagniecie(user.getPracownik().getIdPracownika(),id)) {
+    public ResponseEntity<String> usunPracownika(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
+        if(osiagniecieService.canModifyOsiagniecie(user.getPracownik(),id)) {
             osiagniecieService.deleteOsiagniecie(id);
+            return ResponseEntity.ok("Sukces");
         }
         else {
-            throw new PermissionDeniedException("You don't have permission to delete this achievement");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Brak uprawnień do usuwania");
         }
     }
 }

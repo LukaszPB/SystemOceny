@@ -14,7 +14,7 @@ public class Rola {
     @PrimaryKeyJoinColumn
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long idRoli;
+    private Long id;
     @Column(name = "nazwa")
     private String nazwa;
 

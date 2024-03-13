@@ -1,5 +1,7 @@
 package com.example.projektgruptest.modelDTO;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 @Getter
@@ -8,11 +10,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PracownikDTO {
-    private Long idPracownika;
+    @NotEmpty
+    private Long id;
     private String imie;
     private String nazwisko;
-    private String emailSluzbowy;
-    private String stopienNaukowyNazwa;
-    private String stanowiskoNazwa;
-    private String rodzajDzialalnosciNazwa;
+    private String email;
+    private String stopienNaukowy;
+    private String stanowisko;
+    @NotBlank
+    private String grupa;
 }

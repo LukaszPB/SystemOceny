@@ -14,7 +14,7 @@ public class PracownikStanowisko {
     @PrimaryKeyJoinColumn
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long idStanowiska;
+    private Long id;
     @Column(name = "nazwa")
     private String nazwa;
 

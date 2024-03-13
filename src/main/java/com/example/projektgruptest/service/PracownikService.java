@@ -16,14 +16,14 @@ public class PracownikService {
 
     private final PracownikRepo pracownikRepo;
     private final StopienNaukowyService stopienNaukowyService;
-    private final RodzajDzialanosciService rodzajDzialanosciService;
+    private final GrupaService grupaService;
     private final PracownikStanowiskoService pracownikStanowiskoService;
 
     public List<Pracownik> getPracownicy() {
         return pracownikRepo.findAll();
     }
     public List<Pracownik> getPracownicyPrzelozonego(long id) {
-        return pracownikRepo.findByPrzelozonyIdPracownika(id);
+        return pracownikRepo.findByPrzelozonyId(id);
     }
     public Pracownik getPrzelozonego(long id) {
         return pracownikRepo.getReferenceById(id).getPrzelozony();
@@ -33,14 +33,27 @@ public class PracownikService {
                 "Pracownik o podanym id nie zostal znaleziony: " + id));
     }
     public List<Pracownik> getPracownikStanowisko(long id) {
-        return pracownikRepo.findByPracownikStanowisko_IdStanowiska(id);
+        return pracownikRepo.findByPracownikStanowisko_Id(id);
     }
     public List<Pracownik> getPracownikStopienNaukowy(long id) {
-        return pracownikRepo.findByStopienNaukowy_IdStopniaNaukowego(id);
+        return pracownikRepo.findByStopienNaukowy_Id(id);
     }
-    public List<Pracownik> getPracownikRodzajDzialanosci(long id) {
-        return pracownikRepo.findByRodzajDzialalnosci_IdRodzajDzialalnosci(id);
+
+//    public List<Pracownik> getPracownikOceny(long idPracownika){
+//        return pracownikRepo.findByOcenaSet_IdPracownika(idPracownika);
+//    }
+
+    public List<Pracownik> getPracownikOsiagniecia(long idPracownika){
+        return pracownikRepo.findByOsiagniecieSet_Id(idPracownika);
     }
+
+//    public List<Osiagniecie> getOsiagniecieByIdOceny(long idOceny){
+//        pracownikRepo.findByOcena_IdOceny()
+//    }
+
+//    public List<Pracownik> getPracownikRodzajDzialanosci(long id) {
+//        return pracownikRepo.findByRodzajDzialalnosci_IdRodzajDzialalnosci(id);
+//    }
     public void addPracownik(Pracownik pracownik) {
         pracownikRepo.save(pracownik);
     }
@@ -48,20 +61,20 @@ public class PracownikService {
         Pracownik pracownik = getPracownik(id);
         pracownik.setImie(pracownikDTO.getImie());
         pracownik.setNazwisko(pracownikDTO.getNazwisko());
-        pracownik.setEmailSluzbowy(pracownikDTO.getEmailSluzbowy());
-        pracownik.setStopienNaukowy(stopienNaukowyService.getStopienNaukowy(pracownikDTO.getStopienNaukowyNazwa()));
-        pracownik.setPracownikStanowisko(pracownikStanowiskoService.getPracownikStanowisko(pracownikDTO.getStanowiskoNazwa()));
-        pracownik.setRodzajDzialalnosci(rodzajDzialanosciService.getRodzajDzialanosci(pracownikDTO.getRodzajDzialalnosciNazwa()));
+        pracownik.setEmail(pracownikDTO.getEmail());
+        pracownik.setStopienNaukowy(stopienNaukowyService.getStopienNaukowy(pracownikDTO.getStopienNaukowy()));
+        pracownik.setPracownikStanowisko(pracownikStanowiskoService.getPracownikStanowisko(pracownikDTO.getStanowisko()));
+        pracownik.setGrupa(grupaService.getGrupa(pracownikDTO.getGrupa()));
         pracownikRepo.save(pracownik);
     }
     public void deletePracownik(Pracownik pracownik) {
-        getPracownicyPrzelozonego(pracownik.getIdPracownika()).forEach(p->
-                pracownikRepo.getReferenceById(p.getIdPracownika()).setPrzelozony(null));
+        getPracownicyPrzelozonego(pracownik.getId()).forEach(p->
+                pracownikRepo.getReferenceById(p.getId()).setPrzelozony(null));
         pracownikRepo.delete(pracownik);
     }
     public boolean CanUserAccessPracownikData(long idUsera, long idPracownika) {
         return idUsera == idPracownika ||
-                getPracownik(idPracownika).getPrzelozony().getIdPracownika() == idUsera;
+                getPracownik(idPracownika).getPrzelozony().getId() == idUsera;
     }
     public List<PracownikDTO> convertListToDTO(List<Pracownik> pracownikList) {
         return pracownikList.stream()
@@ -73,23 +86,23 @@ public class PracownikService {
         if(p==null)
             return null;
         return PracownikDTO.builder()
-                .idPracownika(p.getIdPracownika())
+                .id(p.getId())
                 .imie(p.getImie())
                 .nazwisko(p.getNazwisko())
-                .emailSluzbowy(p.getEmailSluzbowy())
-                .rodzajDzialalnosciNazwa(p.getRodzajDzialalnosci().getNazwa())
-                .stanowiskoNazwa(p.getPracownikStanowisko().getNazwa())
-                .stopienNaukowyNazwa(p.getStopienNaukowy().getNazwa())
+                .email(p.getEmail())
+                .grupa(p.getGrupa().getNazwa())  //ZMIANA
+                .stanowisko(p.getPracownikStanowisko().getNazwa())
+                .stopienNaukowy(p.getStopienNaukowy().getNazwa())
                 .build();
     }
     public Pracownik buildPracownik(PracownikDTO pracownikDTO) {
         return Pracownik.builder()
                 .imie(pracownikDTO.getImie())
                 .nazwisko(pracownikDTO.getNazwisko())
-                .emailSluzbowy(pracownikDTO.getEmailSluzbowy())
-                .stopienNaukowy(stopienNaukowyService.getStopienNaukowy(pracownikDTO.getStopienNaukowyNazwa()))
-                .pracownikStanowisko(pracownikStanowiskoService.getPracownikStanowisko(pracownikDTO.getStanowiskoNazwa()))
-                .rodzajDzialalnosci(rodzajDzialanosciService.getRodzajDzialanosci(pracownikDTO.getRodzajDzialalnosciNazwa()))
+                .email(pracownikDTO.getEmail())
+                .stopienNaukowy(stopienNaukowyService.getStopienNaukowy(pracownikDTO.getStopienNaukowy()))
+                .pracownikStanowisko(pracownikStanowiskoService.getPracownikStanowisko(pracownikDTO.getStanowisko()))
+                .grupa(grupaService.getGrupa(pracownikDTO.getGrupa())) //ZMIANA
                 .build();
     }
 }

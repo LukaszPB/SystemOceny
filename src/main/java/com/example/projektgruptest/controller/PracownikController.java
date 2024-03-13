@@ -25,7 +25,7 @@ public class PracownikController {
     @GetMapping("/pracownik")
     public PracownikDTO getPracownik(@AuthenticationPrincipal UserWithPracownik user) {
         return pracownikService.convertToDTO(
-                pracownikService.getPracownik(user.getPracownik().getIdPracownika()));
+                pracownikService.getPracownik(user.getPracownik().getId()));
     }
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/pracownicy_przelozonego")
@@ -33,7 +33,7 @@ public class PracownikController {
         Pracownik pracownik = user.getPracownik();
         if(pracownik != null) {
             return pracownikService.convertListToDTO(
-                    pracownikService.getPracownicyPrzelozonego(pracownik.getIdPracownika()));
+                    pracownikService.getPracownicyPrzelozonego(pracownik.getId()));
         }
         return null;
     }
@@ -43,7 +43,7 @@ public class PracownikController {
         Pracownik pracownik = user.getPracownik();
         if(pracownik != null) {
             return pracownikService.convertToDTO(
-                    pracownikService.getPrzelozonego(pracownik.getIdPracownika()));
+                    pracownikService.getPrzelozonego(pracownik.getId()));
         }
         return null;
     }

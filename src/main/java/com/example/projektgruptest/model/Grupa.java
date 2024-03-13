@@ -1,31 +1,33 @@
 package com.example.projektgruptest.model;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.util.Set;
 
 @Entity
-@Table(name="Oceny")
+@Table(name="Grupa")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Ocena {
+public class Grupa {
+
     @PrimaryKeyJoinColumn
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "nazwa")
+    @Column (name = "nazwa")
     private String nazwa;
 
-    @Column(name = "dataPoczatkowa")
-    private Date dataPoczatkowa;
-    @Column(name = "dataKoncowa")
-    private Date dataKoncowa;
 
     //KLUCZE OBCE
-    @ManyToOne
-    Pracownik pracownik;
+    @OneToMany(mappedBy = "grupa")
+    private Set<PodKategoria> podKategoriaSet;
+
+    //Najwyżej do zmiany MANY TO MANY
+    @OneToMany(mappedBy = "grupa")
+    private Set<Pracownik> pracownikSet;
 }

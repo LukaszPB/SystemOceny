@@ -15,5 +15,5 @@ public class KryteriaOcenyDTO {
     private int progOcenyZWyroznieniemNB;
     private int progPozytywnejOcenyDO;
     private int progOcenyZWyroznieniemDO;
-    private String rodzajDzialalnosciNazwa;
+    private String grupa;
 }
