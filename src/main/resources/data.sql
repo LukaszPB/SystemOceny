@@ -160,92 +160,6 @@ hodowców do odmian roślin',
     (SELECT id FROM "grupa" WHERE nazwa = 'BRPM');
 -----
 
-
-
---Osiągniecie
-INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
-VALUES (true,false,20,'2023-02-01 20:00:00',nextval('osiagniecia_seq'),
-        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        1,'Publikacje naukowe');
-
-INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
-VALUES (true,false,30,'2023-02-15 20:00:00',nextval('osiagniecia_seq'),
-        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        1,'Publikacje naukowe');
-
-INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
-VALUES (true,false,15,'2023-06-01 20:00:00',nextval('osiagniecia_seq'),
-        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        1,'Publikacje naukowe');
-
-INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
-VALUES (false,false,60,'2022-04-01 20:00:00',nextval('osiagniecia_seq'),
-        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Uzyskanie stopnia doktora'),
-        51,'Uzyskanie stopnia doktora');
-
-INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
-VALUES (true,false,25,'2022-05-11 20:00:00',nextval('osiagniecia_seq'),
-        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        51,'Publikacje naukowe');
-
-INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
-VALUES (false,false,60,'2023-02-01 18:00:00',nextval('osiagniecia_seq'),
-        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Uzyskanie stopnia doktora'),
-        101,'Uzyskanie stopnia doktora');
-
-INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
-VALUES (true,false,10,'2023-01-05 20:00:00',nextval('osiagniecia_seq'),
-        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        101,'Publikacje naukowe');
-
-INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
-VALUES (true,true,10,'2023-01-05 20:00:00',nextval('osiagniecia_seq'),
-        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        101,'Publikacje naukowe');
-
-INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
-VALUES (true,false,10,'2021-01-05 20:00:00',nextval('osiagniecia_seq'),
-        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        101,'Publikacje naukowe');
-
-INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
-VALUES (true,false,10,'2023-04-04 20:30:00',nextval('osiagniecia_seq'),
-        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        151,'Publikacje naukowe');
-
-INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
-VALUES (true,false,30,'2023-04-04 20:45:00',nextval('osiagniecia_seq'),
-        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        151,'Publikacje naukowe');
-
-INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
-VALUES (true,false,20,'2023-02-21 20:00:00',nextval('osiagniecia_seq'),
-        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        151,'Publikacje naukowe');
-
-INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
-VALUES (false,false,10,'2023-07-15 20:00:00',nextval('osiagniecia_seq'),
-        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        151,'Publikacje naukowe');
-
-INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
-VALUES (true,false,15,'2023-10-11 20:00:00',nextval('osiagniecia_seq'),
-        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        151,'Publikacje naukowe');
-
-INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
-VALUES (true,false,10,'2022-01-07 20:00:00',nextval('osiagniecia_seq'),
-        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        151,'Publikacje naukowe');
-
-INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa)
-VALUES (true,false,160,'2022-02-06 20:00:00',nextval('osiagniecia_seq'),
-        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Uzyskanie tytułu profesora'),
-        1,'Uzyskano tytul profesora');
-
-
-
-
 -- Ocena
 INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa,zatwierdzona)
 VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),1,'pozytywna',true);
@@ -260,6 +174,86 @@ INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa,zatwierd
 VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),151,'pozytywna',false);
 
 
+--Osiągniecie
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
+VALUES (true,false,20,'2023-02-01 20:00:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
+        1,'Publikacje naukowe',1);
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
+VALUES (true,false,30,'2023-02-15 20:00:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
+        1,'Publikacje naukowe',1);
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
+VALUES (true,false,15,'2023-06-01 20:00:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
+        1,'Publikacje naukowe',1);
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
+VALUES (false,false,60,'2022-04-01 20:00:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Uzyskanie stopnia doktora'),
+        51,'Uzyskanie stopnia doktora',51);
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
+VALUES (true,false,25,'2022-05-11 20:00:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
+        51,'Publikacje naukowe',51);
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
+VALUES (false,false,60,'2023-02-01 18:00:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Uzyskanie stopnia doktora'),
+        101,'Uzyskanie stopnia doktora',null);
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
+VALUES (true,false,10,'2023-01-05 20:00:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
+        101,'Publikacje naukowe',null);
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
+VALUES (true,true,10,'2023-01-05 20:00:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
+        101,'Publikacje naukowe',101);
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
+VALUES (true,false,10,'2021-01-05 20:00:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
+        101,'Publikacje naukowe',101);
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
+VALUES (true,false,10,'2023-04-04 20:30:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
+        151,'Publikacje naukowe',151);
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
+VALUES (true,false,30,'2023-04-04 20:45:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
+        151,'Publikacje naukowe',151);
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
+VALUES (true,false,20,'2023-02-21 20:00:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
+        151,'Publikacje naukowe',151);
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
+VALUES (false,false,10,'2023-07-15 20:00:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
+        151,'Publikacje naukowe',151);
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
+VALUES (true,false,15,'2023-10-11 20:00:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
+        151,'Publikacje naukowe',151);
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
+VALUES (true,false,10,'2022-01-07 20:00:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
+        151,'Publikacje naukowe',151);
+
+INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
+VALUES (true,false,160,'2022-02-06 20:00:00',nextval('osiagniecia_seq'),
+        (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Uzyskanie tytułu profesora'),
+        1,'Uzyskano tytul profesora',1);
 
 
 -- UZYTKOWNIK
