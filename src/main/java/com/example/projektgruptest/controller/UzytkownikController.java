@@ -8,9 +8,12 @@ import com.example.projektgruptest.repo.RolaRepo;
 import com.example.projektgruptest.service.RolaService;
 import com.example.projektgruptest.service.UzytkownikService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -32,13 +35,22 @@ public class UzytkownikController {
     }
     @SecurityRequirement(name = "JWT Authentication")
     @PostMapping("/uzytkownik")
-    public void dodajUzytkownika(@RequestBody UzytkownikDTO uzytkownikDTO,@AuthenticationPrincipal UserWithPracownik user) {
+    public ResponseEntity<String> dodajUzytkownika(@RequestBody @Valid UzytkownikDTO uzytkownikDTO, BindingResult result) {
+        if(result.hasErrors()) {
+            return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
+        }
+        uzytkownikService.addUzytkownik(uzytkownikDTO);
+        return ResponseEntity.ok("Sukces");
     }
     @SecurityRequirement(name = "JWT Authentication")
     @PutMapping("/uzytkownikEdytuj/{id}")
-    public void edytujUzytkownika(@PathVariable Long id,@RequestBody UzytkownikDTO uzytkownikDTO,@AuthenticationPrincipal UserWithPracownik user)
+    public ResponseEntity<String> edytujUzytkownika(@PathVariable Long id,@RequestBody @Valid UzytkownikDTO uzytkownikDTO, BindingResult result)
     {
+        if(result.hasErrors()) {
+            return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
+        }
         uzytkownikService.editUzytkownik(uzytkownikDTO,id);
+        return ResponseEntity.ok("Sukces");
     }
     @SecurityRequirement(name = "JWT Authentication")
     @DeleteMapping("/uzytkownikUsun/{id}")

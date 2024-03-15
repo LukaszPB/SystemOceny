@@ -1,5 +1,6 @@
 package com.example.projektgruptest.service;
 
+import com.example.projektgruptest.exception.ResourceNotFoundException;
 import com.example.projektgruptest.model.Osiagniecie;
 import com.example.projektgruptest.model.Pracownik;
 import com.example.projektgruptest.model.auth.Rola;
@@ -24,8 +25,24 @@ public class UzytkownikService {
 
     private final RolaRepo rolaRepo;
 
-    public Uzytkownik getUzytkownik(long id) {return uzytkownikRepo.getReferenceById(id);}
+    public Uzytkownik getUzytkownik(long id) {return uzytkownikRepo.findById(id)
+            .orElseThrow(()-> new ResourceNotFoundException("Uzytkownik o podanym id nie istnieje: " + id));}
     public List<Uzytkownik> getUzytkownicy(){return uzytkownikRepo.findAll();}
+
+    public void addUzytkownik(UzytkownikDTO uzytkownikDTO)
+    {
+        Uzytkownik uzytkownik = buildUzytkownik(uzytkownikDTO);
+        uzytkownikRepo.save(uzytkownik);
+    }
+    private Uzytkownik buildUzytkownik(UzytkownikDTO uzytkownikDTO){
+        Rola rola = rolaRepo.findByNazwa(uzytkownikDTO.getRola());
+        return Uzytkownik.builder()
+                .login(uzytkownikDTO.getLogin())
+                .haslo(uzytkownikDTO.getHaslo())
+                .rola(rolaRepo.findByNazwa(uzytkownikDTO.getRola()))
+                .pracownik(null)
+                .build();
+    }
     public void deleteUzytkownik(Uzytkownik uzytkownik){
         if(uzytkownik.getPracownik()!=null){
             Pracownik pracownik = uzytkownik.getPracownik();
@@ -61,6 +78,11 @@ public class UzytkownikService {
         uzytkownik.setLogin(uzytkownikDTO.getLogin());
         uzytkownik.setHaslo(uzytkownikDTO.getHaslo());
         uzytkownik.setRola(rola);
+        if(uzytkownik.getPracownik()==null && rola.getNazwa().equals("PRACOWNIK"))
+        {
+            //TRZEBA BY DODAC METODE CO SPRAWDZA CZY JAKIS UZYTKOWNIK NIE MA JUZ PRZYPISANEGO TEGO PRACOWNIKA
+            uzytkownik.setPracownik(pracownikService.getPracownik(uzytkownikDTO.getIdPracownika()));
+        }
         uzytkownikRepo.save(uzytkownik);
     }
 

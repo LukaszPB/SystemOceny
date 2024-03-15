@@ -1,6 +1,8 @@
 package com.example.projektgruptest.model.auth;
 
 import com.example.projektgruptest.model.Pracownik;
+import com.example.projektgruptest.validator.ValidPracownikExist;
+import com.example.projektgruptest.validator.ValidUzytkownikExist;
 import jakarta.persistence.*;
 import lombok.*;
 
