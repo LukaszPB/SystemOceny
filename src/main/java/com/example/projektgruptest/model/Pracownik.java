@@ -45,4 +45,7 @@ public class Pracownik {
 
     @ManyToOne
     private StopienNaukowy stopienNaukowy;
+
+    @ManyToOne
+    private WydzialKatedra wydzialKatedra;
 }

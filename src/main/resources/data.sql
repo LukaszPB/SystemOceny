@@ -1,45 +1,70 @@
 
--- DROP TABLE grupa,kryteria_oceny,oceny,osiagniecia,pod_kategorie,pracownicy,pracownik_stanowiska,role,stopnie_naukowe,uzytkownik;
+-- DROP TABLE grupa,kryteria_oceny,oceny,osiagniecia,pod_kategorie,pracownicy,pracownik_stanowiska,role,stopnie_naukowe,uzytkownik,wydzial_katedra,kategorie_osiagniec,okres_rozliczeniowy,rodzaje_dzialalnosci,wnioski;
 
 -- ROLE
 INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'ADMIN');
 INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'KOMISJA');
 INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'PRACOWNIK');
 
-
+--WYDZIAŁ KATEDRA
+INSERT INTO "wydzial_katedra" (id, nazwa_wydzialu, nazwa_katedry)
+VALUES (nextval('wydzial_katedra_seq'), 'INFORMATYKI', 'OPROGRAMOWANIA'),
+       (nextval('wydzial_katedra_seq'), 'INFORMATYKI', 'MATEMATYKI'),
+       (nextval('wydzial_katedra_seq'), 'INFORMATYKI', 'INFORMATYKI TEORETYCZNEJ'),
+       (nextval('wydzial_katedra_seq'), 'INFORMATYKI', 'MEDIOW CYFROWYCH I GRAFIKI KOMPUTEROWEJ'),
+       (nextval('wydzial_katedra_seq'), 'INFORMATYKI', 'SYSTEMOW INFORMACYJNYCH I SIECI KOMPUTEROWYCH'),
+       (nextval('wydzial_katedra_seq'), 'ARCHITEKTURY', 'PROJEKTOWANIA ARCHITEKTONICZNEGO'),
+       (nextval('wydzial_katedra_seq'), 'ARCHITEKTURY', 'ARCHITEKTURY MIESZKANIOWEJ'),
+       (nextval('wydzial_katedra_seq'), 'ARCHITEKTURY', 'INSTYTUT SZTUKI'),
+       (nextval('wydzial_katedra_seq'), 'BUDOWNICTWA I NAUK O SRODOWISKU', 'GEOTECHNIKI DROG I GEODEZJI'),
+       (nextval('wydzial_katedra_seq'), 'BUDOWNICTWA I NAUK O SRODOWISKU', 'BUDOWNICTWA I KSZTALTOWANIA KRAJOBRAZU'),
+       (nextval('wydzial_katedra_seq'), 'BUDOWNICTWA I NAUK O SRODOWISKU','BUDOWNICTWA ZROWNOWAZONEGO I INSTALACJI BUDOWLANYCH'),
+       (nextval('wydzial_katedra_seq'), 'BUDOWNICTWA I NAUK O SRODOWISKU','KONSTRUKCJI BUDOWLANYCH I MECHANIKI BUDOWLI'),
+       (nextval('wydzial_katedra_seq'), 'BUDOWNICTWA I NAUK O SRODOWISKU', 'CHEMII, BIOLOGII I BIOTECHNOLOGII'),
+       (nextval('wydzial_katedra_seq'), 'BUDOWNICTWA I NAUK O SRODOWISKU', 'CIEPLOWNICTWA, OGRZEWNICTWA I WENTYLACJI'),
+       (nextval('wydzial_katedra_seq'), 'BUDOWNICTWA I NAUK O SRODOWISKU','INZYNIERII ROLNO-SPOZYWCZEJ I KSZTALTOWANIA SRODOWISKA'),
+       (nextval('wydzial_katedra_seq'), 'BUDOWNICTWA I NAUK O SRODOWISKU', 'TECHNOLOGII W INZYNIERII SRODOWISKA'),
+       (nextval('wydzial_katedra_seq'), 'BUDOWNICTWA I NAUK O SRODOWISKU', 'WODOCIAGOW I KANALIZACJI'),
+       (nextval('wydzial_katedra_seq'), 'BUDOWNICTWA I NAUK O SRODOWISKU', 'HODOWLI I UZYTKOWANIA LASU'),
+       (nextval('wydzial_katedra_seq'), 'BUDOWNICTWA I NAUK O SRODOWISKU', 'SRODOWISKA LESNEGO'),
+       (nextval('wydzial_katedra_seq'), 'ELEKTRYCZNY', 'AUTOMATYKI I ROBOTYKI'),
+       (nextval('wydzial_katedra_seq'), 'ELEKTRYCZNY', 'ELEKTROTECHNIKI, ENERGOELEKTRONIKI I ELEKTROENERGETYKI'),
+       (nextval('wydzial_katedra_seq'), 'ELEKTRYCZNY', 'FOTONIKI, ELEKTRONIKI I TECHNIKI SWIETLNEJ'),
+       (nextval('wydzial_katedra_seq'), 'INZYNIERII I ZARZADZANIA', 'ZARZADZANIA, EKONOMII I FINANSOW'),
+       (nextval('wydzial_katedra_seq'), 'INZYNIERII I ZARZADZANIA', 'MARKETINGU I TURYSTYKI'),
+       (nextval('wydzial_katedra_seq'), 'INZYNIERII I ZARZADZANIA', 'ZARZADZANIA PRODUKCJA'),
+       (nextval('wydzial_katedra_seq'), 'INZYNIERII I ZARZADZANIA', 'LOGISTYKI I INZYNIERII USLUG'),
+       (nextval('wydzial_katedra_seq'), 'MECHANICZNY', 'BUDOWY I EKSPLOATACJI MASZYN'),
+       (nextval('wydzial_katedra_seq'), 'MECHANICZNY', 'MECHANIKI I INFORMATYKI STOSOWANEJ'),
+       (nextval('wydzial_katedra_seq'), 'MECHANICZNY', 'UKLADOW DYNAMICZNYCH'),
+       (nextval('wydzial_katedra_seq'), 'MECHANICZNY', 'AUTOMATYZACJI PROCESOW PRZEMYSLOWYCH'),
+       (nextval('wydzial_katedra_seq'), 'MECHANICZNY', 'INZYNIERII MATERIALOWEJ I PRODUKCJI'),
+       (nextval('wydzial_katedra_seq'), 'MECHANICZNY', 'TECHNIKI CIEPLNEJ');
+--KONIEC WYDZIAL KATEDRA
 
 
 --GRUPA
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'ZWYKLYPRACOWNIK');
-INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'DN');
-INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'OIN');
-INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'OWI');
-INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'BRPM');
-INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'BWM');
-INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'DJK');
-INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'WYDZIALY');  --ROZPISAĆ NA POSZCZEGÓLNE WYDZIAŁY
-INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'JEDN.OGOLNOUCZ.');
-INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'DSP');
-INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'SJO');
-INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'CSSDiR');
-INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'DJK');
-INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'BON');
-INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'SWFiS');
+VALUES (nextval('grupa_seq'), 'ZWYKLYPRACOWNIK'),
+       (nextval('grupa_seq'), 'DN'),
+       (nextval('grupa_seq'), 'OIN'),
+       (nextval('grupa_seq'), 'OWI'),
+       (nextval('grupa_seq'), 'BRPM'),
+       (nextval('grupa_seq'), 'BWM'),
+       (nextval('grupa_seq'), 'DJK'),
+       (nextval('grupa_seq'), 'WYDZIAL INFORMATYKI'),
+       (nextval('grupa_seq'), 'WYDZIAL MECHANICZNY'),
+       (nextval('grupa_seq'), 'WYDZIAL ELEKTRYCZNY'),
+       (nextval('grupa_seq'), 'BUDOWNICTWA I NAUK O SRODOWISKU'),
+       (nextval('grupa_seq'), 'INZYNIERII I ZARZADZANIA'),
+       (nextval('grupa_seq'), 'ARCHITEKTURY'),
+       (nextval('grupa_seq'), 'JEDN.OGOLNOUCZ.'),
+       (nextval('grupa_seq'), 'DSP'),
+       (nextval('grupa_seq'), 'SJO'),
+       (nextval('grupa_seq'), 'CSSDiR'),
+       (nextval('grupa_seq'), 'DJK'),
+       (nextval('grupa_seq'), 'BON'),
+       (nextval('grupa_seq'), 'SWFiS');
 
 -- STOPIEŃ NAUKOWY
 INSERT INTO "stopnie_naukowe" (id, nazwa)
@@ -105,35 +130,40 @@ INSERT INTO "pracownik_stanowiska" (id, nazwa)
 VALUES (nextval('pracownik_stanowiska_seq'), 'KIEROWNIK BADAŃ');
 
 -- PRACOWNIK
-INSERT INTO "pracownicy" (id,grupa_id, pracownik_stanowisko_id,stopien_naukowy_id, email, imie, nazwisko)
+INSERT INTO "pracownicy" (id,grupa_id, pracownik_stanowisko_id,stopien_naukowy_id,wydzial_katedra_id, email, imie, nazwisko)
 SELECT nextval('pracownicy_seq'),
-       (SELECT id FROM "grupa" WHERE nazwa = 'WYDZIALY'),
+       (SELECT id FROM "grupa" WHERE nazwa = 'WYDZIAL INFORMATYKI'),
        (SELECT id FROM "pracownik_stanowiska" WHERE nazwa = 'DZIEKAN'),
        (SELECT id FROM "stopnie_naukowe" WHERE nazwa = 'PROFESOR'),
+       (SELECT id FROM "wydzial_katedra" WHERE nazwa_katedry = 'OPROGRAMOWANIA'),
        'zenonWolski@pb.edu.pl', 'ZENON', 'WOLSKI';
 
-INSERT INTO "pracownicy" (id,grupa_id, przelozony, pracownik_stanowisko_id,stopien_naukowy_id, email, imie, nazwisko)
+INSERT INTO "pracownicy" (id,grupa_id, przelozony, pracownik_stanowisko_id,stopien_naukowy_id,wydzial_katedra_id, email, imie, nazwisko)
 SELECT nextval('pracownicy_seq'),
        (SELECT id FROM "grupa" WHERE nazwa = 'ZWYKLYPRACOWNIK'),
        1,
        (SELECT id FROM "pracownik_stanowiska" WHERE nazwa = 'WYKŁADOWCA'),
        (SELECT id FROM "stopnie_naukowe" WHERE nazwa = 'DOKTOR'),
+       (SELECT id FROM "wydzial_katedra" WHERE nazwa_katedry = 'MATEMATYKI'),
        'janKowalski@pb.edu.pl', 'JAN', 'KOWALSKI';
 
-INSERT INTO "pracownicy" (id,grupa_id, przelozony, pracownik_stanowisko_id,stopien_naukowy_id, email, imie, nazwisko)
+INSERT INTO "pracownicy" (id,grupa_id, przelozony, pracownik_stanowisko_id,stopien_naukowy_id,wydzial_katedra_id, email, imie, nazwisko)
 SELECT nextval('pracownicy_seq'),
        (SELECT id FROM "grupa" WHERE nazwa = 'BRPM'),
        1,
        (SELECT id FROM "pracownik_stanowiska" WHERE nazwa = 'PRACOWNIK ADMINISTRACYJNY'),
        (SELECT id FROM "stopnie_naukowe" WHERE nazwa = 'MAGISTER'),
+       (SELECT id FROM "wydzial_katedra" WHERE nazwa_katedry = 'OPROGRAMOWANIA'),
+
        'michalWojcicki@pb.edu.pl', 'MICHAŁ', 'WÓJCICKI';
 
-INSERT INTO "pracownicy" (id,grupa_id, przelozony, pracownik_stanowisko_id, stopien_naukowy_id, email, imie, nazwisko)
+INSERT INTO "pracownicy" (id,grupa_id, przelozony, pracownik_stanowisko_id, stopien_naukowy_id,wydzial_katedra_id, email, imie, nazwisko)
 SELECT nextval('pracownicy_seq'),
        (SELECT id FROM "grupa" WHERE nazwa = 'ZWYKLYPRACOWNIK'),
        1,
        (SELECT id FROM "pracownik_stanowiska" WHERE nazwa = 'KIEROWNIK BADAŃ'),
        (SELECT id FROM "stopnie_naukowe" WHERE nazwa = 'DOKTOR'),
+       (SELECT id FROM "wydzial_katedra" WHERE nazwa_katedry = 'INSTYTUT SZTUKI'),
        'krzysztofAdamczyk@pb.edu.pl', 'KRZYSZTOF', 'ADAMCZYK';
 
 

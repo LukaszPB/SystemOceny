@@ -22,8 +22,21 @@ public class PracownikController {
         return pracownikService.convertToDTO(
                 pracownikService.getPracownik(user.getPracownik().getId()));
     }
+
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/pracownicy_przelozonego")
+    @GetMapping("/pracownikByWydzial/{nazwaWydzialu}")
+    public List<PracownikDTO> getPracownikbyWydzial(@PathVariable String nazwaWydzialu) {
+        return pracownikService.convertListToDTO(pracownikService.getPracownikWydzial(nazwaWydzialu));
+    }
+
+    @SecurityRequirement(name = "JWT Authentication")
+    @GetMapping("/pracownikByKatedra/{nazwaKatedry}")
+    public List<PracownikDTO> getPracownikbyKatedra(@PathVariable String nazwaKatedry) {
+        return pracownikService.convertListToDTO(pracownikService.getPracownikKatedra(nazwaKatedry));
+    }
+
+    @SecurityRequirement(name = "JWT Authentication")
+    @GetMapping("/pracownicyPrzelozonego")
     public List<PracownikDTO> getPracownicyPrzelozonego(@AuthenticationPrincipal UserWithPracownik user) {
         Pracownik pracownik = user.getPracownik();
         if(pracownik != null) {

@@ -6,9 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PracownikStanowiskoRepo extends JpaRepository<PracownikStanowisko,Long> {
-    //    @Modifying
-//    @Transactional
-//    @Query("DELETE FROM Osiagniecie o WHERE o.wniosek.pracownik.idPracownika = :pracownikId")
-//    void deleteOsiagniecieByPracownikId(@Param("pracownikId") Long pracownikId);
     PracownikStanowisko findByNazwa(String nazwa);
 }

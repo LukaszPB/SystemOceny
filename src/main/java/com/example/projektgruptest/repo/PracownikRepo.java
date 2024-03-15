@@ -13,7 +13,8 @@ public interface PracownikRepo extends JpaRepository<Pracownik,Long> {
     List<Pracownik> findByPrzelozonyId(long id);
     List<Pracownik> findByOcenaSet_Id(long idOceny);
 
-    //List<Pracownik> findByOcenaSet_IdPracownika(long idPracownika);
+    List<Pracownik> findByWydzialKatedra_NazwaWydzialu(String nazwaWydzialu);
+    List<Pracownik> findByWydzialKatedra_NazwaKatedry(String nazwaKatedry);
 
     List<Pracownik> findByOsiagniecieSet_Id(long id);
 
