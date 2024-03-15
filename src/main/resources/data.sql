@@ -161,17 +161,17 @@ hodowców do odmian roślin',
 -----
 
 -- Ocena
-INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa,zatwierdzona)
-VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),1,'pozytywna',true);
+INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,wynik_oceny,zatwierdzona)
+VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),1,'POZYTYWNA',true);
 
-INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa,zatwierdzona)
-VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),51,'pozytywna z wyróżnieniem',false);
+INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,wynik_oceny,zatwierdzona)
+VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),51,'POZYTYWNA_Z_WYRÓŻNIENIEM',false);
 
-INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa,zatwierdzona)
-VALUES ('2022-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),101,'negatywna',false);
+INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,wynik_oceny,zatwierdzona)
+VALUES ('2022-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),101,'NEGATYWNA',false);
 
-INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,nazwa,zatwierdzona)
-VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),151,'pozytywna',false);
+INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,wynik_oceny,zatwierdzona)
+VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),151,'POZYTYWNA',false);
 
 
 --Osiągniecie

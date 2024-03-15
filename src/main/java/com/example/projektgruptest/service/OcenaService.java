@@ -53,7 +53,7 @@ public class OcenaService {
     }
     public Ocena buildOcena(OcenaDTO ocenaDTO) {
         return Ocena.builder()
-                .nazwa(ocenaDTO.getNazwa())
+                .wynikOceny(ocenaDTO.getWynikOceny())
                 .dataPoczatkowa(ocenaDTO.getDataPoczatkowa())
                 .dataKoncowa(ocenaDTO.getDataKoncowa())
                 .pracownik(pracownikService.getPracownik(ocenaDTO.getIdPracownika()))
@@ -68,7 +68,7 @@ public class OcenaService {
         ocenaRepo.save(ocena);
     }
     private void modifyOcena(Ocena ocena, OcenaDTO ocenaDTO) {
-        ocena.setNazwa(ocenaDTO.getNazwa());
+        ocena.setWynikOceny(ocenaDTO.getWynikOceny());
         ocena.setDataPoczatkowa(ocenaDTO.getDataPoczatkowa());
         ocena.setDataKoncowa(ocenaDTO.getDataKoncowa());
     }
@@ -100,7 +100,7 @@ public class OcenaService {
     public OcenaDTO convertToDTO(Ocena ocena) {
         return OcenaDTO.builder()
                 .id(ocena.getId())
-                .nazwa(ocena.getNazwa())
+                .wynikOceny(ocena.getWynikOceny())
                 .dataPoczatkowa(ocena.getDataPoczatkowa())
                 .dataKoncowa(ocena.getDataKoncowa())
                 .czyZatwierdzona(ocena.getZatwierdzona())

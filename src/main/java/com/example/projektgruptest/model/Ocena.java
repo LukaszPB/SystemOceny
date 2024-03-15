@@ -1,5 +1,6 @@
 package com.example.projektgruptest.model;
 
+import com.example.projektgruptest.enums.WynikOceny;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,8 +18,8 @@ public class Ocena {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "nazwa")
-    private String nazwa;
+    @Enumerated(EnumType.STRING)
+    private WynikOceny wynikOceny;
     @Column(name = "dataPoczatkowa")
     private Date dataPoczatkowa;
     @Column(name = "dataKoncowa")
