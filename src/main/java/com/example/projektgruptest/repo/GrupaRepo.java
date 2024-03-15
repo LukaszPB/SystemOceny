@@ -11,5 +11,4 @@ import java.util.List;
 public interface GrupaRepo extends JpaRepository<Grupa,Long> {
     Grupa findByNazwa(String nazwa);
 
-   // List<Pracownik> findByGrupa_grupa(String nazwaGrupy);
 }

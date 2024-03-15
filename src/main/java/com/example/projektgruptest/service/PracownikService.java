@@ -32,6 +32,14 @@ public class PracownikService {
         return pracownikRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException(
                 "Pracownik o podanym id nie zostal znaleziony: " + id));
     }
+
+    public List<Pracownik> getPracownikWydzial(String nazwaWydzialu){
+        return pracownikRepo.findByWydzialKatedra_NazwaWydzialu(nazwaWydzialu);
+    }
+    public List<Pracownik> getPracownikKatedra(String nazwaKatedry){
+        return pracownikRepo.findByWydzialKatedra_NazwaKatedry(nazwaKatedry);
+    }
+
     public List<Pracownik> getPracownikStanowisko(long id) {
         return pracownikRepo.findByPracownikStanowisko_Id(id);
     }
@@ -39,21 +47,10 @@ public class PracownikService {
         return pracownikRepo.findByStopienNaukowy_Id(id);
     }
 
-//    public List<Pracownik> getPracownikOceny(long idPracownika){
-//        return pracownikRepo.findByOcenaSet_IdPracownika(idPracownika);
-//    }
-
     public List<Pracownik> getPracownikOsiagniecia(long idPracownika){
         return pracownikRepo.findByOsiagniecieSet_Id(idPracownika);
     }
 
-//    public List<Osiagniecie> getOsiagniecieByIdOceny(long idOceny){
-//        pracownikRepo.findByOcena_IdOceny()
-//    }
-
-//    public List<Pracownik> getPracownikRodzajDzialanosci(long id) {
-//        return pracownikRepo.findByRodzajDzialalnosci_IdRodzajDzialalnosci(id);
-//    }
     public void addPracownik(Pracownik pracownik) {
         pracownikRepo.save(pracownik);
     }

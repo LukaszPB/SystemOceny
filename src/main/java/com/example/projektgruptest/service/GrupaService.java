@@ -26,8 +26,6 @@ public class GrupaService {
         return grupaRepo.findByNazwa(nazwaGrupy);
     }
 
-//    public List<Pracownik> getListaPracownikowZgrupy(String nazwaGrupy){
-//        return  grupaRepo.findByGrupa_grupa(nazwaGrupy);
-//    }
+
 
 }
