@@ -8,9 +8,12 @@ import com.example.projektgruptest.repo.RolaRepo;
 import com.example.projektgruptest.service.RolaService;
 import com.example.projektgruptest.service.UzytkownikService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,73 +27,39 @@ public class UzytkownikController {
     private final UzytkownikService uzytkownikService;
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/uzytkownicy")
-    public List<UzytkownikDTO> getUzytkownicy(@AuthenticationPrincipal UserWithPracownik user)
+    public List<UzytkownikDTO> getUzytkownicy()
     {
-        List<UzytkownikDTO> list = new ArrayList<>();
-        if (user.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .anyMatch(role -> role.equals(rolaService.getRola(1).getNazwa()))) {
-           for(Uzytkownik u: uzytkownikService.getUzytkownicy()){
-               if(u.getPracownik()!=null){
-                   list.add(uzytkownikService.addUzytkownikDTO(u));
-               }
-               else
-               {
-                   list.add(uzytkownikService.addUzytkownikDTOBezPracownika(u));
-               }
-           }
-        }
-        return list;
+        List<Uzytkownik> uzytkownikList = uzytkownikService.getUzytkownicy();
+
+        return uzytkownikService.convertListToDTO(uzytkownikList);
     }
     @SecurityRequirement(name = "JWT Authentication")
     @PostMapping("/uzytkownik")
-    public void dodajUzytkownika(@RequestBody UzytkownikDTO uzytkownikDTO,@AuthenticationPrincipal UserWithPracownik user) {
-        if (user.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .anyMatch(role -> role.equals(rolaService.getRola(1).getNazwa()))) {
-            Uzytkownik uzytkownik = uzytkownikService.addUzytkownik(uzytkownikDTO);
-            uzytkownikService.addUzytkownik(uzytkownik);
+    public ResponseEntity<String> dodajUzytkownika(@RequestBody @Valid UzytkownikDTO uzytkownikDTO, BindingResult result) {
+        if(result.hasErrors()) {
+            return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
         }
-
+        uzytkownikService.addUzytkownik(uzytkownikDTO);
+        return ResponseEntity.ok("Sukces");
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @PutMapping("/uzytkownik/{id}")
-    public void edytujUzytkownika(@PathVariable Long id,@RequestBody UzytkownikDTO u,@AuthenticationPrincipal UserWithPracownik user)
+    @PutMapping("/uzytkownikEdytuj/{id}")
+    public ResponseEntity<String> edytujUzytkownika(@PathVariable Long id,@RequestBody @Valid UzytkownikDTO uzytkownikDTO, BindingResult result)
     {
-        Uzytkownik uzytkownik = uzytkownikService.getUzytkownik(id);
-        if (user.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .anyMatch(role -> role.equals(rolaService.getRola(1).getNazwa()))) {
-            System.out.println("ADMIN");
-            if(rolaService.getRola(u.getRola())!=null)
-            {
-                uzytkownik.setRola(rolaService.getRola(u.getRola()));
-            }
-            uzytkownikService.addUzytkownik(uzytkownik);
+        if(result.hasErrors()) {
+            return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
         }
-        if(user.getPracownik()!=null)
-        {
-            System.out.println("WSZEDLEM");
-            System.out.println(user.getPracownik().getId());
-            if(uzytkownikService.getUzytkownik(id).getPracownik().getId() == user.getPracownik().getId())
-            {
-                System.out.println("WSZEDLEM v2");
-                uzytkownik.setLogin(u.getLogin());
-                uzytkownik.setHaslo(u.getHaslo());
-                uzytkownikService.addUzytkownik(uzytkownik);
-            }
-        }
+        uzytkownikService.editUzytkownik(uzytkownikDTO,id);
+        return ResponseEntity.ok("Sukces");
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @DeleteMapping("/uzytkownik/{id}")
+    @DeleteMapping("/uzytkownikUsun/{id}")
     public void usunUzytkownika(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user)
     {
+        //dodac obsluge jak sie opoda zle id
         Uzytkownik uzytkownik = uzytkownikService.getUzytkownik(id);
-        if (user.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .anyMatch(role -> role.equals(rolaService.getRola(1).getNazwa()))) {
-           uzytkownikService.deleteUzytkownik(uzytkownik);
-        }
+        uzytkownikService.deleteUzytkownik(uzytkownik);
+
     }
 
 

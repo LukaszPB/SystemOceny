@@ -17,11 +17,6 @@ public class PracownikController {
     private final PracownikService pracownikService;
 
     @SecurityRequirement(name = "JWT Authentication")
-    @GetMapping("/pracownikPobierzWszystkich")
-    public List<PracownikDTO> getPracownicy() {
-        return pracownikService.convertListToDTO(pracownikService.getPracownicy());
-    }
-    @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/pracownik")
     public PracownikDTO getPracownik(@AuthenticationPrincipal UserWithPracownik user) {
         return pracownikService.convertToDTO(

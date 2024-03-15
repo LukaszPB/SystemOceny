@@ -16,9 +16,9 @@ public class RolaService {
     public List<Rola> getRole(){return rolaRepo.findAll();}
     public Rola getRola(long id){return rolaRepo.getReferenceById(id);}
     public Rola getRola(String nazwa){return rolaRepo.findByNazwa(nazwa);}
-    public Rola getRolaUzytkownika(long id){
-       Uzytkownik uzytkownik = uzytkownikService.getUzytkownik(id);
-       return uzytkownik.getRola();
-    }
+//    public Rola getRolaUzytkownika(long id){
+//       Uzytkownik uzytkownik = uzytkownikService.getUzytkownik(id);
+//       return uzytkownik.getRola();
+//    }
 
 }
