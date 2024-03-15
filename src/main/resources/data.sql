@@ -6,7 +6,82 @@ INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'ADMIN');
 INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'KOMISJA');
 INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'PRACOWNIK');
 
+--WYDZIAŁ KATEDRA
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'INFORMATYKI','OPROGRAMOWANIA');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'INFORMATYKI','MATEMATYKI');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'INFORMATYKI','INFORMATYKI TEORETYCZNEJ');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'INFORMATYKI','MEDIOW CYFROWYCH I GRAFIKI KOMPUTEROWEJ');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'INFORMATYKI','SYSTEMOW INFORMACYJNYCH I SIECI KOMPUTEROWYCH');
 
+
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'ARCHITEKTURY','PROJEKTOWANIA ARCHITEKTONICZNEGO');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'ARCHITEKTURY','ARCHITEKTURY MIESZKANIOWEJ');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'ARCHITEKTURY','INSTYTUT SZTUKI');
+
+
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'BUDOWNICTWA I NAUK O SRODOWISKU','GEOTECHNIKI DROG I GEODEZJI');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'BUDOWNICTWA I NAUK O SRODOWISKU','BUDOWNICTWA I KSZTALTOWANIA KRAJOBRAZU');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'BUDOWNICTWA I NAUK O SRODOWISKU','BUDOWNICTWA ZROWNOWAZONEGO I INSTALACJI BUDOWLANYCH');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'BUDOWNICTWA I NAUK O SRODOWISKU','KONSTRUKCJI BUDOWLANYCH I MECHANIKI BUDOWLI');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'BUDOWNICTWA I NAUK O SRODOWISKU','CHEMII, BIOLOGII I BIOTECHNOLOGII');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'BUDOWNICTWA I NAUK O SRODOWISKU','CIEPLOWNICTWA, OGRZEWNICTWA I WENTYLACJI');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'BUDOWNICTWA I NAUK O SRODOWISKU','INZYNIERII ROLNO-SPOZYWCZEJ I KSZTALTOWANIA SRODOWISKA');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'BUDOWNICTWA I NAUK O SRODOWISKU','TECHNOLOGII W INZYNIERII SRODOWISKA');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'BUDOWNICTWA I NAUK O SRODOWISKU','WODOCIAGOW I KANALIZACJI');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'BUDOWNICTWA I NAUK O SRODOWISKU','HODOWLI I UZYTKOWANIA LASU');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'BUDOWNICTWA I NAUK O SRODOWISKU','SRODOWISKA LESNEGO');
+
+
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'ELEKTRYCZNY','AUTOMATYKI I ROBOTYKI');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'ELEKTRYCZNY','ELEKTROTECHNIKI, ENERGOELEKTRONIKI I ELEKTROENERGETYKI');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'ELEKTRYCZNY','FOTONIKI, ELEKTRONIKI I TECHNIKI SWIETLNEJ');
+
+
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'INZYNIERII I ZARZADZANIA','ZARZADZANIA, EKONOMII I FINANSOW');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'INZYNIERII I ZARZADZANIA','MARKETINGU I TURYSTYKI');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'INZYNIERII I ZARZADZANIA','ZARZADZANIA PRODUKCJA');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'INZYNIERII I ZARZADZANIA','LOGISTYKI I INZYNIERII USLUG');
+
+
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'MECHANICZNY','BUDOWY I EKSPLOATACJI MASZYN');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'MECHANICZNY','MECHANIKI I INFORMATYKI STOSOWANEJ');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'MECHANICZNY','UKLADOW DYNAMICZNYCH');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'MECHANICZNY','AUTOMATYZACJI PROCESOW PRZEMYSLOWYCH');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'MECHANICZNY','INZYNIERII MATERIALOWEJ I PRODUKCJI');
+INSERT INTO "wydzialKatedra" (id,nazwaWydzialu,nazwaKatedry)
+VALUES (nextval('grupa_seq'),'MECHANICZNY','TECHNIKI CIEPLNEJ');
+--KONIEC WYDZIAL KATEDRA
 
 
 --GRUPA
@@ -25,7 +100,17 @@ VALUES (nextval('grupa_seq'), 'BWM');
 INSERT INTO "grupa" (id, nazwa)
 VALUES (nextval('grupa_seq'), 'DJK');
 INSERT INTO "grupa" (id, nazwa)
-VALUES (nextval('grupa_seq'), 'WYDZIALY');  --ROZPISAĆ NA POSZCZEGÓLNE WYDZIAŁY
+VALUES (nextval('grupa_seq'), 'WYDZIAL INFORMATYKI');
+INSERT INTO "grupa" (id, nazwa)
+VALUES (nextval('grupa_seq'), 'WYDZIAL MECHANICZNY');
+INSERT INTO "grupa" (id, nazwa)
+VALUES (nextval('grupa_seq'), 'WYDZIAL ELEKTRYCZNY');
+INSERT INTO "grupa" (id, nazwa)
+VALUES (nextval('grupa_seq'), 'BUDOWNICTWA I NAUK O SRODOWISKU');
+INSERT INTO "grupa" (id, nazwa)
+VALUES (nextval('grupa_seq'), 'INZYNIERII I ZARZADZANIA');
+INSERT INTO "grupa" (id, nazwa)
+VALUES (nextval('grupa_seq'), 'ARCHITEKTURY');
 INSERT INTO "grupa" (id, nazwa)
 VALUES (nextval('grupa_seq'), 'JEDN.OGOLNOUCZ.');
 INSERT INTO "grupa" (id, nazwa)
