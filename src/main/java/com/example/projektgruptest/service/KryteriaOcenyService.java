@@ -16,18 +16,15 @@ import java.util.stream.Collectors;
 public class KryteriaOcenyService {
     private final KryteriaOcenyRepo kryteriaOcenyRepo;
     private final StopienNaukowyService stopienNaukowyService;
-    public List<KryteriaOcenyDTO> getKryteriaOceny() {
-        return kryteriaOcenyRepo.findAll().stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public List<KryteriaOceny> getKryteriaOceny() {
+        return kryteriaOcenyRepo.findAll();
     }
-    public KryteriaOcenyDTO getKryteriumOceny(Pracownik pracownik) {
+    public KryteriaOceny getKryteriumOceny(Pracownik pracownik) {
         boolean czyMaTytulNaukowy = czyMaTytulNaukowy(pracownik.getStopienNaukowy().getNazwa());
         boolean czKierownik = czyKierownik(pracownik.getPracownikStanowisko().getNazwa());
-        for(KryteriaOcenyDTO kryteriaOceny : getKryteriaOceny()) {
-            if(kryteriaOceny.isCzyNaStanowiskuKierowniczym() == czKierownik &&
-                kryteriaOceny.isCzyPosiadaStopienNaukowy() == czyMaTytulNaukowy&&
-                Objects.equals(kryteriaOceny.getGrupa(), pracownik.getGrupa().getNazwa())) { //TODO:PODEJZANE DZIALANIE
+        for(KryteriaOceny kryteriaOceny : getKryteriaOceny()) {
+            if(kryteriaOceny.getCzyNaStanowiskuKierowniczym() == czKierownik &&
+                kryteriaOceny.getCzyPosiadaStopienNaukowy() == czyMaTytulNaukowy) {
                 return  kryteriaOceny;
             }
         }
@@ -40,11 +37,16 @@ public class KryteriaOcenyService {
     public boolean czyKierownik(String nazwa) {
         return (Objects.equals(nazwa, "DZIEKAN") || Objects.equals(nazwa, "PRODZIEKAN"));
     }
+    public List<KryteriaOcenyDTO> convertListToDTO(List<KryteriaOceny> kryteriaOcenyList) {
+        return kryteriaOcenyList
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
     public KryteriaOcenyDTO convertToDTO(KryteriaOceny kryteriaOceny) {
         return KryteriaOcenyDTO.builder()
                 .progPozytywnejOcenyDO(kryteriaOceny.getProgPozytywnejOcenyDO())
                 .progPozytywnejOcenyNB(kryteriaOceny.getProgPozytywnejOcenyNB())
-                .grupa(kryteriaOceny.getGrupa().getNazwa())
                 .IdKryterium(kryteriaOceny.getIdKryterium())
                 .progOcenyZWyroznieniemDO(kryteriaOceny.getProgOcenyZWyroznieniemDO())
                 .progOcenyZWyroznieniemNB(kryteriaOceny.getProgOcenyZWyroznieniemNB())

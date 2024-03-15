@@ -54,39 +54,33 @@ VALUES (nextval('stopnie_naukowe_seq'), 'PROFESOR');
 -- KRYTERIA OCENY
 INSERT INTO "kryteria_oceny" (czy_na_stanowisku_kierowniczym, czy_posiada_stopien_naukowy,
                               prog_ocenyzwyroznieniemdo, prog_ocenyzwyroznieniemnb,
-                              prog_pozytywnej_ocenydo, prog_pozytywnej_ocenynb, id_kryterium,
-                              grupa_id)
-VALUES (true, true, 60, 250, 60, 40, nextval('kryteria_oceny_seq'), 1);
+                              prog_pozytywnej_ocenydo, prog_pozytywnej_ocenynb, id_kryterium)
+VALUES (true, true, 60, 250, 60, 40, nextval('kryteria_oceny_seq'));
 
 INSERT INTO "kryteria_oceny" (czy_na_stanowisku_kierowniczym, czy_posiada_stopien_naukowy,
                               prog_ocenyzwyroznieniemdo, prog_ocenyzwyroznieniemnb,
-                              prog_pozytywnej_ocenydo, prog_pozytywnej_ocenynb, id_kryterium,
-                              grupa_id)
-VALUES (false, true, 50, 250, 50, 50, nextval('kryteria_oceny_seq'), 1);
+                              prog_pozytywnej_ocenydo, prog_pozytywnej_ocenynb, id_kryterium)
+VALUES (false, true, 50, 250, 50, 50, nextval('kryteria_oceny_seq'));
 
 INSERT INTO "kryteria_oceny" (czy_na_stanowisku_kierowniczym, czy_posiada_stopien_naukowy,
                               prog_ocenyzwyroznieniemdo, prog_ocenyzwyroznieniemnb,
-                              prog_pozytywnej_ocenydo, prog_pozytywnej_ocenynb, id_kryterium,
-                              grupa_id)
-VALUES (false, false, 50, 150, 40, 40, nextval('kryteria_oceny_seq'), 1);
+                              prog_pozytywnej_ocenydo, prog_pozytywnej_ocenynb, id_kryterium)
+VALUES (false, false, 50, 150, 40, 40, nextval('kryteria_oceny_seq'));
 
 INSERT INTO "kryteria_oceny" (czy_na_stanowisku_kierowniczym, czy_posiada_stopien_naukowy,
                               prog_ocenyzwyroznieniemdo, prog_ocenyzwyroznieniemnb,
-                              prog_pozytywnej_ocenydo, prog_pozytywnej_ocenynb, id_kryterium,
-                              grupa_id)
-VALUES (true, true, 300, 0, 100, 0, nextval('kryteria_oceny_seq'), 1);
+                              prog_pozytywnej_ocenydo, prog_pozytywnej_ocenynb, id_kryterium)
+VALUES (true, true, 300, 0, 100, 0, nextval('kryteria_oceny_seq'));
 
 INSERT INTO "kryteria_oceny" (czy_na_stanowisku_kierowniczym, czy_posiada_stopien_naukowy,
                               prog_ocenyzwyroznieniemdo, prog_ocenyzwyroznieniemnb,
-                              prog_pozytywnej_ocenydo, prog_pozytywnej_ocenynb, id_kryterium,
-                              grupa_id)
-VALUES (false, true, 300, 0, 100, 0, nextval('kryteria_oceny_seq'), 1);
+                              prog_pozytywnej_ocenydo, prog_pozytywnej_ocenynb, id_kryterium)
+VALUES (false, true, 300, 0, 100, 0, nextval('kryteria_oceny_seq'));
 
 INSERT INTO "kryteria_oceny" (czy_na_stanowisku_kierowniczym, czy_posiada_stopien_naukowy,
                               prog_ocenyzwyroznieniemdo, prog_ocenyzwyroznieniemnb,
-                              prog_pozytywnej_ocenydo, prog_pozytywnej_ocenynb, id_kryterium,
-                              grupa_id)
-VALUES (false, false, 200, 0, 80, 0, nextval('kryteria_oceny_seq'), 1);
+                              prog_pozytywnej_ocenydo, prog_pozytywnej_ocenynb, id_kryterium)
+VALUES (false, false, 200, 0, 80, 0, nextval('kryteria_oceny_seq'));
 
 -- STANOWISKA
 INSERT INTO "pracownik_stanowiska" (id, nazwa)
@@ -203,7 +197,7 @@ VALUES (true,false,25,'2022-05-11 20:00:00',nextval('osiagniecia_seq'),
 INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
 VALUES (false,false,60,'2023-02-01 18:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Uzyskanie stopnia doktora'),
-        101,'Uzyskanie stopnia doktora',null);
+        101,'Uzyskanie stopnia doktora',101);
 
 INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
 VALUES (true,false,10,'2023-01-05 20:00:00',nextval('osiagniecia_seq'),
@@ -211,14 +205,14 @@ VALUES (true,false,10,'2023-01-05 20:00:00',nextval('osiagniecia_seq'),
         101,'Publikacje naukowe',null);
 
 INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
-VALUES (true,true,10,'2023-01-05 20:00:00',nextval('osiagniecia_seq'),
+VALUES (true,true,10,'2026-01-05 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        101,'Publikacje naukowe',101);
+        101,'Publikacje naukowe',null);
 
 INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
-VALUES (true,false,10,'2021-01-05 20:00:00',nextval('osiagniecia_seq'),
+VALUES (true,false,10,'2026-01-05 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        101,'Publikacje naukowe',101);
+        101,'Publikacje naukowe',null);
 
 INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
 VALUES (true,false,10,'2023-04-04 20:30:00',nextval('osiagniecia_seq'),
@@ -236,14 +230,14 @@ VALUES (true,false,20,'2023-02-21 20:00:00',nextval('osiagniecia_seq'),
         151,'Publikacje naukowe',151);
 
 INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
-VALUES (false,false,10,'2023-07-15 20:00:00',nextval('osiagniecia_seq'),
+VALUES (false,false,10,'2026-07-15 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        151,'Publikacje naukowe',151);
+        151,'Publikacje naukowe',null);
 
 INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
-VALUES (true,false,15,'2023-10-11 20:00:00',nextval('osiagniecia_seq'),
+VALUES (true,false,15,'2026-10-11 20:00:00',nextval('osiagniecia_seq'),
         (SELECT id_pod_kategorii FROM "pod_kategorie" WHERE nazwa='Publikacje naukowe'),
-        151,'Publikacje naukowe',151);
+        151,'Publikacje naukowe',null);
 
 INSERT INTO "osiagniecia" (zatwierdzone,zarchiwizowane,ilosc_punktow,data,id,pod_kategoria_id_pod_kategorii,pracownik_id,nazwa,ocena_id)
 VALUES (true,false,10,'2022-01-07 20:00:00',nextval('osiagniecia_seq'),

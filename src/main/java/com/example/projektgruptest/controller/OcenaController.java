@@ -2,6 +2,7 @@ package com.example.projektgruptest.controller;
 
 import com.example.projektgruptest.config.security.UserWithPracownik;
 import com.example.projektgruptest.model.Ocena;
+import com.example.projektgruptest.modelDTO.DodawanieOcenDTO;
 import com.example.projektgruptest.modelDTO.OcenaDTO;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
 import com.example.projektgruptest.service.OcenaService;
@@ -34,11 +35,11 @@ public class OcenaController {
     }
     @SecurityRequirement(name = "JWT Authentication")
     @PostMapping("/ocena")
-    public ResponseEntity<String> dodajOcene(@RequestBody @Valid OcenaDTO ocenaDTO, BindingResult result) {
+    public ResponseEntity<String> dodajOcene(@RequestBody @Valid DodawanieOcenDTO dodawanieOcenDTO, BindingResult result) {
         if(result.hasErrors()) {
             return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
         }
-        ocenaService.addOcena(ocenaDTO);
+        ocenaService.addOceny(dodawanieOcenDTO);
         return ResponseEntity.ok("Sukces");
     }
     @SecurityRequirement(name = "JWT Authentication")
