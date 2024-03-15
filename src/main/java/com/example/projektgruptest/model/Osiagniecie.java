@@ -32,4 +32,6 @@ public class Osiagniecie {
     PodKategoria podKategoria;
     @ManyToOne
     Pracownik pracownik;
+    @ManyToOne
+    Ocena ocena;
 }

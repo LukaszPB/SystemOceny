@@ -25,9 +25,4 @@ public class KryteriaOceny {
     private Integer progPozytywnejOcenyDO;
     @Column(name = "progOcenyZWyroznieniemDO")
     private Integer progOcenyZWyroznieniemDO;
-
-    //KLUCZE OBCE
-    @ManyToOne
-    Grupa grupa;
-
 }

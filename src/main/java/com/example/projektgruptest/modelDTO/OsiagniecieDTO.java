@@ -32,4 +32,5 @@ public class OsiagniecieDTO {
     private String podKategoriaNazwa;
     @ValidPracownikExist
     private Long idPracownika;
+    private Long idOceny;
 }

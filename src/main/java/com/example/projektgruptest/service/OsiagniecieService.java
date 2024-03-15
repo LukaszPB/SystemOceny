@@ -2,6 +2,7 @@ package com.example.projektgruptest.service;
 
 import com.example.projektgruptest.exception.ResourceNotFoundException;
 import com.example.projektgruptest.model.Grupa;
+import com.example.projektgruptest.model.Ocena;
 import com.example.projektgruptest.model.Osiagniecie;
 import com.example.projektgruptest.model.Pracownik;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
@@ -10,7 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -29,16 +30,17 @@ public class OsiagniecieService {
     public List<Osiagniecie> getOsiagnieciaPracownika(long idPracownika) {
         return osiagniecieRepo.findByPracownik_Id(idPracownika);
     }
+    public List<Osiagniecie> getOsiagnieciaPracownika(long idPracownika, Date dataPoczatkowa, Date dataKoncowa) {
+        return getOsiagnieciaPracownika(idPracownika).stream()
+                .filter(osiagniecie -> osiagniecie.getData().before(dataKoncowa)
+                        && osiagniecie.getData().after(dataPoczatkowa))
+                .collect(Collectors.toList());
+    }
     public List<Osiagniecie> getOsiagnieciaZGrupy(long idPracownika, Grupa grupa) {
-        List<Osiagniecie> resultList = new ArrayList<>();
-
-        for (Osiagniecie osiagniecie : getOsiagnieciaPracownika(idPracownika)) {
-            if(Objects.equals(osiagniecie.getPodKategoria().getGrupa().getId(), grupa.getId())) {
-                resultList.add(osiagniecie);
-            }
-        }
-
-        return resultList;
+        return getOsiagnieciaPracownika(idPracownika).stream()
+                .filter(osiagniecie ->
+                        Objects.equals(osiagniecie.getPodKategoria().getGrupa().getId(), grupa.getId()))
+                .collect(Collectors.toList());
     }
     public void addOsiagniecie(OsiagniecieDTO osiagniecieDTO) {
         Osiagniecie osiagniecie = buildOsiagniecie(osiagniecieDTO);
@@ -86,11 +88,14 @@ public class OsiagniecieService {
         osiagniecieRepo.delete(osiagniecie);
     }
     @Transactional
-    public void zarchiwizujOsiagniecia(List<Osiagniecie> osiagniecieList) {
-        osiagniecieList.forEach(osiagniecie -> {
-            osiagniecie.setZarchiwizowane(true);
-            osiagniecieRepo.save(osiagniecie);
-        });
+    public void przypiszOsiagnieciaOcenie(Ocena ocena) {
+        getOsiagnieciaPracownika(ocena.getPracownik().getId(),ocena.getDataPoczatkowa(),ocena.getDataKoncowa())
+                .stream()
+                .filter(osiagniecie -> osiagniecie.getZatwierdzone() && osiagniecie.getOcena() == null)
+                .forEach(osiagniecie -> {
+                    osiagniecie.setOcena(ocena);
+                    osiagniecieRepo.save(osiagniecie);
+                });
     }
     public boolean canModifyOsiagniecie(Pracownik pracownik, long idOsagniecia) {
         Osiagniecie osiagniecie = getOsiagniecie(idOsagniecia);
@@ -119,6 +124,7 @@ public class OsiagniecieService {
                 .zatwierdzone(osiagniecie.getZatwierdzone())
                 .idPracownika(osiagniecie.getPracownik().getId())
                 .podKategoriaNazwa(osiagniecie.getPodKategoria().getNazwa())
+                .idOceny(osiagniecie.getOcena() != null ? osiagniecie.getOcena().getId() : null)
                 .build();
     }
 }
