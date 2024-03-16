@@ -20,13 +20,18 @@ public class PodKategoriaController {
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/podkategoriaWszystkie")
     public List<PodKategoriaDTO> getWszystkiePodKategorie() {
-        return podKategorieService.getPodKategorieDTO();
+        return podKategorieService.convertListToDTO(podKategorieService.getPodKategorie());
     }
 
     @SecurityRequirement(name = "JWT Authentication")
     @GetMapping("/podkategoria/{id}")
     public PodKategoriaDTO getPodKategoriaDTO(@PathVariable long id) {
-        return podKategorieService.getPodKategoriaDTO(id);
+        return podKategorieService.convertToDTO(podKategorieService.getPodkategoria(id));
+    }
+    @SecurityRequirement(name = "JWT Authentication")
+    @GetMapping("/podkategoriaGrupa/{nazwaGrupy}")
+    public List<PodKategoriaDTO> getPodKategoriaByGrupa(@PathVariable String nazwaGrupy) {
+        return podKategorieService.convertListToDTO(podKategorieService.getPodkategorieByGrupa(nazwaGrupy));
     }
 
 

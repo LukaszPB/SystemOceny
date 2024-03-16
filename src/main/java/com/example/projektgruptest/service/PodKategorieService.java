@@ -41,7 +41,10 @@ public class PodKategorieService {
     }
     public void deletePodkategoria(long idPodkategorii){podKategoriaRepo.deleteById(idPodkategorii);}
 
-
+   public List<PodKategoria> getPodkategorieByGrupa(String nazwa)
+   {
+       return podKategoriaRepo.findPodKategoriaByGrupa_Nazwa(nazwa);
+   }
     public List<PodKategoriaDTO> convertListToDTO(List<PodKategoria> podKategoriaList) {
         return podKategoriaList.stream()
                 .map(this::convertToDTO)

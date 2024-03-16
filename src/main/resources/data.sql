@@ -164,11 +164,11 @@ SELECT nextval('pracownicy_seq'),
 --PodKategorie
 INSERT INTO "pod_kategorie" (max_punktow, min_punktow, id_pod_kategorii, nazwa, grupa_id)
 SELECT 160, 160, nextval('pod_kategorie_seq'), 'Uzyskanie tytułu profesora',
-       (SELECT id FROM "grupa" WHERE nazwa = 'WYDZIALY');
+       (SELECT id FROM "grupa" WHERE nazwa = 'OWI');
 
 INSERT INTO "pod_kategorie" (max_punktow,min_punktow,id_pod_kategorii,nazwa,grupa_id)
 SELECT 120,120,nextval('pod_kategorie_seq'),'Uzyskanie stopnia doktora habilitowanego',
-    (SELECT id FROM "grupa" WHERE nazwa = 'WYDZIALY');
+    (SELECT id FROM "grupa" WHERE nazwa = 'SJO');
 
 INSERT INTO "pod_kategorie" (max_punktow,min_punktow,id_pod_kategorii,nazwa,grupa_id)
 SELECT 60,60,nextval('pod_kategorie_seq'),'Uzyskanie stopnia doktora',
