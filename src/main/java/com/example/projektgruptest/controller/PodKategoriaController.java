@@ -1,10 +1,12 @@
 package com.example.projektgruptest.controller;
 
 
+import com.example.projektgruptest.config.security.UserWithPracownik;
 import com.example.projektgruptest.modelDTO.PodKategoriaDTO;
 import com.example.projektgruptest.service.PodKategorieService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +35,14 @@ public class PodKategoriaController {
     public List<PodKategoriaDTO> getPodKategoriaByGrupa(@PathVariable String nazwaGrupy) {
         return podKategorieService.convertListToDTO(podKategorieService.getPodkategorieByGrupa(nazwaGrupy));
     }
-
-
+    @SecurityRequirement(name = "JWT Authentication")
+    @GetMapping("/podkategoriaGrupaUsera")
+    public List<PodKategoriaDTO> getPodKategoriaByGrupaUsera(@AuthenticationPrincipal UserWithPracownik user) {
+        if(user.getPracownik()!=null)
+        {
+            return podKategorieService.convertListToDTO(podKategorieService.getPodkategorieByGrupa(user.getPracownik().getGrupa().getNazwa()));
+        }
+        return null;
+    }
 
 }
