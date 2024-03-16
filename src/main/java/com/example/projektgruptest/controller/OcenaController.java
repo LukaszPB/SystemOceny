@@ -6,14 +6,12 @@ import com.example.projektgruptest.modelDTO.DodawanieOcenDTO;
 import com.example.projektgruptest.modelDTO.OcenaDTO;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
 import com.example.projektgruptest.service.OcenaService;
-import com.example.projektgruptest.validator.EditValidationGrup;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,19 +38,6 @@ public class OcenaController {
             return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
         }
         ocenaService.addOceny(dodawanieOcenDTO);
-        return ResponseEntity.ok("Sukces");
-    }
-    @SecurityRequirement(name = "JWT Authentication")
-    @PutMapping("/ocena/{id}")
-    public ResponseEntity<String> edytujOcene(@PathVariable Long id, @RequestBody
-            @Validated(EditValidationGrup.class) OcenaDTO ocenaDTO, BindingResult result) {
-        if(result.hasErrors()) {
-            return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
-        }
-        if(ocenaService.czyZatwierdzona(id)) {
-            return ResponseEntity.badRequest().body("Ocena jest już zatwierdzona, nie można jej modyfikować");
-        }
-        ocenaService.editOcena(id,ocenaDTO);
         return ResponseEntity.ok("Sukces");
     }
     @SecurityRequirement(name = "JWT Authentication")
