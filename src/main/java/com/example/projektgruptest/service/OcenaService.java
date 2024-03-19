@@ -1,14 +1,11 @@
 package com.example.projektgruptest.service;
 
-import com.example.projektgruptest.enums.WynikOceny;
 import com.example.projektgruptest.exception.ResourceNotFoundException;
-import com.example.projektgruptest.model.KryteriaOceny;
 import com.example.projektgruptest.model.Ocena;
 import com.example.projektgruptest.model.Osiagniecie;
 import com.example.projektgruptest.modelDTO.DodawanieOcenDTO;
 import com.example.projektgruptest.modelDTO.OcenaDTO;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
-import com.example.projektgruptest.modelDTO.PracownikDTO;
 import com.example.projektgruptest.repo.OcenaRepo;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -56,37 +53,26 @@ public class OcenaService {
         Date dataPoczatkowa = dodawanieOcenDTO.getDataPoczatkowa();
         Date dataKoncowa = dodawanieOcenDTO.getDataKoncowa();
 
-        for(PracownikDTO pracownikDTO : dodawanieOcenDTO.getPracownikDTOList()) {
-            addOcena(Ocena.builder()
-                    .dataPoczatkowa(dataPoczatkowa)
-                    .dataKoncowa(dataKoncowa)
-                    .pracownik(pracownikService.getPracownik(pracownikDTO.getId()))
-                    .zatwierdzona(false)
-                    .build());
-        }
+        dodawanieOcenDTO.getPracownikDTOList()
+                .stream()
+                .map(pracownikDTO -> pracownikService.getPracownik(pracownikDTO.getId()))
+                .filter(pracownik -> pracownik.getDataOstatniejOceny().before(dataPoczatkowa))
+                .forEach(pracownik -> addOcena(Ocena.builder()
+                                .dataPoczatkowa(dataPoczatkowa)
+                                .dataKoncowa(dataKoncowa)
+                                .pracownik(pracownik)
+                                .zatwierdzona(false)
+                                .build()));
     }
     @Transactional
     public void addOcena(Ocena ocena) {
         ocenaRepo.save(ocena);
+
         osiagniecieService.przypiszOsiagnieciaOcenie(ocena);
-        ocena.setWynikOceny(wyliczWynikOceny(ocena));
+        ocena.setWynikOceny(kryteriaOcenyService.wyliczWynikOceny(ocena));
+
         ocenaRepo.save(ocena);
-    }
-    public WynikOceny wyliczWynikOceny(Ocena ocena) {
-        int punkty = getOsiagnieciaOceny(ocena.getId())
-                .stream()
-                .mapToInt(Osiagniecie::getIloscPunktow)
-                .sum();
-
-        KryteriaOceny kryteriaOceny = kryteriaOcenyService.getKryteriumOceny(ocena.getPracownik());
-
-        if(kryteriaOceny.getProgOcenyZWyroznieniemNB() <= punkty) {
-            return WynikOceny.POZYTYWNA_Z_WYRÓŻNIENIEM;
-        }
-        if(kryteriaOceny.getProgPozytywnejOcenyNB() <= punkty) {
-            return WynikOceny.POZYTYWNA;
-        }
-        return WynikOceny.NEGATYWNA;
+        pracownikService.updateDataOstatniejOceny(ocena.getPracownik(),ocena.getDataKoncowa());
     }
     public Ocena buildOcena(OcenaDTO ocenaDTO) {
         return Ocena.builder()
@@ -96,18 +82,6 @@ public class OcenaService {
                 .pracownik(pracownikService.getPracownik(ocenaDTO.getIdPracownika()))
                 .zatwierdzona(false)
                 .build();
-    }
-    @Transactional
-    public void editOcena(long id, OcenaDTO ocenaDTO) {
-        Ocena ocena = getOcena(id);
-
-        modifyOcena(ocena,ocenaDTO);
-        ocenaRepo.save(ocena);
-    }
-    private void modifyOcena(Ocena ocena, OcenaDTO ocenaDTO) {
-        ocena.setWynikOceny(ocenaDTO.getWynikOceny());
-        ocena.setDataPoczatkowa(ocenaDTO.getDataPoczatkowa());
-        ocena.setDataKoncowa(ocenaDTO.getDataKoncowa());
     }
     @Transactional
     public void zatwierdzOcene(Long id) {

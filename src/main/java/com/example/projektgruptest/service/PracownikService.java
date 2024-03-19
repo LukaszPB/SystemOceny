@@ -7,6 +7,7 @@ import com.example.projektgruptest.repo.PracownikRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,6 +53,7 @@ public class PracownikService {
     }
 
     public void addPracownik(Pracownik pracownik) {
+        pracownik.setDataOstatniejOceny(new Date());
         pracownikRepo.save(pracownik);
     }
     public void editPracownik(long id, PracownikDTO pracownikDTO) {
@@ -68,6 +70,10 @@ public class PracownikService {
         getPracownicyPrzelozonego(pracownik.getId()).forEach(p->
                 pracownikRepo.getReferenceById(p.getId()).setPrzelozony(null));
         pracownikRepo.delete(pracownik);
+    }
+    public void updateDataOstatniejOceny(Pracownik pracownik, Date date) {
+        pracownik.setDataOstatniejOceny(date);
+        pracownikRepo.save(pracownik);
     }
     public boolean CanUserAccessPracownikData(long idUsera, long idPracownika) {
         return idUsera == idPracownika ||
@@ -90,6 +96,7 @@ public class PracownikService {
                 .grupa(p.getGrupa().getNazwa())  //ZMIANA
                 .stanowisko(p.getPracownikStanowisko().getNazwa())
                 .stopienNaukowy(p.getStopienNaukowy().getNazwa())
+                .dataOstatniejOceny(p.getDataOstatniejOceny())
                 .build();
     }
     public Pracownik buildPracownik(PracownikDTO pracownikDTO) {
@@ -100,6 +107,7 @@ public class PracownikService {
                 .stopienNaukowy(stopienNaukowyService.getStopienNaukowy(pracownikDTO.getStopienNaukowy()))
                 .pracownikStanowisko(pracownikStanowiskoService.getPracownikStanowisko(pracownikDTO.getStanowisko()))
                 .grupa(grupaService.getGrupa(pracownikDTO.getGrupa())) //ZMIANA
+                .dataOstatniejOceny(pracownikDTO.getDataOstatniejOceny())
                 .build();
     }
 }

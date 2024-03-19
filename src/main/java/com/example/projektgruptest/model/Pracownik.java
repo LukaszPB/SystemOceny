@@ -4,6 +4,7 @@ package com.example.projektgruptest.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -24,6 +25,8 @@ public class Pracownik {
     private String nazwisko;
     @Column(name = "Email")
     private String email;
+    @Column(name = "dataOstatniejOceny")
+    private Date dataOstatniejOceny;
 
     //KLUCZE OBCE
     @ManyToOne

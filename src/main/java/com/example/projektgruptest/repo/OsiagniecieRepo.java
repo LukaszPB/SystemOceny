@@ -10,4 +10,5 @@ import java.util.List;
 public interface OsiagniecieRepo extends JpaRepository<Osiagniecie,Long> {
 
     List<Osiagniecie> findByPracownik_Id(long id);
+    List<Osiagniecie> findByOcena_Id(Long id);
 }

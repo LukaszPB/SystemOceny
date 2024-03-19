@@ -1,7 +1,6 @@
 package com.example.projektgruptest.modelDTO;
 
 import com.example.projektgruptest.validator.ValidRolaExist;
-import com.example.projektgruptest.validator.ValidUzytkownikExist;
 import lombok.*;
 
 @Getter
@@ -10,8 +9,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UzytkownikDTO {
-
-
     private long id;
     private String login;
     private String haslo;

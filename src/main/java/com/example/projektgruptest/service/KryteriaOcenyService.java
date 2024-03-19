@@ -1,9 +1,13 @@
 package com.example.projektgruptest.service;
 
+import com.example.projektgruptest.enums.WynikOceny;
 import com.example.projektgruptest.model.KryteriaOceny;
+import com.example.projektgruptest.model.Ocena;
+import com.example.projektgruptest.model.Osiagniecie;
 import com.example.projektgruptest.model.Pracownik;
 import com.example.projektgruptest.modelDTO.KryteriaOcenyDTO;
 import com.example.projektgruptest.repo.KryteriaOcenyRepo;
+import com.example.projektgruptest.repo.OsiagniecieRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class KryteriaOcenyService {
     private final KryteriaOcenyRepo kryteriaOcenyRepo;
+    private final OsiagniecieRepo osiagniecieRepo;
     private final StopienNaukowyService stopienNaukowyService;
     public List<KryteriaOceny> getKryteriaOceny() {
         return kryteriaOcenyRepo.findAll();
@@ -36,6 +41,22 @@ public class KryteriaOcenyService {
     }
     public boolean czyKierownik(String nazwa) {
         return (Objects.equals(nazwa, "DZIEKAN") || Objects.equals(nazwa, "PRODZIEKAN"));
+    }
+    public WynikOceny wyliczWynikOceny(Ocena ocena) {
+        int punkty = osiagniecieRepo.findByOcena_Id(ocena.getId())
+                .stream()
+                .mapToInt(Osiagniecie::getIloscPunktow)
+                .sum();
+
+        KryteriaOceny kryteriaOceny = getKryteriumOceny(ocena.getPracownik());
+
+        if(kryteriaOceny.getProgOcenyZWyroznieniemNB() <= punkty) {
+            return WynikOceny.POZYTYWNA_Z_WYRÓŻNIENIEM;
+        }
+        if(kryteriaOceny.getProgPozytywnejOcenyNB() <= punkty) {
+            return WynikOceny.POZYTYWNA;
+        }
+        return WynikOceny.NEGATYWNA;
     }
     public List<KryteriaOcenyDTO> convertListToDTO(List<KryteriaOceny> kryteriaOcenyList) {
         return kryteriaOcenyList

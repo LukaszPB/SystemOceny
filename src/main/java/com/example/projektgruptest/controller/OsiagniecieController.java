@@ -2,6 +2,7 @@ package com.example.projektgruptest.controller;
 
 import com.example.projektgruptest.config.security.UserWithPracownik;
 import com.example.projektgruptest.model.Osiagniecie;
+import com.example.projektgruptest.modelDTO.DodawanieOsiagniecDTO;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
 import com.example.projektgruptest.service.OsiagniecieService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -37,22 +38,23 @@ public class OsiagniecieController {
     }
     @SecurityRequirement(name = "JWT Authentication")
     @PostMapping("/osiagniecie")
-    public ResponseEntity<String> dodajOsiagniecie(@RequestBody @Valid OsiagniecieDTO osiagniecieDTO, BindingResult result) {
+    public ResponseEntity<String> dodajOsiagniecie(@RequestBody @Valid DodawanieOsiagniecDTO dodawanieOsiagniecDTO,
+                                                   BindingResult result, @AuthenticationPrincipal UserWithPracownik user) {
         if(result.hasErrors()) {
             return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
         }
-        osiagniecieService.addOsiagniecie(osiagniecieDTO);
+        osiagniecieService.addOsiagniecia(dodawanieOsiagniecDTO,user.getPracownik());
         return ResponseEntity.ok("Sukces");
     }
     @SecurityRequirement(name = "JWT Authentication")
     @PutMapping("/osiagniecie/{id}")
-    public ResponseEntity<String> edytujOsiagniecie(@PathVariable long id, @RequestBody @Valid OsiagniecieDTO osiagniecieDTO, BindingResult result,
-                                  @AuthenticationPrincipal UserWithPracownik user) {
+    public ResponseEntity<String> edytujOsiagniecie(@PathVariable long id, @RequestBody @Valid OsiagniecieDTO osiagniecieDTO,
+                                                    BindingResult result, @AuthenticationPrincipal UserWithPracownik user) {
         if(result.hasErrors()) {
             return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
         }
         else if(osiagniecieService.canModifyOsiagniecie(user.getPracownik(),id)) {
-            osiagniecieService.editOsiagniecie(osiagniecieDTO,id,user.getPracownik().getId());
+            osiagniecieService.editOsiagniecie(osiagniecieDTO,id,user.getPracownik());
             return ResponseEntity.ok("Sukces");
         }
         else {
@@ -61,7 +63,7 @@ public class OsiagniecieController {
     }
     @SecurityRequirement(name = "JWT Authentication")
     @PutMapping("/osiagniecieZatwierdz/{id}")
-    public ResponseEntity<String> edytujOsiagniecie(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
+    public ResponseEntity<String> zatwierdzOsiagniecie(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
         if(osiagniecieService.canApproveOsiagniecie(user.getPracownik(),id)) {
             osiagniecieService.approveOsiagniecie(id);
             return ResponseEntity.ok("Sukces");

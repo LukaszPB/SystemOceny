@@ -124,24 +124,24 @@ INSERT INTO "pracownik_stanowiska" (id, nazwa)
 VALUES (nextval('pracownik_stanowiska_seq'), 'KIEROWNIK BADAŃ');
 
 -- PRACOWNIK
-INSERT INTO "pracownicy" (id,grupa_id, pracownik_stanowisko_id,stopien_naukowy_id,wydzial_katedra_id, email, imie, nazwisko)
+INSERT INTO "pracownicy" (id,grupa_id, pracownik_stanowisko_id,stopien_naukowy_id,wydzial_katedra_id, email, imie, nazwisko, data_ostatniej_oceny)
 SELECT nextval('pracownicy_seq'),
        (SELECT id FROM "grupa" WHERE nazwa = 'WYDZIAL INFORMATYKI'),
        (SELECT id FROM "pracownik_stanowiska" WHERE nazwa = 'DZIEKAN'),
        (SELECT id FROM "stopnie_naukowe" WHERE nazwa = 'PROFESOR'),
        (SELECT id FROM "wydzial_katedra" WHERE nazwa_katedry = 'OPROGRAMOWANIA'),
-       'zenonWolski@pb.edu.pl', 'ZENON', 'WOLSKI';
+       'zenonWolski@pb.edu.pl', 'ZENON', 'WOLSKI', '2025-12-30 21:32:00';
 
-INSERT INTO "pracownicy" (id,grupa_id, przelozony, pracownik_stanowisko_id,stopien_naukowy_id,wydzial_katedra_id, email, imie, nazwisko)
+INSERT INTO "pracownicy" (id,grupa_id, przelozony, pracownik_stanowisko_id,stopien_naukowy_id,wydzial_katedra_id, email, imie, nazwisko, data_ostatniej_oceny)
 SELECT nextval('pracownicy_seq'),
        (SELECT id FROM "grupa" WHERE nazwa = 'ZWYKLYPRACOWNIK'),
        1,
        (SELECT id FROM "pracownik_stanowiska" WHERE nazwa = 'WYKŁADOWCA'),
        (SELECT id FROM "stopnie_naukowe" WHERE nazwa = 'DOKTOR'),
        (SELECT id FROM "wydzial_katedra" WHERE nazwa_katedry = 'MATEMATYKI'),
-       'janKowalski@pb.edu.pl', 'JAN', 'KOWALSKI';
+       'janKowalski@pb.edu.pl', 'JAN', 'KOWALSKI', '2025-12-30 21:32:00';
 
-INSERT INTO "pracownicy" (id,grupa_id, przelozony, pracownik_stanowisko_id,stopien_naukowy_id,wydzial_katedra_id, email, imie, nazwisko)
+INSERT INTO "pracownicy" (id,grupa_id, przelozony, pracownik_stanowisko_id,stopien_naukowy_id,wydzial_katedra_id, email, imie, nazwisko, data_ostatniej_oceny)
 SELECT nextval('pracownicy_seq'),
        (SELECT id FROM "grupa" WHERE nazwa = 'BRPM'),
        1,
@@ -149,16 +149,16 @@ SELECT nextval('pracownicy_seq'),
        (SELECT id FROM "stopnie_naukowe" WHERE nazwa = 'MAGISTER'),
        (SELECT id FROM "wydzial_katedra" WHERE nazwa_katedry = 'OPROGRAMOWANIA'),
 
-       'michalWojcicki@pb.edu.pl', 'MICHAŁ', 'WÓJCICKI';
+       'michalWojcicki@pb.edu.pl', 'MICHAŁ', 'WÓJCICKI', '2023-12-30 21:32:00';
 
-INSERT INTO "pracownicy" (id,grupa_id, przelozony, pracownik_stanowisko_id, stopien_naukowy_id,wydzial_katedra_id, email, imie, nazwisko)
+INSERT INTO "pracownicy" (id,grupa_id, przelozony, pracownik_stanowisko_id, stopien_naukowy_id,wydzial_katedra_id, email, imie, nazwisko, data_ostatniej_oceny)
 SELECT nextval('pracownicy_seq'),
        (SELECT id FROM "grupa" WHERE nazwa = 'ZWYKLYPRACOWNIK'),
        1,
        (SELECT id FROM "pracownik_stanowiska" WHERE nazwa = 'KIEROWNIK BADAŃ'),
        (SELECT id FROM "stopnie_naukowe" WHERE nazwa = 'DOKTOR'),
        (SELECT id FROM "wydzial_katedra" WHERE nazwa_katedry = 'INSTYTUT SZTUKI'),
-       'krzysztofAdamczyk@pb.edu.pl', 'KRZYSZTOF', 'ADAMCZYK';
+       'krzysztofAdamczyk@pb.edu.pl', 'KRZYSZTOF', 'ADAMCZYK', '2025-12-30 21:32:00';
 
 
 --PodKategorie
@@ -192,7 +192,7 @@ INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,wynik_oceny,za
 VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),51,'POZYTYWNA_Z_WYRÓŻNIENIEM',false);
 
 INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,wynik_oceny,zatwierdzona)
-VALUES ('2022-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),101,'NEGATYWNA',false);
+VALUES ('2022-10-25 21:32:00','2023-12-30 21:32:00',nextval('oceny_seq'),101,'NEGATYWNA',false);
 
 INSERT INTO "oceny" (data_poczatkowa,data_koncowa,id,pracownik_id,wynik_oceny,zatwierdzona)
 VALUES ('2023-10-25 21:32:00','2025-12-30 21:32:00',nextval('oceny_seq'),151,'POZYTYWNA',false);

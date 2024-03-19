@@ -5,7 +5,9 @@ import com.example.projektgruptest.model.Grupa;
 import com.example.projektgruptest.model.Ocena;
 import com.example.projektgruptest.model.Osiagniecie;
 import com.example.projektgruptest.model.Pracownik;
+import com.example.projektgruptest.modelDTO.DodawanieOsiagniecDTO;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
+import com.example.projektgruptest.repo.OcenaRepo;
 import com.example.projektgruptest.repo.OsiagniecieRepo;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,8 @@ public class OsiagniecieService {
     private final OsiagniecieRepo osiagniecieRepo;
     private final PracownikService pracownikService;
     private final PodKategorieService podKategorieService;
+    private final KryteriaOcenyService kryteriaOcenyService;
+    private final OcenaRepo ocenaRepo;
     public Osiagniecie getOsiagniecie(long id) {
         return osiagniecieRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -42,14 +46,38 @@ public class OsiagniecieService {
                         Objects.equals(osiagniecie.getPodKategoria().getGrupa().getId(), grupa.getId()))
                 .collect(Collectors.toList());
     }
-    public void addOsiagniecie(OsiagniecieDTO osiagniecieDTO) {
-        Osiagniecie osiagniecie = buildOsiagniecie(osiagniecieDTO);
+    public void addOsiagniecia(DodawanieOsiagniecDTO dodawanieOsiagniecDTO, Pracownik user) {
+        dodawanieOsiagniecDTO.getPracownikDTOList()
+                .stream()
+                .map(pracownikDTO -> pracownikService.getPracownik(pracownikDTO.getId()))
+                .forEach(pracownik -> addOsiagniecie(Osiagniecie.builder()
+                        .nazwa(dodawanieOsiagniecDTO.getNazwa())
+                        .zatwierdzone(dodawanieOsiagniecDTO.isZatwierdzone())
+                        .zarchiwizowane(false)
+                        .podKategoria(podKategorieService.getPodkategoria(dodawanieOsiagniecDTO.getPodKategoria()))
+                        .iloscPunktow(dodawanieOsiagniecDTO.getIloscPunktow())
+                        .data(dodawanieOsiagniecDTO.getData())
+                        .pracownik(pracownik)
+                        .build(),user));
+    }
+    public void addOsiagniecie(Osiagniecie osiagniecie, Pracownik pracownik) {
         osiagniecieRepo.save(osiagniecie);
+
+        if(canApproveOsiagniecie(pracownik,osiagniecie.getId()) &&
+                osiagniecie.getZatwierdzone()) {
+
+            osiagniecie.setZatwierdzone(true);
+            przypiszOceneOsagnieciu(osiagniecie);
+        }
+        else {
+            osiagniecie.setZatwierdzone(false);
+            osiagniecieRepo.save(osiagniecie);
+        }
     }
     private Osiagniecie buildOsiagniecie(OsiagniecieDTO osiagniecieDTO) {
         return Osiagniecie.builder()
-                .zatwierdzone(false)
                 .zarchiwizowane(false)
+                .zatwierdzone(false)
                 .podKategoria(podKategorieService.getPodkategoria(osiagniecieDTO.getPodKategoriaNazwa()))
                 .pracownik(pracownikService.getPracownik(osiagniecieDTO.getIdPracownika()))
                 .data(osiagniecieDTO.getData())
@@ -57,19 +85,22 @@ public class OsiagniecieService {
                 .iloscPunktow(osiagniecieDTO.getIloscPunktow())
                 .build();
     }
-    public void editOsiagniecie(OsiagniecieDTO osiagniecieDTO,long idOceny, long idPracownika) {
-        Osiagniecie osiagniecie = getOsiagniecie(idOceny);
+    @Transactional
+    public void editOsiagniecie(OsiagniecieDTO osiagniecieDTO,long idOsiagniecia, Pracownik pracownik) {
+        Osiagniecie osiagniecie = getOsiagniecie(idOsiagniecia);
 
         modifyOsiagniecie(osiagniecie, osiagniecieDTO);
 
-        if(canApproveOsiagniecie(pracownikService.getPracownik(idPracownika),idOceny)) {
-            osiagniecie.setZatwierdzone(osiagniecieDTO.isZatwierdzone());
+        if(canApproveOsiagniecie(pracownik,idOsiagniecia) &&
+                osiagniecieDTO.isZatwierdzone()) {
+
+            osiagniecie.setZatwierdzone(true);
+            przypiszOceneOsagnieciu(osiagniecie);
         }
         else {
             osiagniecie.setZatwierdzone(false);
+            osiagniecieRepo.save(osiagniecie);
         }
-
-        osiagniecieRepo.save(osiagniecie);
     }
     private void modifyOsiagniecie(Osiagniecie osiagniecie, OsiagniecieDTO osiagniecieDTO) {
         osiagniecie.setNazwa(osiagniecieDTO.getNazwa());
@@ -81,8 +112,25 @@ public class OsiagniecieService {
     public void approveOsiagniecie(long id) {
         Osiagniecie osiagniecie = getOsiagniecie(id);
         osiagniecie.setZatwierdzone(true);
-        osiagniecieRepo.save(osiagniecie);
+        przypiszOceneOsagnieciu(osiagniecie);
     }
+    @Transactional
+    public void przypiszOceneOsagnieciu(Osiagniecie osiagniecie) {
+        Ocena ocena = ocenaRepo.findByPracownik_Id(osiagniecie.getPracownik().getId())
+                .stream()
+                .filter(o-> o.getDataPoczatkowa().before(osiagniecie.getData()) &&
+                        o.getDataKoncowa().after(osiagniecie.getData()) && !o.getZatwierdzona())
+                .findFirst()
+                .orElse(null);
+        osiagniecie.setOcena(ocena);
+        osiagniecieRepo.save(osiagniecie);
+
+        if(ocena != null) {
+            ocena.setWynikOceny(kryteriaOcenyService.wyliczWynikOceny(ocena));
+            ocenaRepo.save(ocena);
+        }
+    }
+    @Transactional
     public void deleteOsiagniecie(long id) {
         Osiagniecie osiagniecie = getOsiagniecie(id);
         osiagniecieRepo.delete(osiagniecie);
@@ -107,7 +155,7 @@ public class OsiagniecieService {
     public boolean canApproveOsiagniecie(Pracownik pracownik, long idOsiagniecia) {
         Osiagniecie osiagniecie = getOsiagniecie(idOsiagniecia);
 
-        return !osiagniecie.getZatwierdzone() && !osiagniecie.getZarchiwizowane() &&
+        return !osiagniecie.getZarchiwizowane() &&
                 Objects.equals(pracownik.getGrupa().getId(), osiagniecie.getPodKategoria().getGrupa().getId());
     }
     public List<OsiagniecieDTO> convertListToDTO(List<Osiagniecie> osiagniecieList) {

@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @Builder
@@ -17,6 +19,7 @@ public class PracownikDTO {
     private String email;
     private String stopienNaukowy;
     private String stanowisko;
+    private Date dataOstatniejOceny;
     @NotBlank
     private String grupa;
 }
