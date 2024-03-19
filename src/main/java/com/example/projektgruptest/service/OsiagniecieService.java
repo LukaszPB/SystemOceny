@@ -5,6 +5,7 @@ import com.example.projektgruptest.model.Grupa;
 import com.example.projektgruptest.model.Ocena;
 import com.example.projektgruptest.model.Osiagniecie;
 import com.example.projektgruptest.model.Pracownik;
+import com.example.projektgruptest.modelDTO.DodawanieOsiagniecDTO;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
 import com.example.projektgruptest.repo.OcenaRepo;
 import com.example.projektgruptest.repo.OsiagniecieRepo;
@@ -45,14 +46,28 @@ public class OsiagniecieService {
                         Objects.equals(osiagniecie.getPodKategoria().getGrupa().getId(), grupa.getId()))
                 .collect(Collectors.toList());
     }
-    public void addOsiagniecie(OsiagniecieDTO osiagniecieDTO, Pracownik pracownik) {
-        Osiagniecie osiagniecie = buildOsiagniecie(osiagniecieDTO);
+    public void addOsiagniecia(DodawanieOsiagniecDTO dodawanieOsiagniecDTO, Pracownik user) {
+        dodawanieOsiagniecDTO.getPracownikDTOList()
+                .stream()
+                .map(pracownikDTO -> pracownikService.getPracownik(pracownikDTO.getId()))
+                .forEach(pracownik -> addOsiagniecie(Osiagniecie.builder()
+                        .nazwa(dodawanieOsiagniecDTO.getNazwa())
+                        .zatwierdzone(dodawanieOsiagniecDTO.isZatwierdzone())
+                        .zarchiwizowane(false)
+                        .podKategoria(podKategorieService.getPodkategoria(dodawanieOsiagniecDTO.getPodKategoria()))
+                        .iloscPunktow(dodawanieOsiagniecDTO.getIloscPunktow())
+                        .data(dodawanieOsiagniecDTO.getData())
+                        .pracownik(pracownik)
+                        .build(),user));
+    }
+    public void addOsiagniecie(Osiagniecie osiagniecie, Pracownik pracownik) {
         osiagniecieRepo.save(osiagniecie);
 
         if(canApproveOsiagniecie(pracownik,osiagniecie.getId()) &&
-                osiagniecieDTO.isZatwierdzone()) {
+                osiagniecie.getZatwierdzone()) {
 
-            approveOsiagniecie(osiagniecie);
+            osiagniecie.setZatwierdzone(true);
+            przypiszOceneOsagnieciu(osiagniecie);
         }
         else {
             osiagniecie.setZatwierdzone(false);
@@ -79,7 +94,8 @@ public class OsiagniecieService {
         if(canApproveOsiagniecie(pracownik,idOsiagniecia) &&
                 osiagniecieDTO.isZatwierdzone()) {
 
-            approveOsiagniecie(osiagniecie);
+            osiagniecie.setZatwierdzone(true);
+            przypiszOceneOsagnieciu(osiagniecie);
         }
         else {
             osiagniecie.setZatwierdzone(false);
@@ -95,16 +111,15 @@ public class OsiagniecieService {
     }
     public void approveOsiagniecie(long id) {
         Osiagniecie osiagniecie = getOsiagniecie(id);
-        approveOsiagniecie(osiagniecie);
+        osiagniecie.setZatwierdzone(true);
+        przypiszOceneOsagnieciu(osiagniecie);
     }
     @Transactional
-    public void approveOsiagniecie(Osiagniecie osiagniecie) {
-        osiagniecie.setZatwierdzone(true);
-
+    public void przypiszOceneOsagnieciu(Osiagniecie osiagniecie) {
         Ocena ocena = ocenaRepo.findByPracownik_Id(osiagniecie.getPracownik().getId())
                 .stream()
                 .filter(o-> o.getDataPoczatkowa().before(osiagniecie.getData()) &&
-                        o.getDataKoncowa().after(osiagniecie.getData()))
+                        o.getDataKoncowa().after(osiagniecie.getData()) && !o.getZatwierdzona())
                 .findFirst()
                 .orElse(null);
         osiagniecie.setOcena(ocena);
@@ -114,7 +129,6 @@ public class OsiagniecieService {
             ocena.setWynikOceny(kryteriaOcenyService.wyliczWynikOceny(ocena));
             ocenaRepo.save(ocena);
         }
-
     }
     @Transactional
     public void deleteOsiagniecie(long id) {
@@ -141,7 +155,7 @@ public class OsiagniecieService {
     public boolean canApproveOsiagniecie(Pracownik pracownik, long idOsiagniecia) {
         Osiagniecie osiagniecie = getOsiagniecie(idOsiagniecia);
 
-        return !osiagniecie.getZatwierdzone() && !osiagniecie.getZarchiwizowane() &&
+        return !osiagniecie.getZarchiwizowane() &&
                 Objects.equals(pracownik.getGrupa().getId(), osiagniecie.getPodKategoria().getGrupa().getId());
     }
     public List<OsiagniecieDTO> convertListToDTO(List<Osiagniecie> osiagniecieList) {

@@ -2,6 +2,7 @@ package com.example.projektgruptest.controller;
 
 import com.example.projektgruptest.config.security.UserWithPracownik;
 import com.example.projektgruptest.model.Osiagniecie;
+import com.example.projektgruptest.modelDTO.DodawanieOsiagniecDTO;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
 import com.example.projektgruptest.service.OsiagniecieService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -37,12 +38,12 @@ public class OsiagniecieController {
     }
     @SecurityRequirement(name = "JWT Authentication")
     @PostMapping("/osiagniecie")
-    public ResponseEntity<String> dodajOsiagniecie(@RequestBody @Valid OsiagniecieDTO osiagniecieDTO,
+    public ResponseEntity<String> dodajOsiagniecie(@RequestBody @Valid DodawanieOsiagniecDTO dodawanieOsiagniecDTO,
                                                    BindingResult result, @AuthenticationPrincipal UserWithPracownik user) {
         if(result.hasErrors()) {
             return ResponseEntity.badRequest().body("Nieprawidłowe dane: " + result.getAllErrors());
         }
-        osiagniecieService.addOsiagniecie(osiagniecieDTO,user.getPracownik());
+        osiagniecieService.addOsiagniecia(dodawanieOsiagniecDTO,user.getPracownik());
         return ResponseEntity.ok("Sukces");
     }
     @SecurityRequirement(name = "JWT Authentication")
