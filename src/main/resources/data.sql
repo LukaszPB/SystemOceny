@@ -126,7 +126,7 @@ VALUES (nextval('pracownik_stanowiska_seq'), 'KIEROWNIK BADAŃ');
 -- PRACOWNIK
 INSERT INTO "pracownicy" (id,grupa_id, pracownik_stanowisko_id,stopien_naukowy_id,wydzial_katedra_id, email, imie, nazwisko, data_ostatniej_oceny)
 SELECT nextval('pracownicy_seq'),
-       (SELECT id FROM "grupa" WHERE nazwa = 'WYDZIAL INFORMATYKI'),
+       (SELECT id FROM "grupa" WHERE nazwa = 'DSP'),
        (SELECT id FROM "pracownik_stanowiska" WHERE nazwa = 'DZIEKAN'),
        (SELECT id FROM "stopnie_naukowe" WHERE nazwa = 'PROFESOR'),
        (SELECT id FROM "wydzial_katedra" WHERE nazwa_katedry = 'OPROGRAMOWANIA'),
@@ -164,11 +164,11 @@ SELECT nextval('pracownicy_seq'),
 --PodKategorie
 INSERT INTO "pod_kategorie" (max_punktow, min_punktow, id_pod_kategorii, nazwa, grupa_id)
 SELECT 160, 160, nextval('pod_kategorie_seq'), 'Uzyskanie tytułu profesora',
-       (SELECT id FROM "grupa" WHERE nazwa = 'OWI');
+       (SELECT id FROM "grupa" WHERE nazwa = 'DSP');
 
 INSERT INTO "pod_kategorie" (max_punktow,min_punktow,id_pod_kategorii,nazwa,grupa_id)
 SELECT 120,120,nextval('pod_kategorie_seq'),'Uzyskanie stopnia doktora habilitowanego',
-    (SELECT id FROM "grupa" WHERE nazwa = 'SJO');
+    (SELECT id FROM "grupa" WHERE nazwa = 'DSP');
 
 INSERT INTO "pod_kategorie" (max_punktow,min_punktow,id_pod_kategorii,nazwa,grupa_id)
 SELECT 60,60,nextval('pod_kategorie_seq'),'Uzyskanie stopnia doktora',
