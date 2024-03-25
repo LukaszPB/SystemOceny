@@ -25,6 +25,7 @@ public class OsiagniecieService {
     private final PracownikService pracownikService;
     private final PodKategorieService podKategorieService;
     private final KryteriaOcenyService kryteriaOcenyService;
+    private final HistoriaModyfikacjiOsiagnieciaService historiaModyfikacjiOsiagnieciaService;
     private final OcenaRepo ocenaRepo;
     private final HistoriaModyfikacjiOsiagniecRepo historiaModyfikacjiOsiagniecRepo;
     public Osiagniecie getOsiagniecie(long id) {
@@ -91,7 +92,7 @@ public class OsiagniecieService {
         Osiagniecie osiagniecie = getOsiagniecie(idOsiagniecia);
 
         modifyOsiagniecie(osiagniecie, osiagniecieDTO);
-        dodajHistorieEdycji(pracownik,osiagniecie);
+        historiaModyfikacjiOsiagnieciaService.dodajHistorieEdycji(pracownik,osiagniecie);
         if(canApproveOsiagniecie(pracownik,idOsiagniecia) &&
                 osiagniecieDTO.isZatwierdzone()) {
 
@@ -105,14 +106,7 @@ public class OsiagniecieService {
     }
     public void dodajHistorieEdycji(Pracownik pracownik,Osiagniecie osiagniecie)
     {
-        HistoriaModyfikacjiOsiagniecia historiaModyfikacjiOsiagniecia = HistoriaModyfikacjiOsiagniecia.builder()
-                .imie(pracownik.getImie())
-                .nazwisko(pracownik.getNazwisko())
-                .idPracownika(pracownik.getId())
-                .data(new Date())
-                .osiagniecie(osiagniecie)
-                .build();
-        historiaModyfikacjiOsiagniecRepo.save(historiaModyfikacjiOsiagniecia);
+        historiaModyfikacjiOsiagnieciaService.dodajHistorieEdycji(pracownik,osiagniecie);
 
     }
     private void modifyOsiagniecie(Osiagniecie osiagniecie, OsiagniecieDTO osiagniecieDTO) {
@@ -186,23 +180,7 @@ public class OsiagniecieService {
                 .idPracownika(osiagniecie.getPracownik().getId())
                 .podKategoriaNazwa(osiagniecie.getPodKategoria().getNazwa())
                 .idOceny(osiagniecie.getOcena() != null ? osiagniecie.getOcena().getId() : null)
-                .listaModyfikacjiOsiagniec(convertListToDTOHistoria(osiagniecie.getHistoriaModyfikacjiOsiagnieciaSet()))
-                .build();
-    }
-    public Set<HistoriaModyfikacjiOsiagnieciaDTO> convertListToDTOHistoria(Set<HistoriaModyfikacjiOsiagniecia> historiaModyfikacjiOsiagnieciaList)
-    {
-        return historiaModyfikacjiOsiagnieciaList.stream()
-                .map(this::convertToDTOHistoria)
-                .collect(Collectors.toSet());
-    }
-    public HistoriaModyfikacjiOsiagnieciaDTO convertToDTOHistoria(HistoriaModyfikacjiOsiagniecia historiaModyfikacjiOsiagniecia)
-    {
-        return HistoriaModyfikacjiOsiagnieciaDTO.builder()
-                .id(historiaModyfikacjiOsiagniecia.getId())
-                .imie(historiaModyfikacjiOsiagniecia.getImie())
-                .nazwisko(historiaModyfikacjiOsiagniecia.getNazwisko())
-                .idPracownika(historiaModyfikacjiOsiagniecia.getIdPracownika())
-                .data(historiaModyfikacjiOsiagniecia.getData())
+                .listaModyfikacjiOsiagniec(historiaModyfikacjiOsiagnieciaService.convertListToDTOHistoria(osiagniecie.getHistoriaModyfikacjiOsiagnieciaSet()))
                 .build();
     }
 }
