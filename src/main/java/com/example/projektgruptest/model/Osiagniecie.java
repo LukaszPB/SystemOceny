@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name="Osiagniecia")
@@ -34,4 +35,6 @@ public class Osiagniecie {
     Pracownik pracownik;
     @ManyToOne
     Ocena ocena;
+    @OneToMany(mappedBy = "osiagniecie" , cascade = CascadeType.REMOVE)
+    private Set<HistoriaModyfikacjiOsiagniecia>    HistoriaModyfikacjiOsiagnieciaSet;
 }
