@@ -66,6 +66,7 @@ public class OsiagniecieController {
     public ResponseEntity<String> zatwierdzOsiagniecie(@PathVariable Long id, @AuthenticationPrincipal UserWithPracownik user) {
         if(osiagniecieService.canApproveOsiagniecie(user.getPracownik(),id)) {
             osiagniecieService.approveOsiagniecie(id);
+            osiagniecieService.dodajHistorieEdycji(user.getPracownik(),osiagniecieService.getOsiagniecie(id));
             return ResponseEntity.ok("Sukces");
         }
         else {
