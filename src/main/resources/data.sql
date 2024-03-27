@@ -5,6 +5,7 @@
 INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'ADMIN');
 INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'KOMISJA');
 INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'PRACOWNIK');
+INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'GRUPA');
 
 --WYDZIAŁ KATEDRA
 INSERT INTO "wydzial_katedra" (id, nazwa_wydzialu, nazwa_katedry)

@@ -11,10 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,7 +53,14 @@ public class OcenaService {
         dodawanieOcenDTO.getPracownikDTOList()
                 .stream()
                 .map(pracownikDTO -> pracownikService.getPracownik(pracownikDTO.getId()))
-                .filter(pracownik -> pracownik.getDataOstatniejOceny().before(dataPoczatkowa))
+                .filter(pracownik ->
+                {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(dataPoczatkowa);
+                    calendar.add(Calendar.MONTH, -12);
+                    Date data12MiesiecyWstecz = calendar.getTime();
+                    return pracownik.getDataOstatniejOceny().before(data12MiesiecyWstecz);
+                })
                 .forEach(pracownik -> addOcena(Ocena.builder()
                                 .dataPoczatkowa(dataPoczatkowa)
                                 .dataKoncowa(dataKoncowa)
