@@ -26,14 +26,14 @@ public class SpringSecConfig {
                     customizer
                             .requestMatchers("/login").permitAll()
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                            .requestMatchers("/pracownikDodaj").hasAuthority("ADMIN")
-                            .requestMatchers("/uzytkownicy").hasAuthority("ADMIN")
-                            .requestMatchers("/uzytkownikEdytuj/{id}").hasAuthority("ADMIN")
-                            .requestMatchers("/uzytkownikUsun/{id}").hasAuthority("ADMIN")
-                            .requestMatchers("/pracownikEdytuj/{id}").hasAuthority("ADMIN")
+                            .requestMatchers("/pracownikDodaj").hasAuthority("KADRA")
+                            .requestMatchers("/uzytkownicy").hasAuthority("KADRA")
+                            .requestMatchers("/uzytkownikEdytuj/{id}").hasAuthority("KADRA")
+                            .requestMatchers("/uzytkownikUsun/{id}").hasAuthority("KADRA")
+                            .requestMatchers("/pracownikEdytuj/{id}").hasAuthority("KADRA")
                             .requestMatchers("/Wnioski").hasAuthority("PRACOWNIK")
-                            .requestMatchers("/Wniosek").hasAuthority("ADMIN")
-                            .requestMatchers("/Wniosek/{id}").hasAuthority("ADMIN")
+                            .requestMatchers("/Wniosek").hasAuthority("KADRA")
+                            .requestMatchers("/Wniosek/{id}").hasAuthority("KADRA")
 
                             .anyRequest().authenticated();
                 })

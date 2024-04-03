@@ -6,6 +6,7 @@ INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'ADMIN');
 INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'KOMISJA');
 INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'PRACOWNIK');
 INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'GRUPA');
+INSERT INTO "role" (id, nazwa) VALUES (nextval('role_seq'), 'KADRA');
 
 --WYDZIAŁ KATEDRA
 INSERT INTO "wydzial_katedra" (id, nazwa_wydzialu, nazwa_katedry)
@@ -283,7 +284,7 @@ VALUES (true,false,160,'2022-02-06 20:00:00',nextval('osiagniecia_seq'),
 
 -- UZYTKOWNIK
 INSERT INTO "uzytkownik" (id, login, haslo, rola_id, pracownik_id)
-SELECT 2137, 'ADMIN', 'ADMIN', id, null FROM "role" WHERE nazwa = 'ADMIN';
+SELECT 2137, 'ADMIN', 'ADMIN', id, null FROM "role" WHERE nazwa = 'KADRA';
 INSERT INTO "uzytkownik" (id, login, haslo, rola_id, pracownik_id)
 SELECT 420, 'KOMISJA', 'KOMISJA', id, null FROM "role" WHERE nazwa = 'KOMISJA';
 INSERT INTO "uzytkownik" (id, login, haslo, rola_id, pracownik_id)
