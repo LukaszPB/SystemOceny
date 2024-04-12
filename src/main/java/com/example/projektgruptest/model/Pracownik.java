@@ -4,7 +4,6 @@ package com.example.projektgruptest.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -23,17 +22,9 @@ public class Pracownik {
     private String imie;
     @Column(name = "nazwisko")
     private String nazwisko;
-    @Column(name = "Email")
-    private String email;
-    @Column(name = "dataOstatniejOceny")
-    private Date dataOstatniejOceny;
+    private Boolean czyMoznaOcenic;
 
     //KLUCZE OBCE
-    @ManyToOne
-    @JoinColumn(name = "Przelozony", nullable = true)
-    private Pracownik przelozony;
-
-    //Nowe dodane połaczenia
     @ManyToOne
     private Grupa grupa;
 

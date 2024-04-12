@@ -3,6 +3,7 @@ package com.example.projektgruptest.service;
 import com.example.projektgruptest.exception.ResourceNotFoundException;
 import com.example.projektgruptest.model.Ocena;
 import com.example.projektgruptest.model.Osiagniecie;
+import com.example.projektgruptest.model.Pracownik;
 import com.example.projektgruptest.modelDTO.DodawanieOcenDTO;
 import com.example.projektgruptest.modelDTO.OcenaDTO;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
@@ -50,17 +51,10 @@ public class OcenaService {
         Date dataPoczatkowa = dodawanieOcenDTO.getDataPoczatkowa();
         Date dataKoncowa = dodawanieOcenDTO.getDataKoncowa();
 
-        dodawanieOcenDTO.getPracownikDTOList()
+        dodawanieOcenDTO.getPracownikIdList()
                 .stream()
-                .map(pracownikDTO -> pracownikService.getPracownik(pracownikDTO.getId()))
-                .filter(pracownik ->
-                {
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(dataPoczatkowa);
-                    calendar.add(Calendar.MONTH, -12);
-                    Date data12MiesiecyWstecz = calendar.getTime();
-                    return pracownik.getDataOstatniejOceny().before(data12MiesiecyWstecz);
-                })
+                .map(pracownikService::getPracownik)
+                .filter(Pracownik::getCzyMoznaOcenic)
                 .forEach(pracownik -> addOcena(Ocena.builder()
                                 .dataPoczatkowa(dataPoczatkowa)
                                 .dataKoncowa(dataKoncowa)
@@ -76,7 +70,6 @@ public class OcenaService {
         ocena.setWynikOceny(kryteriaOcenyService.wyliczWynikOceny(ocena));
 
         ocenaRepo.save(ocena);
-        pracownikService.updateDataOstatniejOceny(ocena.getPracownik(),ocena.getDataKoncowa());
     }
     public Ocena buildOcena(OcenaDTO ocenaDTO) {
         return Ocena.builder()

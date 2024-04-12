@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface WydzialKatedraRepo extends JpaRepository<WydzialKatedra, Long> {
 
-    List<WydzialKatedra> findWydzialKatedraByNazwaKatedry(String nazwaKatedry);
+    WydzialKatedra findWydzialKatedraByNazwaKatedry(String nazwaKatedry);
 
     List<WydzialKatedra> findWydzialKatedraByNazwaWydzialu(String nazwaWydzialu);
 

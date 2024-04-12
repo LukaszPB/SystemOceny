@@ -21,7 +21,7 @@ import java.util.List;
 @ValidUserCanAddOsiagniecia
 public class DodawanieOsiagniecDTO {
     @ValidPracownikListExist
-    private List<PracownikDTO> pracownikDTOList;
+    private List<Long> pracownikIdList;
     @NotEmpty(message = "Name can't be empty")
     @Size(min = 1, max = 250, message = "Name length must be between 1 and 250 characters")
     private String nazwa;

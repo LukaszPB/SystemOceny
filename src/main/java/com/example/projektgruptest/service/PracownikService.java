@@ -4,10 +4,10 @@ import com.example.projektgruptest.exception.ResourceNotFoundException;
 import com.example.projektgruptest.model.Pracownik;
 import com.example.projektgruptest.modelDTO.PracownikDTO;
 import com.example.projektgruptest.repo.PracownikRepo;
+import com.example.projektgruptest.repo.WydzialKatedraRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,15 +19,10 @@ public class PracownikService {
     private final StopienNaukowyService stopienNaukowyService;
     private final GrupaService grupaService;
     private final PracownikStanowiskoService pracownikStanowiskoService;
+    private final WydzialKatedraRepo wydzialKatedraRepo;
 
     public List<Pracownik> getPracownicy() {
         return pracownikRepo.findAll();
-    }
-    public List<Pracownik> getPracownicyPrzelozonego(long id) {
-        return pracownikRepo.findByPrzelozonyId(id);
-    }
-    public Pracownik getPrzelozonego(long id) {
-        return pracownikRepo.getReferenceById(id).getPrzelozony();
     }
     public Pracownik getPracownik(long id) {
         return pracownikRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException(
@@ -52,32 +47,33 @@ public class PracownikService {
         return pracownikRepo.findByOsiagniecieSet_Id(idPracownika);
     }
 
-    public void addPracownik(Pracownik pracownik) {
-        pracownik.setDataOstatniejOceny(new Date());
+    public void addPracownik(PracownikDTO pracownikDTO) {
+        if(editPracownik(pracownikDTO)) {
+            return;
+        }
+        Pracownik pracownik = buildPracownik(pracownikDTO);
         pracownikRepo.save(pracownik);
     }
-    public void editPracownik(long id, PracownikDTO pracownikDTO) {
-        Pracownik pracownik = getPracownik(id);
+    public boolean editPracownik(PracownikDTO pracownikDTO) {
+        Pracownik pracownik;
+        try {
+            pracownik = getPracownik(pracownikDTO.getId());
+        }
+        catch (ResourceNotFoundException ex) {
+            return false;
+        }
         pracownik.setImie(pracownikDTO.getImie());
         pracownik.setNazwisko(pracownikDTO.getNazwisko());
-        pracownik.setEmail(pracownikDTO.getEmail());
         pracownik.setStopienNaukowy(stopienNaukowyService.getStopienNaukowy(pracownikDTO.getStopienNaukowy()));
         pracownik.setPracownikStanowisko(pracownikStanowiskoService.getPracownikStanowisko(pracownikDTO.getStanowisko()));
+        pracownik.setWydzialKatedra(wydzialKatedraRepo.findWydzialKatedraByNazwaKatedry(pracownikDTO.getKatedra()));
+        pracownik.setCzyMoznaOcenic(pracownikDTO.getCzyMoznaOcenic());
         pracownik.setGrupa(grupaService.getGrupa(pracownikDTO.getGrupa()));
         pracownikRepo.save(pracownik);
+        return true;
     }
     public void deletePracownik(Pracownik pracownik) {
-        getPracownicyPrzelozonego(pracownik.getId()).forEach(p->
-                pracownikRepo.getReferenceById(p.getId()).setPrzelozony(null));
         pracownikRepo.delete(pracownik);
-    }
-    public void updateDataOstatniejOceny(Pracownik pracownik, Date date) {
-        pracownik.setDataOstatniejOceny(date);
-        pracownikRepo.save(pracownik);
-    }
-    public boolean CanUserAccessPracownikData(long idUsera, long idPracownika) {
-        return idUsera == idPracownika ||
-                getPracownik(idPracownika).getPrzelozony().getId() == idUsera;
     }
     public List<PracownikDTO> convertListToDTO(List<Pracownik> pracownikList) {
         return pracownikList.stream()
@@ -92,22 +88,23 @@ public class PracownikService {
                 .id(p.getId())
                 .imie(p.getImie())
                 .nazwisko(p.getNazwisko())
-                .email(p.getEmail())
-                .grupa(p.getGrupa().getNazwa())  //ZMIANA
+                .grupa(p.getGrupa().getNazwa())
                 .stanowisko(p.getPracownikStanowisko().getNazwa())
                 .stopienNaukowy(p.getStopienNaukowy().getNazwa())
-                .dataOstatniejOceny(p.getDataOstatniejOceny())
+                .katedra(p.getWydzialKatedra().getNazwaKatedry())
+                .czyMoznaOcenic(p.getCzyMoznaOcenic())
                 .build();
     }
     public Pracownik buildPracownik(PracownikDTO pracownikDTO) {
         return Pracownik.builder()
+                .id(pracownikDTO.getId())
                 .imie(pracownikDTO.getImie())
                 .nazwisko(pracownikDTO.getNazwisko())
-                .email(pracownikDTO.getEmail())
                 .stopienNaukowy(stopienNaukowyService.getStopienNaukowy(pracownikDTO.getStopienNaukowy()))
                 .pracownikStanowisko(pracownikStanowiskoService.getPracownikStanowisko(pracownikDTO.getStanowisko()))
-                .grupa(grupaService.getGrupa(pracownikDTO.getGrupa())) //ZMIANA
-                .dataOstatniejOceny(pracownikDTO.getDataOstatniejOceny())
+                .wydzialKatedra(wydzialKatedraRepo.findWydzialKatedraByNazwaKatedry(pracownikDTO.getKatedra()))
+                .grupa(grupaService.getGrupa(pracownikDTO.getGrupa()))
+                .czyMoznaOcenic(pracownikDTO.getCzyMoznaOcenic())
                 .build();
     }
 }

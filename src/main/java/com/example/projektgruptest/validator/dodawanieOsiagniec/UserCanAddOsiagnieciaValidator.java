@@ -29,8 +29,8 @@ public class UserCanAddOsiagnieciaValidator implements ConstraintValidator<Valid
             return true;
         }
 
-        return dodawanieOsiagniecDTO.getPracownikDTOList().stream().allMatch(
-                pracownikDTO -> Objects.equals(user.getPracownik().getId(), pracownikDTO.getId()));
+        return dodawanieOsiagniecDTO.getPracownikIdList().stream().allMatch(
+                id -> Objects.equals(user.getPracownik().getId(), id));
     }
     private UserWithPracownik getUser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -1,9 +1,11 @@
 package com.example.projektgruptest.service;
 
 import com.example.projektgruptest.exception.ResourceNotFoundException;
-import com.example.projektgruptest.model.*;
+import com.example.projektgruptest.model.Grupa;
+import com.example.projektgruptest.model.Ocena;
+import com.example.projektgruptest.model.Osiagniecie;
+import com.example.projektgruptest.model.Pracownik;
 import com.example.projektgruptest.modelDTO.DodawanieOsiagniecDTO;
-import com.example.projektgruptest.modelDTO.HistoriaModyfikacjiOsiagnieciaDTO;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
 import com.example.projektgruptest.repo.HistoriaModyfikacjiOsiagniecRepo;
 import com.example.projektgruptest.repo.OcenaRepo;
@@ -15,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,9 +50,9 @@ public class OsiagniecieService {
                 .collect(Collectors.toList());
     }
     public void addOsiagniecia(DodawanieOsiagniecDTO dodawanieOsiagniecDTO, Pracownik user) {
-        dodawanieOsiagniecDTO.getPracownikDTOList()
+        dodawanieOsiagniecDTO.getPracownikIdList()
                 .stream()
-                .map(pracownikDTO -> pracownikService.getPracownik(pracownikDTO.getId()))
+                .map(pracownikService::getPracownik)
                 .forEach(pracownik -> addOsiagniecie(Osiagniecie.builder()
                         .nazwa(dodawanieOsiagniecDTO.getNazwa())
                         .zatwierdzone(dodawanieOsiagniecDTO.isZatwierdzone())

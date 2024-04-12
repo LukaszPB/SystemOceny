@@ -16,7 +16,7 @@ import java.util.List;
 @ValidDatesOrder
 public class DodawanieOcenDTO {
     @ValidPracownikListExist
-    private List<PracownikDTO> pracownikDTOList;
+    private List<Long> pracownikIdList;
     @NotNull(groups = EditValidationGrup.class)
     private Date dataPoczatkowa;
     @NotNull(groups = EditValidationGrup.class)

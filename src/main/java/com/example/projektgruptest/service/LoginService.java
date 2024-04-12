@@ -23,12 +23,13 @@ public class LoginService {
                     .id(user.getPracownik().getId())
                     .imie(user.getPracownik().getImie())
                     .nazwisko(user.getPracownik().getNazwisko())
-                    .email(user.getPracownik().getEmail())
                     .grupa(user.getPracownik().getGrupa().getNazwa())
                     .stanowisko(user.getPracownik().getPracownikStanowisko().getNazwa())
                     .stopienNaukowy(user.getPracownik().getStopienNaukowy().getNazwa())
+                    .katedra(user.getPracownik().getWydzialKatedra().getNazwaKatedry())
+                    .czyMoznaOcenic(user.getPracownik().getCzyMoznaOcenic())
                     .build();
-            czyMaPodwladnych = pracownikService.getPracownicyPrzelozonego(pracownikDto.getId()).size()>0;
+            czyMaPodwladnych = false;
         }
 
         var dto = LoginResponseDTO.builder()

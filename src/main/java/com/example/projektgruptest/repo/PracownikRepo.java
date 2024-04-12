@@ -10,7 +10,6 @@ import java.util.List;
 public interface PracownikRepo extends JpaRepository<Pracownik,Long> {
     List<Pracownik> findByPracownikStanowisko_Id(long pracownikStanowiskoId);
     List<Pracownik> findByStopienNaukowy_Id(long stopienNaukowyId);
-    List<Pracownik> findByPrzelozonyId(long id);
     List<Pracownik> findByOcenaSet_Id(long idOceny);
 
     List<Pracownik> findByWydzialKatedra_NazwaWydzialu(String nazwaWydzialu);
