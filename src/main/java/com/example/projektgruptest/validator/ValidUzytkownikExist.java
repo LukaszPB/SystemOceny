@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UzytkownikExistValidator.class)
 public @interface ValidUzytkownikExist {
-    String message() default "Uzytkownik does not exist";
+    String message() default "Uzytkownik nie istnieje";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

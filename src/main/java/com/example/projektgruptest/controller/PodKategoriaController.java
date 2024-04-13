@@ -6,11 +6,11 @@ import com.example.projektgruptest.modelDTO.PodKategoriaDTO;
 import com.example.projektgruptest.service.PodKategorieService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -44,5 +44,16 @@ public class PodKategoriaController {
         }
         return null;
     }
-
+    @SecurityRequirement(name = "JWT Authentication")
+    @PostMapping("/dodaj")
+    public ResponseEntity<String> dodajPodkategorie(@RequestBody PodKategoriaDTO podKategoriaDTO) {
+        podKategorieService.addPodkategoria(podKategoriaDTO);
+        return ResponseEntity.ok("Podkategoria dodana pomyślnie");
+    }
+    @SecurityRequirement(name = "JWT Authentication")
+    @PostMapping("/zarchiwizuj")
+    public ResponseEntity<String> zarchiwizujPodkategorie(@RequestBody Date date) {
+        podKategorieService.zarchiwizuj(date);
+        return ResponseEntity.ok("Podkategorie zostały pomyślnie zarchiwizowane");
+    }
 }

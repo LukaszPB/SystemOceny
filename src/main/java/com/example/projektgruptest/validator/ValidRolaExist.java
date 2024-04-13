@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = RolaExistValidator.class)
 public @interface ValidRolaExist {
-    String message() default "Rola does not exist";
+    String message() default "Rola nie istnieje";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

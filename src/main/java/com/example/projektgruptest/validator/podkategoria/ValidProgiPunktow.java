@@ -1,5 +1,6 @@
-package com.example.projektgruptest.validator;
+package com.example.projektgruptest.validator.podkategoria;
 
+import com.example.projektgruptest.validator.dodawanieOsiagniec.IloscPunktowDValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -8,11 +9,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.FIELD})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PracownikExistValidator.class)
-public @interface ValidPracownikExist {
-    String message() default "Pracownik nie istnieje";
+@Constraint(validatedBy = ProgiPunktowValidator.class)
+public @interface ValidProgiPunktow {
+    String message() default "Invalid amount of points";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

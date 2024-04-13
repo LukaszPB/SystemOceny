@@ -1,8 +1,7 @@
 package com.example.projektgruptest.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 import java.util.Set;
@@ -11,6 +10,9 @@ import java.util.Set;
 @Table(name="PodKategorie")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PodKategoria {
     @PrimaryKeyJoinColumn
     @Id

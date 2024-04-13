@@ -3,9 +3,11 @@ package com.example.projektgruptest.service;
 import com.example.projektgruptest.model.PodKategoria;
 import com.example.projektgruptest.modelDTO.PodKategoriaDTO;
 import com.example.projektgruptest.repo.PodKategoriaRepo;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,38 +15,49 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PodKategorieService {
     private final PodKategoriaRepo podKategoriaRepo;
+    private final GrupaService grupaService;
 
     public List<PodKategoria> getPodKategorie() {
         return podKategoriaRepo.findAll();
     }
-    public List<PodKategoriaDTO> getPodKategorieDTO(){
-        List<PodKategoria> podKategoriaList = podKategoriaRepo.findAll();
-        return convertListToDTO(podKategoriaList);
-    }
-
-    public PodKategoriaDTO getPodKategoriaDTO(long idPodkategorii){
-        PodKategoria podKategoria = podKategoriaRepo.findByIdPodKategorii(idPodkategorii);
-        return convertToDTO(podKategoria);
-    }
-
-    public PodKategoria getPodkategoria(long id) {
+    public PodKategoria getPodkategoria(Long id) {
         return podKategoriaRepo.getReferenceById(id);
     }
     public PodKategoria getPodkategoria(String nazwa) {
         return podKategoriaRepo.findByNazwa(nazwa);
     }
-    public void addPodkategoria(PodKategoria podKategoria) {
-        podKategoriaRepo.save(podKategoria);
+    public List<PodKategoria> getPodkategorieByGrupa(String nazwa) {
+        return podKategoriaRepo.findPodKategoriaByGrupa_Nazwa(nazwa);
     }
-    public void deletePodkategoria(PodKategoria podKategoria) {
-        podKategoriaRepo.delete(podKategoria);
+    @Transactional
+    public void addPodkategoria(PodKategoriaDTO podKategoriaDTO) {
+        podKategoriaRepo.save(buildPodkategoria(podKategoriaDTO));
     }
-    public void deletePodkategoria(long idPodkategorii){podKategoriaRepo.deleteById(idPodkategorii);}
-
-   public List<PodKategoria> getPodkategorieByGrupa(String nazwa)
-   {
-       return podKategoriaRepo.findPodKategoriaByGrupa_Nazwa(nazwa);
-   }
+    public PodKategoria buildPodkategoria(PodKategoriaDTO podKategoriaDTO) {
+        return PodKategoria.builder()
+                .nazwa(podKategoriaDTO.getNazwa())
+                .maxPunktow(podKategoriaDTO.getMaxPunktow())
+                .minPunktow(podKategoriaDTO.getMinPunktow())
+                .dataPoczatkowa(podKategoriaDTO.getDataPoczatkowa())
+                .dataKoncowa(podKategoriaDTO.getDataKoncowa())
+                .zarchiwizowana(podKategoriaDTO.getZarchiwizowana())
+                .grupa(grupaService.getGrupa(podKategoriaDTO.getIdGrupy()))
+                .build();
+    }
+    @Transactional
+    public void deletePodkategoria(long idPodkategorii){
+        podKategoriaRepo.deleteById(idPodkategorii);
+    }
+    @Transactional
+    public void zarchiwizuj(Date date) {
+        getPodKategorie().stream()
+                .filter(podKategoria -> !podKategoria.getZarchiwizowana() &&
+                                date.after(podKategoria.getDataKoncowa()))
+                .forEach(podKategoria -> {
+                    podKategoria.setZarchiwizowana(true);
+                    podKategoriaRepo.save(podKategoria);
+                });
+    }
     public List<PodKategoriaDTO> convertListToDTO(List<PodKategoria> podKategoriaList) {
         return podKategoriaList.stream()
                 .map(this::convertToDTO)
@@ -58,6 +71,9 @@ public class PodKategorieService {
                 .maxPunktow(podKategoria.getMaxPunktow())
                 .idGrupy(podKategoria.getGrupa().getId())
                 .nazwa(podKategoria.getNazwa())
+                .dataPoczatkowa(podKategoria.getDataPoczatkowa())
+                .dataKoncowa(podKategoria.getDataKoncowa())
+                .zarchiwizowana(podKategoria.getZarchiwizowana())
                 .build();
     }
 
