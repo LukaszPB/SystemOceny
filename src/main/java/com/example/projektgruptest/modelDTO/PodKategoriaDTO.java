@@ -3,6 +3,8 @@ package com.example.projektgruptest.modelDTO;
 import com.example.projektgruptest.validator.osiagniecie.ValidIloscPunktow;
 import lombok.*;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @Builder
@@ -16,6 +18,7 @@ public class PodKategoriaDTO {
     private Integer minPunktow;
     private Long idGrupy;
     private String nazwa;
-
-
+    private Date dataPoczatkowa;
+    private Date dataKoncowa;
+    private Boolean zarchiwizowana;
 }

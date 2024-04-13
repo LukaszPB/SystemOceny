@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -21,6 +22,9 @@ public class PodKategoria {
     private Integer minPunktow;
     @Column(name = "maxPunktow")
     private Integer maxPunktow;
+    private Date dataPoczatkowa;
+    private Date dataKoncowa;
+    private Boolean zarchiwizowana;
 
     //KLUCZE OBCE
     @ManyToOne
