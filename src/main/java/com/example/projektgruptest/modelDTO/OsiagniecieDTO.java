@@ -1,9 +1,8 @@
 package com.example.projektgruptest.modelDTO;
 
-import com.example.projektgruptest.model.HistoriaModyfikacjiOsiagniecia;
-import com.example.projektgruptest.validator.osiagniecie.ValidIloscPunktow;
 import com.example.projektgruptest.validator.ValidPodKategoriaExist;
 import com.example.projektgruptest.validator.ValidPracownikExist;
+import com.example.projektgruptest.validator.osiagniecie.ValidIloscPunktow;
 import com.example.projektgruptest.validator.osiagniecie.ValidUserCanAddOsiagniecie;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -36,6 +35,6 @@ public class OsiagniecieDTO {
     @ValidPracownikExist
     private Long idPracownika;
     private Long idOceny;
-
+    private List<byte[]> pliki;
     private Set<HistoriaModyfikacjiOsiagnieciaDTO> listaModyfikacjiOsiagniec;
 }

@@ -29,6 +29,7 @@ public class OsiagniecieService {
     private final HistoriaModyfikacjiOsiagnieciaService historiaModyfikacjiOsiagnieciaService;
     private final OcenaRepo ocenaRepo;
     private final HistoriaModyfikacjiOsiagniecRepo historiaModyfikacjiOsiagniecRepo;
+    private final PlikService plikService;
     public Osiagniecie getOsiagniecie(long id) {
         return osiagniecieRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -63,7 +64,7 @@ public class OsiagniecieService {
                         .pracownik(pracownik)
                         .build(),user));
     }
-    public void addOsiagniecie(Osiagniecie osiagniecie, Pracownik pracownik) {
+    public void addOsiagniecie(Osiagniecie osiagniecie, Pracownik pracownik){
         osiagniecieRepo.save(osiagniecie);
 
         if(canApproveOsiagniecie(pracownik,osiagniecie.getId()) &&
@@ -153,6 +154,12 @@ public class OsiagniecieService {
                     osiagniecieRepo.save(osiagniecie);
                 });
     }
+    public boolean canSeeOsiagniecie(Pracownik pracownik, long idOsagniecia) {
+        Osiagniecie osiagniecie = getOsiagniecie(idOsagniecia);
+
+        return Objects.equals(pracownik.getGrupa().getId(), osiagniecie.getPodKategoria().getGrupa().getId()) &&
+                Objects.equals(pracownik.getId(), osiagniecie.getPracownik().getId());
+    }
     public boolean canModifyOsiagniecie(Pracownik pracownik, long idOsagniecia) {
         Osiagniecie osiagniecie = getOsiagniecie(idOsagniecia);
 
@@ -182,6 +189,7 @@ public class OsiagniecieService {
                 .podKategoriaNazwa(osiagniecie.getPodKategoria().getNazwa())
                 .idOceny(osiagniecie.getOcena() != null ? osiagniecie.getOcena().getId() : null)
                 .listaModyfikacjiOsiagniec(historiaModyfikacjiOsiagnieciaService.convertListToDTOHistoria(osiagniecie.getHistoriaModyfikacjiOsiagnieciaSet()))
+                .pliki(plikService.getPliki(osiagniecie))
                 .build();
     }
 }

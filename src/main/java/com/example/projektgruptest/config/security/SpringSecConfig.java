@@ -34,7 +34,6 @@ public class SpringSecConfig {
                             .requestMatchers("/Wnioski").hasAuthority("PRACOWNIK")
                             .requestMatchers("/Wniosek").hasAuthority("KADRA")
                             .requestMatchers("/Wniosek/{id}").hasAuthority("KADRA")
-
                             .anyRequest().authenticated();
                 })
                 .sessionManagement(customizer -> {

@@ -37,4 +37,6 @@ public class Osiagniecie {
     Ocena ocena;
     @OneToMany(mappedBy = "osiagniecie" , cascade = CascadeType.REMOVE)
     private Set<HistoriaModyfikacjiOsiagniecia>    HistoriaModyfikacjiOsiagnieciaSet;
+    @OneToMany(mappedBy = "osiagniecie", cascade = CascadeType.REMOVE)
+    private Set<Plik> plikSet;
 }

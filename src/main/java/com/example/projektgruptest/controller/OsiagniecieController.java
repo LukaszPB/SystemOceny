@@ -37,7 +37,7 @@ public class OsiagniecieController {
         return osiagniecieService.convertListToDTO(osiagnieciaPracownikaList);
     }
     @SecurityRequirement(name = "JWT Authentication")
-    @PostMapping("/osiagniecie")
+    @PostMapping( "/osiagniecie")
     public ResponseEntity<String> dodajOsiagniecie(@RequestBody @Valid DodawanieOsiagniecDTO dodawanieOsiagniecDTO,
                                                    BindingResult result, @AuthenticationPrincipal UserWithPracownik user) {
         if(result.hasErrors()) {

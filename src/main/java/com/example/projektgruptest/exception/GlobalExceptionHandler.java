@@ -23,4 +23,9 @@ public class GlobalExceptionHandler {
         String bodyOfResponse = ex.getMessage();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(bodyOfResponse);
     }
+    @ExceptionHandler(FileException.class)
+    public ResponseEntity<Object> handleResourceNotFoundException(FileException ex, WebRequest request) {
+        String bodyOfResponse = ex.getMessage();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(bodyOfResponse);
+    }
 }
