@@ -189,7 +189,6 @@ public class OsiagniecieService {
                 .podKategoriaNazwa(osiagniecie.getPodKategoria().getNazwa())
                 .idOceny(osiagniecie.getOcena() != null ? osiagniecie.getOcena().getId() : null)
                 .listaModyfikacjiOsiagniec(historiaModyfikacjiOsiagnieciaService.convertListToDTOHistoria(osiagniecie.getHistoriaModyfikacjiOsiagnieciaSet()))
-                .pliki(plikService.getPliki(osiagniecie))
                 .build();
     }
 }

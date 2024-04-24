@@ -8,8 +8,12 @@ import com.example.projektgruptest.modelDTO.DodawanieOcenDTO;
 import com.example.projektgruptest.modelDTO.OcenaDTO;
 import com.example.projektgruptest.modelDTO.OsiagniecieDTO;
 import com.example.projektgruptest.repo.OcenaRepo;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -27,7 +31,7 @@ public class OcenaService {
                 "Ocena o podanym id nie istnieje: " + id));
     }
     public List<Ocena> getOcenyPracownika(Long idPracownika) {
-       return ocenaRepo.findByPracownik_Id(idPracownika);
+        return ocenaRepo.findByPracownik_Id(idPracownika);
     }
     public List<OsiagniecieDTO> getOsiagnieciaZOcenyUsera(Long idOceny, Long idPracownika){
         if(canUserAccessThisOcena(idOceny,idPracownika)){

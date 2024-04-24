@@ -10,7 +10,6 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -35,6 +34,5 @@ public class OsiagniecieDTO {
     @ValidPracownikExist
     private Long idPracownika;
     private Long idOceny;
-    private List<byte[]> pliki;
     private Set<HistoriaModyfikacjiOsiagnieciaDTO> listaModyfikacjiOsiagniec;
 }
